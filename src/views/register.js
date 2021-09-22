@@ -15,49 +15,47 @@ class Register extends Component {
 
   forgotPassword = () => {
     window.location.replace('/forgotPassword');
-  };
+  }
 
   callback = (message, success) => {
     if (success) {
       window.location.assign('/');
     } else {
-      console.log(message);
+	  console.log(message);
       this.setState({
         error: message,
       });
     }
-  };
+  }
 
   formSubmit = (e) => {
     console.log('HI!');
     e.preventDefault();
     this.submitRegister();
-  };
+  }
 
   submitLogin = () => {
     const { email, password } = this.state;
     Api.login(email, password, this.callback);
-  };
+  }
 
   submitRegister = () => {
     const { email, first, last, password } = this.state;
-    // ensure that all fields are correct
-    if (email.indexOf('@') == -1)
-      this.setState({ error: 'Email should contain @' });
-    else if (!first) this.setState({ error: 'Should provide first name.' });
-    else if (!last) this.setState({ error: 'Should provide last name.' });
-    else if (password.length < 6)
-      this.setState({ error: 'Password must be at least 6 characters.' });
-    else {
-      Api.register(email, password, first, last, this.callback);
-    }
+      // ensure that all fields are correct
+	if (email.indexOf('@') == -1) this.setState({ error: 'Email should contain @' });
+	else if (!first) this.setState({ error: 'Should provide first name.' });
+	else if (!last) this.setState({ error: 'Should provide last name.' });
+	else if (password.length < 6) this.setState({ error: 'Password must be at least 6 characters.' });
+	else {
+		Api.register(email, password, first, last, this.callback);
+	}
   };
 
   changeHandler = (e) => {
     const { id } = e.target;
     const val = e.target.value;
     this.setState({ [id]: val });
-  };
+  }
 
   render() {
     const { error, success, register } = this.state;
@@ -89,7 +87,9 @@ class Register extends Component {
           fontSize: '1.1em',
         }}
       >
-        <b>Success.</b> {success}
+        <b>Success.</b>
+        {' '}
+        {success}
       </div>
     );
 
@@ -114,35 +114,27 @@ class Register extends Component {
           left: '0px',
         }}
       >
-        <div
-          className="dustBackground"
-          style={{
-            height: '100vh',
-            width: '100vw',
-            position: 'fixed',
-            top: '0px',
-            left: '0px',
-            zIndex: '-1',
-          }}
-        ></div>
-        <h1
-          style={{
-            textAlign: 'center',
-            fontWeight: 'bold',
-            color: 'white',
-          }}
-        >
-          Battlecode 2021
-        </h1>
-        <p
-          style={{
-            textAlign: 'center',
-            fontWeight: 'bold',
-            color: 'white',
-          }}
-        >
-          Register below to participate in Battlecode 2021 PSUer!
-        </p>
+      <div
+        className="dustBackground"
+        style={{
+          height: '100vh',
+          width: '100vw',
+          position: 'fixed',
+          top: '0px',
+          left: '0px',
+          zIndex: '-1'
+        }}
+      ></div>
+        <h1 style={{
+          textAlign: 'center',
+          fontWeight: 'bold',
+          color: 'white'
+        }}>Battlecode 2021</h1>
+        <p style={{
+          textAlign: 'center',
+          fontWeight: 'bold',
+          color: 'white'
+        }}>Register below to participate in Battlecode 2021 PSUer!</p>
         {errorDiv}
         {successDiv}
         <form onSubmit={this.formSubmit}>
@@ -157,7 +149,7 @@ class Register extends Component {
               <div className="row">
                 <div className="col-md-12">
                   <div className="form-group">
-                    <label>PDX Email</label>
+                    <label>PSU Email</label>
                     <input
                       type="email"
                       id="email"
@@ -165,30 +157,30 @@ class Register extends Component {
                       onChange={this.changeHandler}
                     />
                   </div>
-                  <div class="clearfix"></div>
+                <div class="clearfix"></div>
                 </div>
-                <div className="col-xs-6">
-                  <div className="form-group">
-                    <label>First Name</label>
-                    <input
-                      type="text"
-                      id="first"
-                      className="form-control"
-                      onChange={this.changeHandler}
-                    />
+                  <div className="col-xs-6">
+                    <div className="form-group">
+                      <label>First Name</label>
+                      <input
+                        type="text"
+                        id="first"
+                        className="form-control"
+                        onChange={this.changeHandler}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="col-xs-6">
-                  <div className="form-group">
-                    <label>Last Name</label>
-                    <input
-                      type="text"
-                      id="last"
-                      className="form-control"
-                      onChange={this.changeHandler}
-                    />
+                  <div className="col-xs-6">
+                    <div className="form-group">
+                      <label>Last Name</label>
+                      <input
+                        type="text"
+                        id="last"
+                        className="form-control"
+                        onChange={this.changeHandler}
+                      />
+                    </div>
                   </div>
-                </div>
                 <div class="clearfix"></div>
                 <div className="col-md-12">
                   <div className="form-group">
