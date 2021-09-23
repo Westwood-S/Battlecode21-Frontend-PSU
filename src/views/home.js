@@ -48,13 +48,13 @@ class DateCard extends UpdateCard {
     }
 
     componentDidMount() {
-        Api.getUpdates(function(dates) {
+        /* Api.getUpdates(function(dates) {
             this.setState({ dates: (dates.length > 5)?dates.slice(0,5):dates  });
             if (dates[0]) {
                 console.log(dates[0].dateObj)
                 this.setState({update_date: dates[0].dateObj})
             }
-        }.bind(this));
+        }.bind(this)); */
     }
 
     render() {
@@ -62,16 +62,24 @@ class DateCard extends UpdateCard {
             <div className="card ">
                 <div className="header">
                     <h4 className="title">Recent Updates</h4>
-                    <p className="category">A full listing can be found in the sidebar.</p>
+                    {/* <p className="category">A full listing can be found in the sidebar.</p> */}
                 </div>
                 <div className="content">
                     <div className="table-full-width">
                         <table className="table">
                             <tbody>
-                                { this.state.dates.map(date => <tr key={ date.id }>
+                                {/* { this.state.dates.map(date => <tr key={ date.id }>
                                 <td>{ date.time }</td>
                                 <td>{ date.message }</td>
-                                </tr> )}
+                                </tr> )} */}
+                                <tr>
+                                    
+									<td>Sep 29</td>
+									<td><b>PDX_SE_BATTLECODE</b> ver 1.0 released!<br/> 
+									I would be more than glad to fix any bugs you might find. 🛠️ <br/>
+									You can either email <a href = "mailto:cecishi@pdx.edu">cecishi@pdx.edu</a> about the bug, or more interestingly, go to the <a target="_blank" rel="noopener noreferrer" href = "https://github.com/Westwood-S/Battlecode21-Frontend-PSU">Frontend code repo</a> to find the bug youself.
+									</td>
+									</tr>
                             </tbody>
                         </table>
                     </div>
@@ -99,10 +107,8 @@ class InstrCard extends UpdateCard {
                     <h4 className="title">Welcome to Battlecode 2021!</h4>
                 </div>
                 <div className="content">
-            <p>
-            </p>
                     <p>
-                        The competition is now running! Check out the <a href="/getting-started">Getting Started</a> page for instructions on how to get started.
+						Let's Talk Politics! <span role="img" aria-label='emoji'>👨‍💼🐘🐴</span> Check out the <a href="/getting-started">Getting Started</a> page for instructions.
                     </p>
                 </div>
             </div>
@@ -125,20 +131,16 @@ class LinksCard extends Component {
                     <p>
                         <ul>
                             <li>
-                                <a href="https://discordapp.com/channels/386965718572466197/650084292982079539">Discord</a> (<a href="https://discord.gg/N86mxkH">invite</a>)
+                                <a target="_blank" rel="noopener noreferrer" href="https://discordapp.com/channels/386965718572466197/650084292982079539">Discord</a> (<a target="_blank" rel="noopener noreferrer" href="https://discord.gg/N86mxkH">invite</a>)
                             </li>
                             <li>
-                                <a href='https://github.com/battlecode/battlecode21'>GitHub</a>
+                                <a target="_blank" rel="noopener noreferrer" href='https://github.com/battlecode/battlecode21'>GitHub</a>
                             </li>
                             <li>
-                                <a href='https://twitch.tv/mitbattlecode'>Twitch</a>
+                                <a target="_blank" rel="noopener noreferrer" href='https://twitch.tv/mitbattlecode'>Twitch</a>
                             </li>
                             <li>
-                                <a href='https://battlecode.org'>Battlecode.org</a>
-                                <ul>
-                                    <li><a href='https://battlecode.org#faq'>FAQs</a></li>
-                                    <li><a href='https://battlecode.org#about'>Eligibility</a></li>
-                                </ul>
+                                <a target="_blank" rel="noopener noreferrer" href='https://battlecode.org'>Battlecode.org</a>
                             </li>
                         </ul>
                     </p>
@@ -156,6 +158,7 @@ class Home extends Component {
 
     componentDidMount() {
         Api.getUserTeam(function(e) {
+			//TODO： check user team && calculation elo
             this.setState({on_team:(e !== null)});
         }.bind(this));
     }

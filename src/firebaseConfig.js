@@ -1,6 +1,5 @@
 import * as firebase from 'firebase/app';
 import { initializeApp } from 'firebase/app';
-import { getAnalytics } from 'firebase/analytics';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
@@ -17,6 +16,5 @@ const firebaseConfig = {
 };
 
 const firebaseAuth = initializeApp(firebaseConfig);
-const analytics = getAnalytics(firebaseAuth);
 
 export default firebaseAuth;

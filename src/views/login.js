@@ -5,10 +5,6 @@ class LoginRegister extends Component {
   state = {
     email: '',
     password: '',
-    first: '',
-    last: '',
-    dob: '',
-    register: false,
     error: '',
     success: '',
   };
@@ -44,7 +40,7 @@ class LoginRegister extends Component {
   }
 
   render() {
-    const { error, success, register } = this.state;
+    const { error, success } = this.state;
 
     let errorDiv = null
     if (error) {

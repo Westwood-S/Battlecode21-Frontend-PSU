@@ -15,7 +15,7 @@ class CodeOfConduct extends Component {
                                 </div>
                                 <div className="content">
                                 <p>Maintaining a safe and inclusive environment for competitors is a top priority for Battlecode. Battlecode
-        strictly follows <a class="page-link" href="https://policies-procedures.mit.edu/">MIT's Policies</a> on responsible and ethical conduct. If someone makes you or anyone else feel unsafe or unwelcome, please
+        strictly follows <a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" class="page-link" href="https://policies-procedures.mit.edu/">MIT's Policies</a> on responsible and ethical conduct. If someone makes you or anyone else feel unsafe or unwelcome, please
         report it to Teh Devs as soon as possible. Harassment and other code of conduct violations reduce the value
         of the competition for everyone. People like you make our community a better place, and we want you to be
         happy here.
@@ -37,9 +37,6 @@ class CodeOfConduct extends Component {
             no team ends up using the shared code in their final submission). Open-sourcing tools, such as visualizers or map makers,
             is, however, explicitly allowed.</li>
     </ul>
-    </p>
-    <p>
-        If anything in this policy is unclear, please reach out to us at <code>battlecode@mit.edu</code>, or on Discord.
     </p>
                                 </div>
                             </div>

@@ -66,13 +66,13 @@ class Tournaments extends Component {
                                 <div className="content">
                                     <p>View tournament brackets here:</p>
                                     <ul>
-                                        <li><a href="https://challonge.com/rajiqb0b">Sprint Tournament 1</a></li>
-                                        <li><a href="https://challonge.com/6b6fjvnq">Sprint Tournament 2</a></li>
-                                        <li><a href="https://challonge.com/bc21_quals_59fe2da">US Qualifying Tournament</a></li>
-                                        <li><a href="https://challonge.com/bc21_quals_b9d3af0">International Qualifying Tournament</a></li>
-                                        <li><a href="https://challonge.com/bc21_hs">High School Tournament</a></li>
-                                        <li><a href="https://challonge.com/bc21_newbie">Newbie Tournament</a></li>
-                                        <li><a href="https://challonge.com/bc21_final">Final Tournament</a></li>
+                                        <li><a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" href="https://challonge.com/rajiqb0b">Sprint Tournament 1</a></li>
+                                        <li><a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" href="https://challonge.com/6b6fjvnq">Sprint Tournament 2</a></li>
+                                        <li><a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" href="https://challonge.com/bc21_quals_59fe2da">US Qualifying Tournament</a></li>
+                                        <li><a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" href="https://challonge.com/bc21_quals_b9d3af0">International Qualifying Tournament</a></li>
+                                        <li><a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" href="https://challonge.com/bc21_hs">High School Tournament</a></li>
+                                        <li><a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" href="https://challonge.com/bc21_newbie">Newbie Tournament</a></li>
+                                        <li><a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" href="https://challonge.com/bc21_final">Final Tournament</a></li>
                                     </ul>
                                     <p>Congratulations to our prizewinning teams!</p>
                                     <pre>
@@ -111,7 +111,7 @@ Most adaptive strategy (sponsored by Five Rings)  $1500  Chop Suey
                                         Scrimmage rankings will be used to determine seeds for the Sprint Tournaments. For all other tournaments, results from the previous tournament will be used to seed teams (where ties will be broken by the scrimmage ranking right before the tournament).
                                     </p>
                                     <p>
-                                        Tournaments will be in a <a href='https://en.wikipedia.org/wiki/Double-elimination_tournament'>double elimination</a> format, with the exception of both Sprint Tournaments, which are single elimination. The Final Tournament will start with a blank slate (any losses from the Qualifying Tournament are reset).
+                                        Tournaments will be in a <a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" href='https://en.wikipedia.org/wiki/Double-elimination_tournament'>double elimination</a> format, with the exception of both Sprint Tournaments, which are single elimination. The Final Tournament will start with a blank slate (any losses from the Qualifying Tournament are reset).
                                     </p>
                                     <p>
                                         Even if you miss earlier tournaments, you can participate in later tournaments (except the Final Tournament).
@@ -133,8 +133,8 @@ Most adaptive strategy (sponsored by Five Rings)  $1500  Chop Suey
                                         Thanks to our gold sponsor, Five Rings!
                                         <ul>
                                             <li><b>1st Place prize:</b> to whosoever has the highest rating at the end (hacks not allowed). Smaller prizes for subsequent placers.</li>
-                                            <li>Smaller prizes for top placers in other non-final (newbie, US high school, sprint) tournaments.</li>                                           
-                                            <li><b>More prizes???</b> TBA, maybe <span role="img" aria-label="eye stare at you">👀</span>
+                                            <li><b>Other prize:</b> smaller prizes for top placers in other non-final (newbie, US high school, sprint) tournaments.</li>                                           
+                                            <li><b>More prizes.</b> TBA <span role="img" aria-label="eye stare at you">👀</span>
                                                 <ul>
                                                     <li>Historically, we have given out prizes for creative strategies, major bugs found, and other game-specific topics. Have fun with your strategies, write-ups, and overall participation in Battlecode!</li>
                                                 </ul>
@@ -183,19 +183,9 @@ Most adaptive strategy (sponsored by Five Rings)  $1500  Chop Suey
                                             </li>
                                         </ul>
                                     </p>
-
                                     <p>
-                                        More eligibility details can be found <a href="https://battlecode.org#about">here</a>.
+                                        Only current full-time students (both college and high school) are eligible for prizes. More eligibility details can be found <a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" href="https://battlecode.org#about">here</a>.
                                     </p>
-                                    
-                                    <p>
-                                        Only current full-time students (both college and high school) are eligible for prizes.
-                                    </p>
-                                    
-                                    <p>
-                                        Contact us on <a href='https://discordapp.com/channels/386965718572466197/650097270804709436'>Discord</a> or at <a href='mailto:battlecode@mit.edu'>battlecode@mit.edu</a> if you are unsure of your eligibility.
-                                    </p>
-
                                 </div>
                             </div>
 

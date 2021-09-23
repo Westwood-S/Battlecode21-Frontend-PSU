@@ -63,7 +63,7 @@ class SideBar extends Component {
                         <NLink to={`${process.env.PUBLIC_URL}/home`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-home pe-fw" />Home</p></NLink>
                         <NLink to={`${process.env.PUBLIC_URL}/getting-started`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-sun pe-fw" />Getting Started</p></NLink>
                         <NLink to={`${process.env.PUBLIC_URL}/resources`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-note2 pe-fw" />Resources</p></NLink>
-                        <NLink to={`${process.env.PUBLIC_URL}/updates`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-bell pe-fw" />Updates</p></NLink>
+                        {/* <NLink to={`${process.env.PUBLIC_URL}/updates`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-bell pe-fw" />Updates</p></NLink> */}
                         
                         <br />
                         

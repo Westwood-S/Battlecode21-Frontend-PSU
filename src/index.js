@@ -72,7 +72,7 @@ class App extends Component {
   }
 
   render() {
-
+	//TODO: update home page to my domain
     // direct to home page, should always be visible
     let homeElems = [
       <Route exact path={`${process.env.PUBLIC_URL}/`} component={Home} />,

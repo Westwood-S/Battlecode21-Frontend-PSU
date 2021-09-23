@@ -78,7 +78,7 @@ class Debugging extends Component {
 </ul></li>
 <li>The “Threads” tab, which you shouldn’t mess with, because you might break the server.</li>
 </ul>
-<p>To learn more about these tools, see the <a href="https://www.jetbrains.com/help/idea/2016.3/debugger-basics.html">Intellij documentation</a>.</p>
+<p>To learn more about these tools, see the <a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" href="https://www.jetbrains.com/help/idea/2016.3/debugger-basics.html">Intellij documentation</a>.</p>
 <h5 id="conditional-breakpoints">Conditional breakpoints</h5>
 <p>Sometimes, you might only want to pause if your robot is on team A, or the game is in round 537, or if you have fewer than a thousand bytecodes left. To make these changes, right click the breakpoint, and in the condition field, put the condition; you can use any variables in the surrounding code. If I have the method:</p>
 <pre><code>import battlecode.common.Clock;
@@ -125,7 +125,7 @@ class RobotPlayer {'{'}
 </ul></li>
 <li>If it doesn’t:
 <ul>
-<li>You may get a “failed to connect to VM; connection refused.” Make sure you’ve <a href="#starting-the-server-in-debug-mode">started the server in debug mode</a>.</li>
+<li>You may get a “failed to connect to VM; connection refused.” Make sure you’ve <a target="_blank" rel="noopener noreferrer" href="#starting-the-server-in-debug-mode">started the server in debug mode</a>.</li>
 </ul></li>
 </ul></li>
 <li>You can also start debugging by selecting the little triangle next to the beetle in the toolbar and selecting “Debug Battlecode Bot”.</li>
@@ -134,7 +134,7 @@ class RobotPlayer {'{'}
 <p>Oftentimes while debugging you can often step into classes you don’t care about - battlecode internal classes, or java classes. To avoid this, right click a stack frame in the “Debug” window - i.e. the thing beneath a Thread labeled <code>RobotPlayer.run</code> or whatever - and: - Select “Use Step Filters” - Select “Edit Step Filters”. - Select all the predefined ones - Add filter… - <code>battlecode.*</code> - <code>net.sf.*</code> - <code>gnu.trove.*</code> - <code>org.objectweb.*</code> - Hit “Ok”</p>
 <p>And you should be good to go!</p>
 <h5 id="using-the-debugger.">Using the debugger.</h5>
-<p>See the <a href="http://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.user%2Freference%2Fviews%2Fdebug%2Fref-debug_view.htm">eclipse documentation</a>.</p>
+<p>See the <a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" href="http://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.user%2Freference%2Fviews%2Fdebug%2Fref-debug_view.htm">eclipse documentation</a>.</p>
 <h5 id="conditional-breakpoints-1">Conditional Breakpoints</h5>
 <p>Sometimes, you might only want to pause if your robot is on team A, or the game is in round 537, or if you have fewer than a thousand bytecodes left. To make these changes: - Right click the breakpoint - Go to “Breakpoint Properties” - Check “Conditional” - Write a condition in the text box</p>
 <p>If I have the method:</p>
@@ -235,14 +235,14 @@ If you're in IntelliJ, you can just run the <code>runDebug</code> Gradle task th
                                         <li>In the dropdown near the hammer, play, and bug icons, select <code>edit configurations</code></li>
                                         <li>Hit the plus and select <code>gradle</code></li>
                                         <li>Give the configuration a name, e.g. "RunBattlecode"</li>
-                                        <li>Next to the <code>gradle project</code> field, click the folder icon and select <code>battlecode20-scaffold</code></li>
+                                        <li>Next to the <code>gradle project</code> field, click the folder icon and select <code>battlecode21-scaffold</code></li>
                                         <li>In the <code>Tasks</code> field, type <code>run</code></li>
                                         <li>Click <code>Apply</code>, <code>Ok</code></li>
                                     </ul>
                                     When your configuration is selected from the dropdown menu, clicking play will run the game, the same way double clicking run in the gradle window does.
                                     
                                     Clicking on the bug icon next to the play button will run the game in debug mode in the ide. Use breakpoints and the debuging interface to walk through your code.
-                                    For more info on debugging with intelliJ, see <a href='https://www.jetbrains.com/help/idea/debugging-code.html'>here</a>
+                                    For more info on debugging with intelliJ, see <a target="_blank" rel="noopener noreferrer" href='https://www.jetbrains.com/help/idea/debugging-code.html'>here</a>
 
 
                                     You can specify the map and teams to run in the <code>gradle.properties</code> file.

@@ -99,7 +99,7 @@ class Countdown extends Component {
           title = 'Game Specs are now released!';
         }
         // TODO choosing which one to display should really be dynamic
-        let explanatoryText = <div>The submission deadline for the <b>{this.state.tournament_name}</b> is at <b>{this.state.est_date}</b>.</div>;
+        let explanatoryText = <div>The submission deadline for <b>{this.state.tournament_name}</b> is at <b>{this.state.est_date}</b>.</div>;
         // let explanatoryText = <div>The submission deadline has not been set yet.</div>;
 
         let countdown = (
