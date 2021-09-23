@@ -1,26 +1,5 @@
 import React, { Component } from 'react';
 import Api from '../api';
-import { NavLink } from 'react-router-dom';
-
-class Tournament extends Component {
-    render() {
-        return (<div>
-<p dangerouslySetInnerHTML={{__html: this.props.blurb}}>
-            </p>
-                        <h5 className="mb-0">
-                            <button className="btn btn-default btn-block collapsed" type="button" data-toggle="collapse" data-target={ '#' + this.props.name.replace(' ','') + '0'}>
-                                { this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1) } Tournament Bracket
-                            </button>
-                        </h5>
-                    <div id={ this.props.name.replace(' ','') + '0' } className="collapse" data-parent={ '#' + this.props.name } style={{ 'margin-top':'-1em' }}>
-                        <div className="card-body">
-                            <iframe title={ this.props.challonge } src={this.props.challonge + "/module"} width="100%" height="400px" frameborder="0" scrolling="auto" allowtransparency="true"></iframe>
-                        </div>
-                    </div>
-                    </div>
-        );
-    }
-}
 
 class Tournaments extends Component {
     constructor() {
@@ -155,7 +134,7 @@ Most adaptive strategy (sponsored by Five Rings)  $1500  Chop Suey
                                         <ul>
                                             <li><b>1st Place prize:</b> to whosoever has the highest rating at the end (hacks not allowed). Smaller prizes for subsequent placers.</li>
                                             <li>Smaller prizes for top placers in other non-final (newbie, US high school, sprint) tournaments.</li>                                           
-                                            <li><b>More prizes???</b> TBA, maybe 👀
+                                            <li><b>More prizes???</b> TBA, maybe <span role="img" aria-label="eye stare at you">👀</span>
                                                 <ul>
                                                     <li>Historically, we have given out prizes for creative strategies, major bugs found, and other game-specific topics. Have fun with your strategies, write-ups, and overall participation in Battlecode!</li>
                                                 </ul>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 import Api from '../api';
-import { NavLink, Link } from 'react-router-dom';
 import Countdown from './countdown';
 import UpdateCard from '../components/updateCard';
 import PerfCard from '../components/perfCard';
@@ -113,15 +112,9 @@ class InstrCard extends UpdateCard {
 
 
 class LinksCard extends Component {
-    constructor() {
-        super();
-    }
 
-    componentDidMount() {
-        // meh
-    }
-      
-
+    //componentDidMount() {}
+    
     render() {
         return (
             <div className="card ">

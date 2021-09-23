@@ -20,9 +20,7 @@ class TeamCard extends Component {
 			dummyArr.push({username: user})
 		})
 
-		this.state = {
-			users: dummyArr
-		}
+		this.setState({users: dummyArr})
 	}
 
 	getUserData() {

@@ -39,10 +39,10 @@ class SideBar extends Component {
     }
 
     isSubmissionEnabled() {
-        if (this.state.user.is_staff == true) {
+        if (this.state.user.is_staff === true) {
           return true;
         }
-        if (this.state.league.game_released == true) {
+        if (this.state.league.game_released === true) {
           return true;
         }
         return false;
@@ -55,7 +55,7 @@ class SideBar extends Component {
             <div className="sidebar" data-color="dust"> {/* data-color is defined in light-bootstrap-dashboard.css */}
                 <div className="sidebar-wrapper">
                     <div className="logo">
-                        <a href="/home"><img src="../assets/img/logo.png" /></a>
+                        <a href="/home"><img alt="logo" src="../assets/img/logo.png" /></a>
                         <p>Battlecode 2021</p>
                     </div>
                     <ul className="nav nav-pills nav-stacked">

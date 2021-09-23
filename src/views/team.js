@@ -272,28 +272,6 @@ class NoTeam extends Component {
     }
 }
 
-// pass team in props.team
-class ResumeStatus extends Component {
-    render() {
-
-        var resumestring;
-
-        var unverified_users = this.props.team.users.filter( ( el ) => !this.props.team.verified_users.includes( el ) );
-
-        console.log(this.props.team);
-
-        if (this.props.team.verified_users.length === this.props.team.users.length) {
-            resumestring = (<div><p style={{color:'green'}}>Everyone on your team has uploaded a resume!</p></div>);
-        } else {
-            resumestring = (<div><p style={{color:'red', fontWeight: 'bold'}}>Not everyone on your team has uploaded a resume, so you are currently not eligible for the qualifying or final tournaments.
-    Users who have not yet uploaded a resume: {unverified_users.join(", ")}</p>
-            </div>);
-        }
-
-        return resumestring;
-    }
-}
-
 // pass change handler in props.change and team in props.team
 // NOTE: If you are ever working with teams' eligility (for example, to pull teams for the newbie tournament), please see backend/docs/ELIGIBILITY.md before you do anything! The variable names here are poorly named (because columns in the database are poorly named). 
 class EligibiltyOptions extends Component {

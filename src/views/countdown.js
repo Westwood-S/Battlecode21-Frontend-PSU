@@ -95,7 +95,7 @@ class Countdown extends Component {
     render() {
         const countDown = this.state;
         let title = 'Submission Deadline in';
-        if (this.state.tournament_name == 'START') {
+        if (this.state.tournament_name === 'START') {
           title = 'Game Specs are now released!';
         }
         // TODO choosing which one to display should really be dynamic
@@ -137,7 +137,7 @@ class Countdown extends Component {
           </div>
         )
 
-        if (this.state.tournament_name == 'START') {
+        if (this.state.tournament_name === 'START') {
           explanatoryText = <div>Specifications are avaliable in the resources tab. Be sure to look at the getting started section for information on how to get the game and your first bot running! </div>;
           countdown = null
         }

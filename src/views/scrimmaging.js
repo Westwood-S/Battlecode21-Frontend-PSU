@@ -116,7 +116,7 @@ class ScrimmageHistory extends Component {
                             <tbody>
                                 { this.state.scrimmages.map(s => {
                                     let stat_row = <td>{ s.status }</td>
-                                    if (s.status.toLowerCase() == "error") {
+                                    if (s.status.toLowerCase() === "error") {
                                         stat_row = (
                                         <td>
                                             { s.status } 
@@ -137,7 +137,7 @@ class ScrimmageHistory extends Component {
                                             <td>{ s.score }</td>
                                             <td>{ s.team }</td>
                                             <td>{ s.ranked ? "Ranked" : "Unranked"}</td>
-                                            { s.replay?<td><a href={`/visualizer.html?${process.env.REACT_APP_REPLAY_URL}/replays/${s.replay}.bc21`} target="_blank">Watch</a></td>:<td>N/A</td> }
+                                            { s.replay?<td><a href={`/visualizer.html?${process.env.REACT_APP_REPLAY_URL}/replays/${s.replay}.bc21`} target="_blank" rel="noopener noreferrer">Watch</a></td>:<td>N/A</td> }
                                         </tr>
                                     )
                                 }) }

@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-
 import Api from '../api';
-
 import TeamCard from '../components/teamCard';
 import PerfCard from '../components/perfCard';
-
-
 
 class RankCard extends Component {
 	constructor() {
@@ -56,7 +51,7 @@ class WinsCard extends Component {
 	}
 
 	render() {
-		const {wins, draws, losses} = this.state
+		//const {wins, draws, losses} = this.state
 		return(
 			<div className="card">
 				<div className="content">

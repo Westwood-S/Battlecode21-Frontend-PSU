@@ -29,7 +29,7 @@ class Register extends Component {
   }
 
   formSubmit = (e) => {
-    console.log('HI!');
+    console.log('submitted form');
     e.preventDefault();
     this.submitRegister();
   }
@@ -42,7 +42,7 @@ class Register extends Component {
   submitRegister = () => {
     const { email, first, last, password } = this.state;
       // ensure that all fields are correct
-	if (email.indexOf('@') == -1) this.setState({ error: 'Email should contain @' });
+	if (email.indexOf('@') === -1) this.setState({ error: 'Email should contain @' });
 	else if (!first) this.setState({ error: 'Should provide first name.' });
 	else if (!last) this.setState({ error: 'Should provide last name.' });
 	else if (password.length < 6) this.setState({ error: 'Password must be at least 6 characters.' });
@@ -58,7 +58,7 @@ class Register extends Component {
   }
 
   render() {
-    const { error, success, register } = this.state;
+    const { error, success } = this.state;
 
     const errorDiv = error && (
       <div
@@ -134,7 +134,7 @@ class Register extends Component {
           textAlign: 'center',
           fontWeight: 'bold',
           color: 'white'
-        }}>Register below to participate in Battlecode 2021 PSUer!</p>
+        }}>Register below to participate in Battlecode 2021, PSUer!</p>
         {errorDiv}
         {successDiv}
         <form onSubmit={this.formSubmit}>

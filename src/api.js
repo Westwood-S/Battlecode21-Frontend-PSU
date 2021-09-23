@@ -1,12 +1,12 @@
 import $ from 'jquery';
 import * as Cookies from 'js-cookie';
 import firebaseAuth from './firebaseConfig';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from 'firebase/auth';
 
 //const URL = 'https://bh2020.battlecode.org';
 //const URL = 'http://localhost:8000'; // DEVELOPMENT
 // do not change URL here!! rather, for development, change it in ../.env.development
 const URL = process.env.REACT_APP_BACKEND_URL;
-const DONOTREQUIRELOGIN = false; // set to true for DEVELOPMENT
 const LEAGUE = 0;
 const PAGE_LIMIT = 10;
 
@@ -637,28 +637,25 @@ class Api {
 
   //----AUTHENTICATION----
 
-  static logout(callback) {
-    Cookies.set('token', '');
-    Cookies.set('refresh', '');
-    callback();
+  static logout() {
+	const auth = getAuth();
+	signOut(auth).then(() => {
+		Cookies.set('userEmail', '');
+	  }).catch((error) => {
+		  alert(error);
+	  });
+    
   }
 
   static loginCheck(callback) {
-    if (DONOTREQUIRELOGIN) {
-      callback(true);
-      return;
-    }
-    $.ajaxSetup({
-      headers: { Authorization: `Bearer ${Cookies.get('token')}` },
-    });
-
-    $.post(`${URL}/auth/token/verify/`, {
-      token: Cookies.get('token'),
-    }).done((data, status) => {
-      callback(true);
-    }).fail((xhr, status, error) => {
-      callback(false);
-    });
+	const auth = getAuth();
+	onAuthStateChanged(auth, (user) => {
+		if (user) {
+			callback(true);
+		} else {
+			callback(false);
+		}
+	});
   }
 
   static verifyAccount(registrationKey, callback) {
@@ -669,7 +666,7 @@ class Api {
       }, (data, success) => { callback(data, success); });
   }
 
-  static async login(email, password, callback) {
+  static login(email, password, callback) {
     /*  $.post(`${URL}/auth/token/`, {
       username,
       password,
@@ -691,16 +688,24 @@ class Api {
     }); */
 
     try {
-		await firebaseAuth.auth().signInWithEmailAndPassword(email, password);
-		Cookies.set('userEmail', email);
-		//TODO: Where to check/clear the team status if the user's been changed?
-		callback(null, true);
+		const auth = getAuth();
+		signInWithEmailAndPassword(auth, email, password)
+			.then(() => {
+				Cookies.set('userEmail', email);
+				//TODO: Where to check/clear the team status if the user's been changed?
+				callback(null, true);
+			})
+			.catch((error) => {
+				const errorMessage = error.message;
+				console.log("sign in error: " + errorMessage);
+			});
+		
 	  } catch (error) {
 		callback(error, false);
 	  }
   }
 
-  static async register(email, password, first, last, callback) {
+  static register(email, password, first, last, callback) {
     /* if ($.ajaxSettings && $.ajaxSettings.headers) {
       delete $.ajaxSettings.headers.Authorization;
     }
@@ -721,24 +726,29 @@ class Api {
     }); */
 
     try {
-		await firebaseAuth.auth().createUserWithEmailAndPassword(email, password);
-		try {
-		  Api.login(email, password, callback);
-  
-		  var user = firebaseAuth.auth().currentUser;
-		  user
-			.updateProfile({
-			  displayName: first + ' ' + last,
+		const auth = getAuth();
+		createUserWithEmailAndPassword(auth, email, password)
+			.then(() => {
+				try {
+					Api.login(email, password, callback);
+			
+					updateProfile(auth.currentUser, {
+						displayName: first + ' ' + last,
+					  }).then(() => {
+						console.log("successfully updated display name");
+					  }).catch((error) => {
+						console.log('firebase update user display name error: ' + error);
+					  });
+				  } catch (error) {
+					console.log('login followed by register error: ' + error);
+				  }
+				
 			})
-			.then(function () {
-			  // Update successful.
-			})
-			.catch(function (error) {
-			  console.log('firebase update user display name error: ' + error);
+			.catch((error) => {
+				const errorMessage = error.message;
+				console.log("create user error: " + errorMessage);
 			});
-		} catch (error) {
-		  console.log('login followed by register error: ' + error);
-		}
+		
 	  } catch (error) {
 		console.log('register error: ' + error);
 	  }

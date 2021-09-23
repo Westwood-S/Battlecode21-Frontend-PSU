@@ -1,15 +1,4 @@
 ﻿import React, { Component } from 'react';
-import styled from 'styled-components';
-
-const He = styled.h5`
-  font-weight: bold;
-  font-size:1.3em;
-`;
-
-const Hee = styled.h5`
-  text-decoration:underline;
-  font-size:1.2em;
-`;
 
 class Debugging extends Component {
 
@@ -96,7 +85,6 @@ class Debugging extends Component {
 import battlecode.common.RobotController;
 
 class RobotPlayer {'{'}
-    // ...
     public static void sayHi(RobotController rc) {'{'}
         rc.broadcast(rc.getID(), rc.getType().ordinal());
     {'}'}
@@ -154,7 +142,6 @@ class RobotPlayer {'{'}
 import battlecode.common.RobotController
 
 class RobotPlayer {'{'}
-    // ...
     public static void sayHi(RobotController rc) {'{'}
         rc.broadcast(rc.getID(), rc.getType().ordinal());
     {'}'}

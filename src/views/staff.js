@@ -1,17 +1,5 @@
 import React, { Component } from 'react';
 
-class AddCard extends Component {
-	render() {
-		return (
-			<div className="card">
-				<div className="content">
-					<p> i am a card </p>
-				</div>
-			</div>
-		)
-	}
-}
-
 class Staff extends Component {
 	render() {
 		return (

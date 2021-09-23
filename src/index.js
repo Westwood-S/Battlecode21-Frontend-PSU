@@ -23,7 +23,6 @@ import Resources from './views/resources';
 //import ReplayViewer from './views/replay';
 import LoginRegister from './views/login';
 import Register from './views/register';
-import VerifyUser from './views/VerifyUser';
 import PasswordForgot from './views/passwordForgot';
 import PasswordChange from './views/passwordChange';
 import Submissions from './views/submissions';

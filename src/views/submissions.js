@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
 import Api from '../api';
 import * as Cookies from 'js-cookie';
-
-
 
 class Submissions extends Component {
 
@@ -66,7 +62,7 @@ class Submissions extends Component {
         // To check changes, we poll periodically.
         this.interval = setInterval(() => {
             let upload_status_cookie_value = Cookies.get('upload_status_cookie');
-            if (upload_status_cookie_value != 10) {
+            if (upload_status_cookie_value !== 10) {
                 // Submission process terminated (see api.js).
 
                 // refresh the submission status, for use on this component
@@ -137,7 +133,7 @@ class Submissions extends Component {
             const arr = this.state["currentSubmission"]
             let newArr = arr.slice(0, index)
             newArr.push(data)
-            this.setState({["currentSubmission"]: newArr.concat(arr.slice(index + 1))})
+            this.setState({currentSubmission: newArr.concat(arr.slice(index + 1))})
         } else if (this.KEYS_LAST.includes(key)) {
             switch (key) {
                 case 'last_1':
@@ -154,7 +150,7 @@ class Submissions extends Component {
             const arr = this.state["lastSubmissions"]
             let newArr = arr.slice(0, index)
             newArr.push(data)
-            this.setState({["lastSubmissions"]: newArr.concat(arr.slice(index + 1))})
+            this.setState({lastSubmissions: newArr.concat(arr.slice(index + 1))})
         } else {
             switch (key) {
                 case 'tour_sprint':
@@ -183,7 +179,7 @@ class Submissions extends Component {
             const arr = this.state["tourSubmissions"]
             let end = arr.slice(1)
             end.push(add_data)
-            this.setState({["tourSubmissions"]: end})
+            this.setState({tourSubmissions: end})
 
         }
 
@@ -197,10 +193,10 @@ class Submissions extends Component {
     //----PERMISSIONS----
     // enable iff game active or user is staff
     isSubmissionEnabled() {
-        if (this.state.user.is_staff == true) {
+        if (this.state.user.is_staff === true) {
             return true;
         }
-        if (this.state.league.submissions_enabled == true && this.state.league.game_released == true) {
+        if (this.state.league.submissions_enabled === true && this.state.league.game_released === true) {
             return true;
         }
         return false;
@@ -211,7 +207,6 @@ class Submissions extends Component {
     // return div for submitting files, should be able to disable this when submissions are not being accepts
     renderHelperSubmissionForm() {
         if (this.isSubmissionEnabled()) {
-            let status_str = ""
             let btn_class = "btn btn" 
             let file_label = "No file chosen."
             let file_button_sub = <div> </div>
@@ -222,12 +217,12 @@ class Submissions extends Component {
             if (this.state.selectedFile !== null) {
                 btn_class += " btn-info btn-fill" 
                 file_label = this.state.selectedFile["name"]
-                if (this.state.upload_status != 10) { 
+                if (this.state.upload_status !== 10) { 
                     button = <button style={{float: "right"}} onClick={this.uploadData} className={ btn_class }> Submit </button>
                 }
             }
             // Make sure to disable concurrent submission uploads.
-            if (this.state.upload_status != 10) { 
+            if (this.state.upload_status !== 10) { 
                 file_button_sub = <div className="btn"> Choose File </div>
                 file_button = <label htmlFor="file_upload">
                 {file_button_sub} <span style={ { textTransform: 'none', marginLeft: '10px', fontSize: '14px'} }> {file_label} </span> </label>
@@ -327,7 +322,7 @@ class Submissions extends Component {
                 Loading submissions...<br/><br/>
                 </p>
             )
-        } else if (this.state.currentSubmission.length == 0) {
+        } else if (this.state.currentSubmission.length === 0) {
             return (
                 <p>
                 You haven't submitted any code yet!
@@ -402,7 +397,7 @@ class Submissions extends Component {
                 Loading submissions...<br/><br/>
                 </p>
             )
-        } else if (this.state.lastSubmissions.length == 0) {
+        } else if (this.state.lastSubmissions.length === 0) {
             return (
                 <p>
                 You haven't had any successful submissions yet! (If you have code being submitted, you'll see it here if it finishes successfully.)

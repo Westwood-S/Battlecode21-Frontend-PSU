@@ -26,7 +26,7 @@ class PerfCard extends UpdateCard {
                 })
 
                 data.sort((pt1, pt2) => {
-                    if (pt1.x == pt2.x) {
+                    if (pt1.x === pt2.x) {
                         return 0
                     } else {
                         return (pt1.x > pt2.x) ? 1 : -1

@@ -34,25 +34,26 @@ class NavBar extends Component {
 class NavBarAccount extends Component {
     constructor() {
         super();
-        this.state = { logged_in: null };
+        this.state = { logged_in: false };
     }
     componentDidMount() {
         Api.loginCheck((logged_in) => {
-        this.setState({ logged_in });
+        	this.setState({ logged_in });
         });
     }
     logout() {
-        Api.logout(function(e) {
+        Api.logout(() => {
+			this.setState({ logged_in:false });
             window.location.reload();
         });
     }
     render() {
-        if (this.state.logged_in) {
+        if (this.state.logged_in === true) {
             return (
                 <ul className="nav navbar-nav navbar-right">
-                    <li>
+                    {/* <li>
                         <NavLink to={`${process.env.PUBLIC_URL}/account`}>Account</NavLink>
-                    </li>
+                    </li> */}
                     <li>
                         <a onClick={ this.logout }>Log out</a>
                     </li>

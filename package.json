@@ -10,6 +10,7 @@
     "ace-builds": "^1.4.12",
     "dotenv": "^10.0.0",
     "firebase": "^9.0.2",
+    "firebase-admin": "^9.11.1",
     "jquery": "^3.6.0",
     "js-cookie": "^2.2.1",
     "moment": "^2.29.1",

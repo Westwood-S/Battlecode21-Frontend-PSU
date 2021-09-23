@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import Api from '../api';
-
-import TeamList from '../components/teamList';
 import RankingTeamList from '../components/rankingTeamList';
 
 class Rankings extends Component {
@@ -18,7 +16,7 @@ class Rankings extends Component {
     }
 
     handleChange = (e) => {
-      const { input } = this.state;
+      //const { input } = this.state;
       this.setState({ input: e.target.value });
     }
 

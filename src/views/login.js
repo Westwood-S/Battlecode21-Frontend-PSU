@@ -5,7 +5,6 @@ class LoginRegister extends Component {
   state = {
     email: '',
     password: '',
-    username: '',
     first: '',
     last: '',
     dob: '',
@@ -29,14 +28,13 @@ class LoginRegister extends Component {
   }
 
   formSubmit = (e) => {
-    console.log('HI!');
     e.preventDefault();
     this.submitLogin();
   }
 
   submitLogin = () => {
-    const { username, password } = this.state;
-    Api.login(username, password, this.callback);
+    const { email, password } = this.state;
+    Api.login(email, password, this.callback);
   };
 
   changeHandler = (e) => {
@@ -139,60 +137,13 @@ class LoginRegister extends Component {
               <div className="row">
                 <div className="col-md-12">
                   <div className="form-group">
-                    <label>Username</label>
+                    <label>Email</label>
                     <input
                       type="text"
-                      id="username"
+                      id="email"
                       className="form-control"
                       onChange={this.changeHandler}
                     />
-                  </div>
-                </div>
-                <div style={{ display: register ? 'block' : 'none' }}>
-                  <div className="col-xs-6">
-                    <div className="form-group">
-                      <label>First Name</label>
-                      <input
-                        type="text"
-                        id="first"
-                        className="form-control"
-                        onChange={this.changeHandler}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-xs-6">
-                    <div className="form-group">
-                      <label>Last Name</label>
-                      <input
-                        type="text"
-                        id="last"
-                        className="form-control"
-                        onChange={this.changeHandler}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-xs-6">
-                    <div className="form-group">
-                      <label>Email</label>
-                      <input
-                        type="email"
-                        id="email"
-                        className="form-control"
-                        onChange={this.changeHandler}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-xs-6">
-                    <div className="form-group">
-                      <label>Date of Birth</label>
-                      <input
-                        type="text"
-                        id="dob"
-                        placeholder="YYYY-MM-DD"
-                        className="form-control"
-                        onChange={this.changeHandler}
-                      />
-                    </div>
                   </div>
                 </div>
                 <div className="col-md-12">
@@ -208,13 +159,13 @@ class LoginRegister extends Component {
                 </div>
               </div>
               {buttons}
-              <br />
-              <a
+              {/*<br />
+               <a
                 href={`${process.env.PUBLIC_URL}/password_forgot`}
                 className="btn btn-secondary btn-block btn-fill"
               >
                 Forgot Password
-              </a>
+              </a> */}
 
               <div className="clearfix" />
             </div>

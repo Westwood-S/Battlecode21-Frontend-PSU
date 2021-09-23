@@ -1,11 +1,6 @@
 import React from 'react';
-
 import TeamList from './teamList';
 import PaginationControl from './paginationControl';
-
-import { Redirect, Link } from 'react-router-dom';
-
-const SUCCESS_TIMEOUT = 2000
 
 class RankingTeamList extends TeamList {
 

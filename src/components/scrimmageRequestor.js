@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import Api from '../api';
-
-import TeamList from '../components/teamList';
 import RankingTeamList from '../components/rankingTeamList';
 
 class ScrimmageRequestor extends Component {
@@ -15,8 +13,7 @@ class ScrimmageRequestor extends Component {
     };
 
     handleInput = (e) => {
-        const { state } = this;
-
+        //const { state } = this;
         const newInput = e.target.value;
 
         this.setState({
