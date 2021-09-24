@@ -41,16 +41,16 @@ class RankingTeamList extends TeamList {
                     buttonContent = <i className="fa fa-check"></i>;
                 }
                 return (
-                    <tr key={ team.id } onClick={() => this.showTeamPage(team.id) }>
+                    <tr key={ team.id } >
                             <td>{ team.score === -1000000 ? "N/A" : Math.round(team.score) }</td>
                             <td>{ team.name }</td>
                             <td>{ team.users.join(", ") }</td>
-                            <td>{ team.bio }</td>
+                            {/* <td>{ team.bio }</td>
                             <td>{ team.student ? "✅" : "🛑"}{(team.student && team.international) ? "🌍" : "🇺🇸"}{(team.student && team.mit) ? "🐥" : ""}{(team.student && team.high_school) ? "HS" : ""}</td>
                             <td>{ team.auto_accept_unranked ? "Yes" : "No"}</td>
                             {props.canRequest && (
                                 <td><button className="btn btn-xs" onClick={() => this.onTeamRequest(team.id)}>{buttonContent}</button>  </td>
-                            )}
+                            )} */}
                     </tr>
                 )
             })
@@ -60,6 +60,8 @@ class RankingTeamList extends TeamList {
                     <div className="card">
                         <div className="header">
                             <h4 className="title">Rankings</h4>
+							<br/>
+                            <div>If you're interested in how the score is calculated, see <a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Elo_rating_system#Mathematical_details">here</a></div>
                         </div>
                         <div className="content table-responsive table-full-width">
                             <table className="table table-striped">
@@ -68,9 +70,9 @@ class RankingTeamList extends TeamList {
                                     <th>Score</th>
                                     <th>Team</th>
                                     <th>Users</th>
-                                    <th>Bio</th>
+                                    {/* <th>Bio</th>
                                     <th>Eligibility</th>
-                                    <th>Auto-Accept</th>
+                                    <th>Auto-Accept</th> */}
                                 </tr>
                                 </thead>
                                 <tbody>

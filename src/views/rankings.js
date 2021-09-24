@@ -5,14 +5,15 @@ import RankingTeamList from '../components/rankingTeamList';
 class Rankings extends Component {
     state = {
       teams: null,
-      teamLimit: 0,
+      /* teamLimit: 0,
       teamPage: 1,
-      input: '',
+      input: '', */
     };
 
     componentDidMount() {
       const { input } = this.state;
-      Api.searchTeamRanking(input, 1, this.onDataLoad);
+      Api.getAllTeam(input, 1, this.onDataLoad);
+	  Api.calculateElo();
     }
 
     handleChange = (e) => {
@@ -28,14 +29,14 @@ class Rankings extends Component {
     getTeamPage = (page) => {
       const { state } = this;
       if (page !== state.teamPage && page >= 0 && page <= state.teamLimit) {
-        Api.searchTeamRanking(state.input, page, this.onDataLoad);
+        Api.getAllTeam(state.input, page, this.onDataLoad);
       }
     }
 
     search = (e) => {
       const { input } = this.state;
       e.preventDefault();
-      Api.searchTeamRanking(input, 1, this.onDataLoad);
+      Api.getAllTeam(input, 1, this.onDataLoad);
     }
 
     render() {
@@ -43,7 +44,7 @@ class Rankings extends Component {
       return (
         <div className="content">
           <div className="container-fluid row">
-            <div className="col-md-12">
+            {/* <div className="col-md-12">
               <div className="card">
                 <div className="content">
                   <form className="input-group" onSubmit={this.search}>
@@ -54,14 +55,14 @@ class Rankings extends Component {
                   </form>
                 </div>
               </div>
-            </div>
-            <div className="col-md-12">
+            </div> */}
+			<div className="col-md-12">
               <RankingTeamList
                 teams={state.teams}
-                page={state.teamPage}
+                /* page={state.teamPage}
                 pageLimit={state.teamLimit}
                 onPageClick={this.getTeamPage}
-                history={this.props.history}
+                history={this.props.history} */
               />
             </div>
           </div>

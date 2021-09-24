@@ -1,7 +1,9 @@
 import $ from 'jquery';
 import * as Cookies from 'js-cookie';
 import firebaseAuth from './firebaseConfig';
+import { sha256 } from 'js-sha256';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from 'firebase/auth';
+import { getFirestore, doc, collection, getDoc, getDocs, updateDoc } from "firebase/firestore"
 
 //const URL = 'https://bh2020.battlecode.org';
 //const URL = 'http://localhost:8000'; // DEVELOPMENT
@@ -9,14 +11,12 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, up
 const URL = process.env.REACT_APP_BACKEND_URL;
 const LEAGUE = 0;
 const PAGE_LIMIT = 10;
+const auth = getAuth();
+const db = getFirestore();
 
 class Api {
   
-  static testSetOutcome() {
-    
-  }
-
-  //----SUBMISSIONS----
+	//----SUBMISSIONS----
 
   //uploads a new submission to the google cloud bucket
   static newSubmission(submissionfile, callback){
@@ -212,6 +212,91 @@ class Api {
     });
   }
 
+  static async calculateElo(){
+
+    var allTeam = [];
+    var allScrimmages = [];
+
+	const resultRef = doc(db, "submissions", "gameResults");
+	const docSnap = await getDoc(resultRef);
+
+	if (docSnap.exists() && docSnap.data().scrimmages) {
+		var scrimmagesData=docSnap.data().scrimmages;
+        //scrimmagesData is for loop gameResults to calculate elo
+		//allScrimmages will be updated with the new elo result 
+        allScrimmages=scrimmagesData;
+		
+		const querySnapshot = await getDocs(collection(db, "teams"));
+		querySnapshot.forEach((doc) => {
+			allTeam.push(doc.data());
+		});
+
+		scrimmagesData.find((o,i)=>{
+			if (o.Elo === false){
+			  //Elo equals to false means havent calculated yet
+			  var won = (o.STATUS === 'Awon')? o.TEAMA : (o.STATUS === 'Bwon')? o.TEAMB : '';
+			  var los = (o.STATUS === 'Awon')? o.TEAMB : (o.STATUS === 'Bwon')? o.TEAMA : '';
+			  
+			  var wonIndex;
+			  var losIndex;
+			  allTeam.find((o, index) => {
+				if (o.name === won) {
+					wonIndex=index
+					// stop searching
+					return true; 
+				}
+			  });
+			  allTeam.find((o, index) => {
+				if (o.name === los) {
+					losIndex=index
+					// stop searching
+					return true; 
+				}
+			  });
+
+			  if (wonIndex !== null && losIndex !== null && allTeam[losIndex] && allTeam[wonIndex]){
+				var probW = 1.0 * 1.0 / (1 + 1.0 * Math.pow(10, 1.0 * (allTeam[losIndex].score - allTeam[wonIndex].score) / 400))  
+				var probL = 1 - probW   
+				allTeam[wonIndex].score += 32 * (1 - probW)
+				allTeam[losIndex].score += 32 * (0 - probL)
+				allTeam[wonIndex].won += 1
+				allTeam[losIndex].los += 1
+
+				allScrimmages.splice(i,1,{
+				  DATE: scrimmagesData[i].DATE,
+				  DATESTORE: scrimmagesData[i].DATESTORE,
+				  Elo: true,
+				  MAP: scrimmagesData[i].MAP,
+				  REPLAY: scrimmagesData[i].REPLAY,
+				  ROBOTA: scrimmagesData[i].ROBOTA,
+				  ROBOTB: scrimmagesData[i].ROBOTB,
+				  STATUS: scrimmagesData[i].STATUS,
+				  TEAMA: scrimmagesData[i].TEAMA,
+				  TEAMB: scrimmagesData[i].TEAMB,
+				  TIME: scrimmagesData[i].TIME
+				}); 
+			  }
+			  
+			}
+		})
+
+		await updateDoc(resultRef, {
+			scrimmages: allScrimmages
+		});
+
+		for (var i = 0; i < allTeam.length; i++) {
+			const eachTeamRef = doc(db, "teams", sha256(allTeam[i].name));
+			await updateDoc(eachTeamRef, {
+			  won: allTeam[i].won,
+			  score: Math.ceil(allTeam[i].score),
+			  los: allTeam[i].los
+			});
+		}
+	} else {
+		console.log("Fail to get submission data.");
+	}
+  }
+
   static getUpdates(callback) {
     if ($.ajaxSettings && $.ajaxSettings.headers) {
       delete $.ajaxSettings.headers.Authorization;
@@ -252,8 +337,20 @@ class Api {
       });
     });
   }
-  static searchTeamRanking(query, page, callback) {
-    Api.searchRanking(`${URL}/api/${LEAGUE}/team`, query, page, callback)
+  static async getAllTeam(query, page, callback) {
+    var teams=[];
+    
+	const teamSnapshot = await getDocs(collection(db, "teams"));
+	teamSnapshot.forEach((doc) => {
+		teams.push(doc.data());
+	});
+
+	teams.sort(function(a, b){
+		return b.score-a.score
+	  })
+	callback({teams});
+
+    //Api.searchRanking(`${URL}/api/${LEAGUE}/team`, query, page, callback)
   }
 
   static searchStaffOnlyRanking(query, page, callback) {
@@ -638,7 +735,6 @@ class Api {
   //----AUTHENTICATION----
 
   static logout() {
-	const auth = getAuth();
 	signOut(auth).then(() => {
 		Cookies.set('userEmail', '');
 	  }).catch((error) => {
@@ -648,7 +744,6 @@ class Api {
   }
 
   static loginCheck(callback) {
-	const auth = getAuth();
 	onAuthStateChanged(auth, (user) => {
 		if (user) {
 			callback(true);
@@ -688,7 +783,6 @@ class Api {
     }); */
 
     try {
-		const auth = getAuth();
 		signInWithEmailAndPassword(auth, email, password)
 			.then(() => {
 				Cookies.set('userEmail', email);
@@ -726,7 +820,6 @@ class Api {
     }); */
 
     try {
-		const auth = getAuth();
 		createUserWithEmailAndPassword(auth, email, password)
 			.then(() => {
 				try {
