@@ -3,7 +3,7 @@ import * as Cookies from 'js-cookie';
 import firebaseAuth from './firebaseConfig';
 import { sha256 } from 'js-sha256';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from 'firebase/auth';
-import { getFirestore, doc, collection, getDoc, getDocs, updateDoc } from "firebase/firestore"
+import { getFirestore, doc, collection, getDoc, getDocs, updateDoc, setDoc  } from "firebase/firestore"
 
 //const URL = 'https://bh2020.battlecode.org';
 //const URL = 'http://localhost:8000'; // DEVELOPMENT
@@ -404,10 +404,68 @@ class Api {
 
   //---TEAM INFO---
 
-  static getUserTeam(callback) {
-    $.get(`${URL}/api/userteam/${encodeURIComponent(Cookies.get('username'))}/${LEAGUE}/`).done((data, status) => {
+  static async getUserTeam(callback) {
+	
+	var userEmail=null;
+
+	if(Cookies.get('userEmail')){
+		userEmail = Cookies.get('userEmail');
+	}
+	else{
+		var user = auth.currentUser;
+		if (user) {
+			console.log(user);
+			user.providerData.forEach(function (profile) {
+				userEmail=profile.email;
+				Cookies.set('userEmail', userEmail);
+			});
+		}
+	} 
+
+	if(userEmail){
+		const userRef = doc(db, "users", userEmail);
+		const userSnap = await getDoc(userRef);
+		if(!Cookies.get('teamKey')){
+			if (userSnap.exists()) {
+				if(userSnap.data().team_key){
+					const userTeamRef = doc(db, "teams", userSnap.data().team_key);
+					const userTeamSnap = await getDoc(userTeamRef);
+
+					if (userTeamSnap.exists()) {
+						Cookies.set('teamKey', userTeamSnap.data().team_key);
+						Cookies.set('teamName', userTeamSnap.data().name);
+						callback(userTeamSnap.data());
+					} else {
+						// doc.data() will be undefined in this case
+						console.log("Not in team sorry");
+						callback(null);
+					}
+				}
+			}
+			else {
+				await setDoc(userRef, {
+					teamname: '',
+					team_key: ''
+				});
+				callback(null);
+			}
+			
+		}
+		else{
+			if (userSnap.exists()) {
+				callback(userSnap.data());
+			}
+			else {
+				console.log("Not in team sorry");
+				callback(null);
+			}
+		}
+	}
+	else {callback(null);} 
+
+    /* $.get(`${URL}/api/userteam/${encodeURIComponent(Cookies.get('username'))}/${LEAGUE}/`).done((data, status) => {
       Cookies.set('team_id', data.id);
-      Cookies.set('team_name', data.name);
+      Cookies.set('teamName', data.name);
 
       $.get(`${URL}/api/${LEAGUE}/team/${data.id}/`).done((data, status) => {
         callback(data);
@@ -415,7 +473,7 @@ class Api {
     }).fail((xhr, status, error) => {
       // possibly dangerous???
       callback(null);
-    });
+    });  */
   }
 
   // updates team
@@ -468,15 +526,49 @@ class Api {
     });
   }
 
-  static leaveTeam(callback) {
-    $.ajax({
+  static async leaveTeam(callback) {
+	if (Cookies.get('userEmail')) {
+		var userRef = db.collection("users").doc(Cookies.get('userEmail'));
+
+		await updateDoc(userRef, {
+			teamname: '',
+			team_key: ''
+		});
+		var teamKey=Cookies.get('teamKey')
+		Cookies.set('teamKey', null);
+		Cookies.set('teamName', null);
+
+		const teamRef = doc(db, "teams", teamKey);
+		const teamSnap = await getDoc(teamRef);
+
+		if (teamSnap.exists()) {
+			var teamUsers=teamSnap.data().users;
+
+			//delete user from the team fron list
+			const index = teamUsers.indexOf(Cookies.get('userEmail'));
+			if (index > -1) {
+				teamUsers.splice(index, 1);
+			}
+
+			await updateDoc(teamRef, {
+				users: teamUsers
+			});
+
+			callback(true);
+		} else {
+			console.log("No such document!");
+			callback(false);
+		} 
+	} 
+	
+    /* $.ajax({
       url: `${URL}/api/${LEAGUE}/team/${Cookies.get('team_id')}/leave/`,
       type: 'PATCH',
     }).done((data, status) => {
       callback(true);
     }).fail((xhr, status, error) => {
       callback(false);
-    });
+    });  */
   }
 
   static getUserProfile(callback) {
@@ -578,7 +670,7 @@ class Api {
         return {
           id: scrimmage.id,
           team_id: scrimmage.requested_by,
-          team: (Cookies.get('team_name') === red_team) ? blue_team : red_team,
+          team: (Cookies.get('teamName') === red_team) ? blue_team : red_team,
         };
       });
       callback(requests);
@@ -617,7 +709,7 @@ class Api {
     this.getTeamScrimmages((s, count) => {
       const requests = [];
       for (let i = 0; i < s.length; i++) {
-        const on_red = s[i].red_team === Cookies.get('team_name');
+        const on_red = s[i].red_team === Cookies.get('teamName');
         if (s[i].status === 'pending' && s[i].requested_by !== my_id) continue;
 
         if (s[i].status === 'redwon') s[i].status = on_red ? 'won' : 'lost';

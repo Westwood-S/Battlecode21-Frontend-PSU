@@ -6,12 +6,14 @@ class TeamCard extends Component {
 	constructor(props) {
 		super(props)
 
-		this.setupUsers()
+		this.state = {
+			users: []
+		}
 	}
 
 	// don't want to make ajax calls before component is mounted!
 	componentDidMount() {
-		this.getUserData()
+		//this.getUserData()
 	}
 
 	setupUsers() {
@@ -23,11 +25,11 @@ class TeamCard extends Component {
 		this.setState({users: dummyArr})
 	}
 
-	getUserData() {
+	/* getUserData() {
 		this.props.team.users.forEach(user => {
 			Api.getProfileByUser(user, this.setUser)
 		})
-	}
+	} */
 
 	/* add user to state array, should never change length of users */
 	setUser = (user_data) => {
@@ -48,15 +50,22 @@ class TeamCard extends Component {
 	componentDidUpdate() {
 		if (this.state.users.length === 0 && this.props.team.users) {
 			this.setupUsers()
-			this.getUserData()
+			//this.getUserData()
 		}
+	}
+
+	returnUserName(){
+		return ( <div>
+			{ this.state.users.map(user=> <div className="small-user-list" key={user.username}><small>{user.username}</small></div> )}
+		</div>
+		)
 	}
 
 	render() {
 		const team = this.props.team
 		
 		const userDivs = this.state.users.map((user) => {
-			return (<div className="small-user-list" key={user.username}> <Avatar data={user} /> <small>{user.username}</small></div>)
+			return (<div className="small-user-list" key={user.username}><small>{user.username}</small></div>)
 		})
 
 		return (
@@ -67,7 +76,7 @@ class TeamCard extends Component {
 			        <div className="author">
 			            <Avatar data={team}/>
 			            <h4 className="title">{ team.name }<br />
-			                <div className="row-items-box">{userDivs}</div>
+			                <div className="row-items-box">{this.returnUserName()}</div>
 			            </h4>
 			        </div>
 			        <br />

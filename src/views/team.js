@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Api from '../api';
-
+import Api from '../api'; 
 import TeamCard from '../components/teamCard';
 import Floater from 'react-floater';
 
@@ -14,16 +13,9 @@ class YesTeam extends Component {
                 name:'',
                 id:0,
                 team_key:'',
-                auto_accept_ranked:false,
-                auto_accept_unranked:false,
                 bio:'',
-                avatar:'',
                 users:[],
-                verified_users:[],
-                mit: false,
-                student: false,
-                high_school: false,
-                international: true,
+                score:0
             },
             'up':'Update Info'
         };
@@ -65,7 +57,6 @@ class YesTeam extends Component {
     }
 
     updateTeam() {
-        console.log(this.state.team)
         this.setState({'up':'<i class="fa fa-circle-o-notch fa-spin"></i>'});
         Api.updateTeam(this.state.team, function(response) {
             if (response) this.setState({'up':'<i class="fa fa-check"></i>'});
@@ -93,20 +84,21 @@ class YesTeam extends Component {
 
     render() {
         return (
+			this.state.team === null? <div></div>/*  */:
             <div>
                 <div className="col-md-8">
-                    <div className="card">
+                    {/* <div className="card">
                         <div className="header">
                             <h4 className="title">Tournament Eligibilty</h4>
                         </div>
                         <div className="content">
-                            {/* <ResumeStatus team={this.state.team} /> */}
+                             <ResumeStatus team={this.state.team} />
                             <p>We need to know a little about your team in order to determine which prizes your team is eligible for.
                                 Check all boxes that apply to all members your team. 
                             </p>
                             <EligibiltyOptions change={this.changeHandler} team={this.state.team} update={this.updateTeam} up_but={this.state.up} />
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="card">
                         <div className="header">
@@ -127,11 +119,11 @@ class YesTeam extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="row">
+                            {/* <div className="row">
                                 <div className="col-md-6">
                                     <label id="auto_accept_unranked" className="center-row"><input type="checkbox" checked={ this.state.team.auto_accept_unranked } onChange={this.changeHandler} className="form-control center-row-start" /> Auto-accept scrimmages.</label>
                                 </div>
-                            </div>
+                            </div>*/}
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="form-group">
@@ -139,7 +131,7 @@ class YesTeam extends Component {
                                         <input type="text" id="avatar" className="form-control" onChange={this.changeHandler} value={ this.state.team.avatar } />
                                     </div>
                                 </div>
-                            </div>
+                            </div> 
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="form-group">
@@ -187,7 +179,7 @@ class NoTeam extends Component {
     }
 
     joinCallback=(success) => {
-        this.setState({joinTeamError: success});
+        this.setState({joinTeamError: !success});
         if (success) {
                 window.location.reload();
         }
@@ -273,7 +265,6 @@ class NoTeam extends Component {
 }
 
 // pass change handler in props.change and team in props.team
-// NOTE: If you are ever working with teams' eligility (for example, to pull teams for the newbie tournament), please see backend/docs/ELIGIBILITY.md before you do anything! The variable names here are poorly named (because columns in the database are poorly named). 
 class EligibiltyOptions extends Component {
     render() {
         return (
@@ -325,7 +316,11 @@ class EligibiltyOptions extends Component {
 class Team extends Component {
     constructor() {
         super();
-        this.state = { 'team': false }
+        this.state = { 
+			team:{ 
+				teamname:'' 
+			} 
+		}
     }
 
     componentDidMount() {
