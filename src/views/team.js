@@ -86,7 +86,7 @@ class YesTeam extends Component {
         return (
 			this.state.team === null? <div></div>/*  */:
             <div>
-                <div className="col-md-8">
+                <div className="col-md-9">
                     {/* <div className="card">
                         <div className="header">
                             <h4 className="title">Tournament Eligibilty</h4>
@@ -106,13 +106,13 @@ class YesTeam extends Component {
                         </div>
                         <div className="content">
                             <div className="row">
-                                <div className="col-md-7">
+                                <div className="col-md-4">
                                     <div className="form-group">
                                         <label>Team Name (static)</label>
                                         <input type="text" className="form-control" readOnly value={ this.state.team.name } />
                                     </div>
                                 </div>
-                                <div className="col-md-5">
+                                <div className="col-md-8">
                                     <div className="form-group">
                                         <label>Secret Key (static)</label>
                                         <input type="text" className="form-control" readOnly value={ this.state.team.team_key } />
@@ -123,7 +123,7 @@ class YesTeam extends Component {
                                 <div className="col-md-6">
                                     <label id="auto_accept_unranked" className="center-row"><input type="checkbox" checked={ this.state.team.auto_accept_unranked } onChange={this.changeHandler} className="form-control center-row-start" /> Auto-accept scrimmages.</label>
                                 </div>
-                            </div>*/}
+                            </div>
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="form-group">
@@ -131,7 +131,7 @@ class YesTeam extends Component {
                                         <input type="text" id="avatar" className="form-control" onChange={this.changeHandler} value={ this.state.team.avatar } />
                                     </div>
                                 </div>
-                            </div> 
+                            </div> */}
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="form-group">
@@ -147,7 +147,7 @@ class YesTeam extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-3">
                     <TeamCard team={ this.state.team } />
                 </div>
             </div>

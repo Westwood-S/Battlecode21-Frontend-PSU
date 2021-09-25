@@ -45,14 +45,14 @@ class App extends Component {
     Api.loginCheck((logged_in) => {
       this.setState({ logged_in });
       
-      Api.getUserProfile(function (u) {
+     /*  Api.getUserProfile(function (u) {
         this.setState({ user: u });
       }.bind(this));
       
       Api.getLeague(function (l) {
         console.log(l);
         this.setState({ league: l});
-      }.bind(this));
+      }.bind(this)); */
     });
   }
 
@@ -96,7 +96,7 @@ class App extends Component {
 
     // should be visible to all users
     let nonLoggedInElems = [
-      <Route path={`${process.env.PUBLIC_URL}/updates`} component={Updates} />,
+      //<Route path={`${process.env.PUBLIC_URL}/updates`} component={Updates} />,
       <Route path={`${process.env.PUBLIC_URL}/search`} component={Search} />,
       <Route path={`${process.env.PUBLIC_URL}/tournaments`} component={Tournaments} />,
       <Route path={`${process.env.PUBLIC_URL}/getting-started`} component={GettingStarted} />,

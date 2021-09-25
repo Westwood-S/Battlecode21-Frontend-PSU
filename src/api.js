@@ -405,32 +405,31 @@ class Api {
   //---TEAM INFO---
 
   static async getUserTeam(callback) {
-	
-	var userEmail=null;
+	var userEmail=Cookies.get('userEmail');
+	var teamKeyFromCookie = Cookies.get('teamKey');
 
-	if(Cookies.get('userEmail')){
-		userEmail = Cookies.get('userEmail');
-	}
-	else{
-		var user = auth.currentUser;
-		if (user) {
-			console.log(user);
-			user.providerData.forEach(function (profile) {
-				userEmail=profile.email;
-				Cookies.set('userEmail', userEmail);
-			});
-		}
-	} 
+	if(!teamKeyFromCookie){
+		if(!userEmail){
+			var user = auth.currentUser;
+			if (user) {
+				console.log(user);
+				user.providerData.forEach(function (profile) {
+					userEmail=profile.email;
+					Cookies.set('userEmail', userEmail);
+				});
+			}
+		} 
 
-	if(userEmail){
-		const userRef = doc(db, "users", userEmail);
-		const userSnap = await getDoc(userRef);
-		if(!Cookies.get('teamKey')){
+		if(userEmail){
+			const userRef = doc(db, "users", userEmail);
+			const userSnap = await getDoc(userRef);
+			//try to get team from cookie to save db access
+			
 			if (userSnap.exists()) {
 				if(userSnap.data().team_key){
 					const userTeamRef = doc(db, "teams", userSnap.data().team_key);
 					const userTeamSnap = await getDoc(userTeamRef);
-
+	
 					if (userTeamSnap.exists()) {
 						Cookies.set('teamKey', userTeamSnap.data().team_key);
 						Cookies.set('teamName', userTeamSnap.data().name);
@@ -441,27 +440,32 @@ class Api {
 						callback(null);
 					}
 				}
+				else {callback(null);}
 			}
 			else {
+				console.log("Not even have this user, sorry");
 				await setDoc(userRef, {
 					teamname: '',
 					team_key: ''
 				});
 				callback(null);
 			}
-			
 		}
-		else{
-			if (userSnap.exists()) {
-				callback(userSnap.data());
-			}
-			else {
-				console.log("Not in team sorry");
-				callback(null);
-			}
+		else {callback(null);} 
+	}
+	else{
+		//TODO: remember to clear all cookies when signed out
+		const teamRef = doc(db, "teams", teamKeyFromCookie);
+		const teamSnap = await getDoc(teamRef);
+
+		if (teamSnap.exists()){
+			callback(teamSnap.data());
+		}
+		else {
+			console.log("Can't find this team, sorry");
+			callback(null);
 		}
 	}
-	else {callback(null);} 
 
     /* $.get(`${URL}/api/userteam/${encodeURIComponent(Cookies.get('username'))}/${LEAGUE}/`).done((data, status) => {
       Cookies.set('team_id', data.id);
@@ -476,9 +480,21 @@ class Api {
     });  */
   }
 
-  // updates team
-  static updateTeam(params, callback) {
-    $.ajax({
+  static async updateTeam(params, callback) {
+	console.log(params);
+	const teamRef = doc(db, "teams", params.id);
+    await updateDoc(teamRef, {
+		bio: params.bio
+	});
+
+	const teamSnap = await getDoc(teamRef);
+	console.log(teamSnap);
+	if (teamSnap.exists() && teamSnap.data().bio===params.bio){
+		callback(true);
+	}
+	else{callback(false);}
+
+    /* $.ajax({
       url: `${URL}/api/${LEAGUE}/team/${Cookies.get('team_id')}/`,
       data: JSON.stringify(params),
       type: 'PATCH',
@@ -488,7 +504,7 @@ class Api {
       callback(true);
     }).fail((xhr, status, error) => {
       callback(false);
-    });
+    }); */
   }
 
   //----USER FUNCTIONS----
@@ -503,8 +519,59 @@ class Api {
     });
   }
 
-  static joinTeam(secret_key, team_name, callback) {
-    $.get(`${URL}/api/${LEAGUE}/team/?search=${encodeURIComponent(team_name)}`, (team_data, team_success) => {
+  static async joinTeam(secret_key, team_name, callback) {
+	if(secret_key!==sha256(team_name)){
+		callback(false);
+	}
+  
+	var userEmail=Cookies.get('userEmail');
+
+	if(!userEmail){
+		var user = auth.currentUser;
+		user.providerData.forEach(function (profile) {
+			userEmail=profile.email;
+			Cookies.set('user_email', userEmail);
+		});
+	}
+
+	if (userEmail){
+		const teamRef = doc(db, "teams", secret_key);
+		const teamSnap = await getDoc(teamRef);
+
+		if (teamSnap.exists()) {
+			console.log("got here")
+			if (team_name === teamSnap.data().name){
+				var teamUsers=teamSnap.data().users;
+				const index = teamUsers.indexOf(userEmail);
+				if (index === -1) {
+					teamUsers.push(userEmail);
+					await updateDoc(teamRef, {
+						users: teamUsers
+					});
+				}
+
+				const userRef = doc(db, "users", userEmail);
+				await updateDoc(userRef, {
+					teamname: team_name,
+					team_key: secret_key
+				});
+
+				Cookies.set('team_key', secret_key);
+				Cookies.set('team_name', team_name);
+				callback(true);
+			}
+			else {
+				callback(false);
+			}
+			console.log("Document data:", doc.data());
+		} else {
+			// doc.data() will be undefined in this case
+			console.log("No team document.");
+			callback(false);
+		}
+	} else {callback(false);}
+
+    /* $.get(`${URL}/api/${LEAGUE}/team/?search=${encodeURIComponent(team_name)}`, (team_data, team_success) => {
       let found_result = null
       team_data.forEach(result => {
         if (result.name === team_name) {
@@ -523,20 +590,30 @@ class Api {
       }).fail((xhr, status, error) => {
         callback(false);
       });
-    });
+    }); */
   }
 
   static async leaveTeam(callback) {
-	if (Cookies.get('userEmail')) {
-		var userRef = db.collection("users").doc(Cookies.get('userEmail'));
+	var userEmail=Cookies.get('userEmail');
 
+	if(!userEmail){
+		var user = auth.currentUser;
+		user.providerData.forEach(function (profile) {
+			userEmail=profile.email;
+			Cookies.set('user_email', userEmail);
+		});
+	}
+
+	if (userEmail) {
+		var userRef = doc(db, "users", userEmail);
 		await updateDoc(userRef, {
 			teamname: '',
 			team_key: ''
 		});
+
 		var teamKey=Cookies.get('teamKey')
-		Cookies.set('teamKey', null);
-		Cookies.set('teamName', null);
+		Cookies.remove('teamKey');
+		Cookies.remove('teamName');
 
 		const teamRef = doc(db, "teams", teamKey);
 		const teamSnap = await getDoc(teamRef);
@@ -545,7 +622,7 @@ class Api {
 			var teamUsers=teamSnap.data().users;
 
 			//delete user from the team fron list
-			const index = teamUsers.indexOf(Cookies.get('userEmail'));
+			const index = teamUsers.indexOf(userEmail);
 			if (index > -1) {
 				teamUsers.splice(index, 1);
 			}
@@ -560,6 +637,7 @@ class Api {
 			callback(false);
 		} 
 	} 
+	else {callback(false);}
 	
     /* $.ajax({
       url: `${URL}/api/${LEAGUE}/team/${Cookies.get('team_id')}/leave/`,

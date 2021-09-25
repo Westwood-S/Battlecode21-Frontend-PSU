@@ -50,7 +50,7 @@ class Avatar extends Component {
 			// avatar is defined
 			return ( <img className="avatar border-gray" src={ avatar } alt="Avatar" /> )
 		} else {
-			if (!data.name && !data.username && !data.id){
+			if (!data.name && !data.users && !data.id){
 				// data not fully loaded, return placeholder
 				return ( <div className="avatar border-gray" style={ {display: 'inline-block'} }></div> )
 			}
@@ -59,7 +59,7 @@ class Avatar extends Component {
 			// random number derived from hash of str defines HSV color (rand°, 100%, 100%)
 			// second random number is transparent "accent color"
 			
-			const seedStr = this.stringHash(data.name ? data.name : data.username)
+			const seedStr = this.stringHash(data?'':(data.name ? data.name : data.username))
 			const num = Math.floor(this.seededRNG(seedStr, 0, 361))
 			const colorStr = this.RGBtoHex(this.HSVtoRGB([num, 1, 1]))
 			const num2 = Math.floor(this.seededRNG(data.id, 0, 361))
