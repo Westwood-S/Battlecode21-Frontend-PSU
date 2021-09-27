@@ -509,14 +509,64 @@ class Api {
 
   //----USER FUNCTIONS----
 
-  static createTeam(team_name, callback) {
-    $.post(`${URL}/api/${LEAGUE}/team/`, { name: team_name }).done((data, status) => {
+  static async createTeam(teamName, callback) {
+	if(!teamName) {callback(false);}
+	var teamCode=sha256(teamName);
+
+	var userEmail=Cookies.get('userEmail');
+	if(!userEmail){
+		var user = auth.currentUser;
+		user.providerData.forEach(function (profile) {
+			userEmail=profile.email;
+			Cookies.set('userEmail', userEmail);
+		});
+	}
+
+	const teamRef = doc(db, "teams", teamCode);
+	const teamSnap = await getDoc(teamRef);
+	if (teamSnap.exists()) {
+		callback(false);
+	} else {
+		if (userEmail){
+			const usersRef = collection(db, "users");
+			await setDoc(doc(usersRef, userEmail), {
+				teamname: teamName,
+				team_key: teamCode 
+			});
+
+			const teamsRef = collection(db, "teams");
+			await setDoc(doc(teamsRef, teamCode), {
+			  name: teamName,
+			  users: [userEmail],
+			  team_key: teamCode,
+			  id:teamCode,
+			  bio:'',
+			  score:1200,
+			  won: 0,
+			  los: 0
+			});
+
+			const teamRef = doc(db, "teams", teamCode);
+			const teamSnap = await getDoc(teamRef);
+
+			if (teamSnap.exists()) {
+				Cookies.set('teamKey', teamCode);
+				Cookies.set('teamName', teamName);
+				callback(true);
+			} else {
+				callback(false);
+			}
+		}
+		else {callback(false);}
+	  }
+
+    /* $.post(`${URL}/api/${LEAGUE}/team/`, { name: team_name }).done((data, status) => {
       Cookies.set('team_id', data.id);
       Cookies.set('team_name', data.name);
       callback(true);
     }).fail((xhr, status, error) => {
       callback(false);
-    });
+    }); */
   }
 
   static async joinTeam(secret_key, team_name, callback) {
@@ -530,7 +580,7 @@ class Api {
 		var user = auth.currentUser;
 		user.providerData.forEach(function (profile) {
 			userEmail=profile.email;
-			Cookies.set('user_email', userEmail);
+			Cookies.set('userEmail', userEmail);
 		});
 	}
 
@@ -556,8 +606,8 @@ class Api {
 					team_key: secret_key
 				});
 
-				Cookies.set('team_key', secret_key);
-				Cookies.set('team_name', team_name);
+				Cookies.set('teamKey', secret_key);
+				Cookies.set('teamName', team_name);
 				callback(true);
 			}
 			else {
@@ -600,7 +650,7 @@ class Api {
 		var user = auth.currentUser;
 		user.providerData.forEach(function (profile) {
 			userEmail=profile.email;
-			Cookies.set('user_email', userEmail);
+			Cookies.set('userEmail', userEmail);
 		});
 	}
 
