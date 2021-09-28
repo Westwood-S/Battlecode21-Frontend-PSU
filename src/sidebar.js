@@ -21,9 +21,9 @@ class SideBar extends Component {
     componentDidMount() {
         Api.loginCheck((logged_in) => {
             this.setState({ logged_in });
-            Api.getUserProfile(function (u) {
+            /* Api.getUserProfile(function (u) {
                 this.setState({ user: u });
-            }.bind(this))
+            }.bind(this)) */
         });
 
         Api.getUserTeam(function(e) {

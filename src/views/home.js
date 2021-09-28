@@ -76,8 +76,8 @@ class DateCard extends UpdateCard {
                                     
 									<td>Sep 29</td>
 									<td><b>PDX_SE_BATTLECODE</b> ver 1.0 released!<br/> 
-									I would be more than glad to fix any bugs you might find. 🛠️ <br/>
-									You can either email <a href = "mailto:cecishi@pdx.edu">cecishi@pdx.edu</a> about the bug, or more interestingly, go to the <a target="_blank" rel="noopener noreferrer" href = "https://github.com/Westwood-S/Battlecode21-Frontend-PSU">Frontend code repo</a> to find the bug youself.
+									Bugs 🐞 will eventually happen. I'm more than glad them. 🛠️ <br/>
+									You can either email <a href = "mailto:cecishi@pdx.edu">cecishi@pdx.edu</a> about the bugs, or more interestingly, go to the <a target="_blank" rel="noopener noreferrer" href = "https://github.com/Westwood-S/Battlecode21-Frontend-PSU">code repo</a> to investigate how to fix it youself.
 									</td>
 									</tr>
                             </tbody>

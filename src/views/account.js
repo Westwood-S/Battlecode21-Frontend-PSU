@@ -69,10 +69,10 @@ class Account extends Component {
     }
 
     componentDidMount() {
-        Api.getUserProfile(function (u) {
+        /* Api.getUserProfile(function (u) {
             console.log(u);
             this.setState({ user: u });
-        }.bind(this));
+        }.bind(this)); */
     }
 
     uploadResume = () => {

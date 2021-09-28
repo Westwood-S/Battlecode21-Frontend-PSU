@@ -19,9 +19,9 @@ class Submissions extends Component {
 			isLoading: false,
             isSubmitting: ''
         };
-        Api.getUserProfile(function (u) {
+        /* Api.getUserProfile(function (u) {
             this.setState({ user: u });
-        }.bind(this));
+        }.bind(this)); */
 
     }
 
@@ -225,15 +225,15 @@ class Submissions extends Component {
                     <div className="content">
                         <p>
                             Create a <code>zip</code> file of your robot player, and submit it below. The submission format should be a zip file containing a single folder, which is your package name (e.g.: <code>examplefuncsplayer</code>), that should contain a <code>RobotPlayer.java</code> and any other code you have written. Your team should give the package folder a <b>unique name</b>, for duplicates are not supported.
-                            <pre><code>
+                            </p>
+							<pre><code>
                                 submission.zip --&gt; examplefuncsplayer ---&gt; RobotPlayer.java, xxx.java
                             </code></pre>
-                        </p>
 						<p>
                             For peace of mind, submit 15 minutes before deadline and make sure it compiles and shows up under <b>"Latest Submissions"</b> section.
                         </p>
-                        <p>
-						If you're having trouble submitting:
+                        
+						<p>If you're having trouble submitting:</p>
 						<ul>
 							<li>
 							Try to compile locally before submitting the <code>zip</code> file below. Ensure that you're not importing any packages not included in the <code>zip</code> file. (After changing the package name from <code>examplefuncsplayer</code> to something else, remember to update the <b>first line</b> of every <code>.java</code> file, from <code>package examplefuncsplayer;</code> to <code>package [youruniquepackagename];</code>)
@@ -249,7 +249,7 @@ class Submissions extends Component {
 								Send the zip to <a href = "mailto:cecishi@pdx.edu">cecishi@pdx.edu</a> before deadline. (Please grant me a 10-minute grace to make sure your code can compile locally.)
 							</li>
 						</ul>
-						</p>
+						
                         <label htmlFor="file_upload">
                             <div className="btn"> Choose File </div> <span style={ { textTransform: 'none', marginLeft: '10px', fontSize: '14px'} }> {file_label} </span>
                         </label>
@@ -387,7 +387,7 @@ class Submissions extends Component {
                 <h4 className="title">Compiling Tips</h4>
             </div>
                 <div className="content">
-                    <p>
+                    
                         <ul>
                             <li>
                                 Submission format: Check that your zip contains exactly one directory, and your code is inside that directory.
@@ -399,7 +399,6 @@ class Submissions extends Component {
                                 Make sure you only import from your own bot, and from java. packages. In particular, do not use javax, javafx, and watch out for importing from other versions of your bot (which may work locally, but will not work on our servers as you can only submit one folder).
                             </li>
                         </ul>
-                    </p>
                 </div>
             </div>
         )

@@ -251,7 +251,7 @@ class GettingStarted extends Component {
                                     Now, read the <a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" href='https://2021.battlecode.org/specs/specs.md.html'>game specs</a> carefully and consult the <a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" href='https://2021.battlecode.org/javadoc/index.html'>javadocs</a> to learn about the API.
                                 </p>
                                 <p>
-                                    Bugs will happen eventually; read about our <NavLink style={{fontWeight:700}} to='debugging'>debugging tools here</NavLink>.
+                                    Read about our <NavLink style={{fontWeight:700}} to='debugging'>debugging tools here</NavLink>.
                                 </p>
                                 </div>
                             </div>

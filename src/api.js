@@ -4,24 +4,75 @@ import firebaseAuth from './firebaseConfig';
 import { sha256 } from 'js-sha256';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from 'firebase/auth';
 import { getFirestore, doc, collection, getDoc, getDocs, updateDoc, setDoc  } from "firebase/firestore"
+import AWS from 'aws-sdk';
 
-//const URL = 'https://bh2020.battlecode.org';
-//const URL = 'http://localhost:8000'; // DEVELOPMENT
-// do not change URL here!! rather, for development, change it in ../.env.development
 const URL = process.env.REACT_APP_BACKEND_URL;
 const LEAGUE = 0;
 const PAGE_LIMIT = 10;
+//firebase
 const auth = getAuth();
 const db = getFirestore();
+//aws
+const region = 'us-west-2';
+const accessKeyId = process.env.AWSAccessKeyId
+const secretAccessKey = process.env.AWSSecretKey
+AWS.config.region = region; 
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: 'us-west-2:2fc75d6e-33aa-46f7-9fd7-d8213b01b56f',
+});
+const s3 = new AWS.S3({
+	region,
+	accessKeyId,
+	secretAccessKey,
+	signatureVersion: 'v4'
+});
 
 class Api {
-  
-	//----SUBMISSIONS----
+  //----SUBMISSIONS----
 
   //uploads a new submission to the google cloud bucket
-  static newSubmission(submissionfile, callback){
+  static async newSubmission(submissionfile, callback){
+	var teamname = Cookies.get('teamName');
+    var teamkey = Cookies.get('teamKey');
+    var continueUploading=true;
+    var uploadFailed=false;
+    var dateNowInNum=Date.now();
+
+    const robotRef = doc(db, "submissions", "robots");
+	const robotSnap = await getDoc(robotRef);
+	//check if robot name is taken
+	if (robotSnap.exists()) {
+		var allSubmission=robotSnap.data().submissions;
+        allSubmission.find((o,i)=>{
+          if (o.robot===submissionfile.name.slice(0,submissionfile.name.length-4) && o.teamname !== teamname){
+            callback('robot name taken');
+            continueUploading=false;
+            return
+          }
+        })
+	} 
+	
+	if (continueUploading)  {
+		callback('uploading');
+		
+		const s3Params = ({
+			Bucket: 'se-battlecode',
+			Key: teamkey+'-date:'+dateNowInNum+'-'+submissionfile.name,
+			Expires: 60
+		  })
+		const uploadURL = await s3.getSignedUrlPromise('putObject', s3Params)
+
+		await fetch(uploadURL, {
+			method: "PUT",
+			headers: {
+			  "Content-Type": "multipart/form-data"
+			},
+			body: submissionfile
+		}) 
+	}
+    
     // First check if the user is part of a team
-    if (Cookies.get('team_id') === null) {
+    /* if (Cookies.get('team_id') === null) {
         console.log("File cannot be submitted without a team.");
         Cookies.set('upload_status_cookie', 12);
         return;
@@ -62,7 +113,7 @@ class Api {
     .fail((xhr, status, error) => {
       console.log("Error in post request for upload: ", xhr, status, error)      
       Cookies.set('upload_status_cookie', 13)   
-    });
+    }); */
 
   }
 
@@ -88,9 +139,9 @@ class Api {
   }
 
   static getTeamSubmissions(callback) {
-    $.get(`${URL}/api/${LEAGUE}/teamsubmission/${Cookies.get("team_id")}/`).done((data, status) => {
+    /* $.get(`${URL}/api/${LEAGUE}/teamsubmission/${Cookies.get("team_id")}/`).done((data, status) => {
         callback(data);
-    });
+    }); */
   }
 
     static getSubmission(id, callback, callback_data) {
@@ -101,9 +152,9 @@ class Api {
 
 
   static getCompilationStatus(callback) {
-    $.get(`${URL}/api/${LEAGUE}/teamsubmission/${Cookies.get("team_id")}/team_compilation_status/`).done((data, status) => {
+    /* $.get(`${URL}/api/${LEAGUE}/teamsubmission/${Cookies.get("team_id")}/team_compilation_status/`).done((data, status) => {
         callback(data);
-    });
+    }); */
   }
 
   // note that this is a submission, not a teamsubmission, thing
@@ -129,11 +180,11 @@ class Api {
 
   // data from scrimmaging
   static getOwnTeamMuHistory(callback) {
-    return Api.getTeamMuHistory(Cookies.get('team_id'), callback)
+    //return Api.getTeamMuHistory(Cookies.get('team_id'), callback)
   }
 
   static getTeamMuHistory(team, callback) {
-    if ($.ajaxSettings && $.ajaxSettings.headers) {
+    /* if ($.ajaxSettings && $.ajaxSettings.headers) {
       delete $.ajaxSettings.headers.Authorization;
     } // we should not require valid login for this. 
 
@@ -143,7 +194,7 @@ class Api {
 
     $.ajaxSetup({
       headers: { Authorization: `Bearer ${Cookies.get('token')}` },
-    });
+    }); */
   }
 
   static getTeamWinStats(callback) {
@@ -202,14 +253,14 @@ class Api {
   //----GENERAL INFO----
 
   static getLeague(callback) {
-    $.get(`${URL}/api/league/${LEAGUE}/`).done((data, status) => {
+    /* $.get(`${URL}/api/league/${LEAGUE}/`).done((data, status) => {
       Cookies.set('league_url', data.url);
       $.get(data.url).done((data, success) => {
         callback(data);
       }).fail((xhr, status, error) => {
         console.log(error);
       });
-    });
+    }); */
   }
 
   static async calculateElo(){

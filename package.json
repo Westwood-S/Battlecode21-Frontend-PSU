@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "ace-builds": "^1.4.12",
+    "aws-sdk": "^2.996.0",
     "dotenv": "^10.0.0",
     "firebase": "^9.0.2",
     "firebase-admin": "^9.11.1",
@@ -27,6 +28,7 @@
     "react-router-dom": "^4.3.1",
     "styled-components": "^4.4.1",
     "superagent": "^4.1.0",
+    "uuid": "^8.3.2",
     "vm2": "^3.9.3"
   },
   "scripts": {

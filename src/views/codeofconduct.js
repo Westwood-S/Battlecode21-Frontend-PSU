@@ -20,7 +20,6 @@ class CodeOfConduct extends Component {
         of the competition for everyone. People like you make our community a better place, and we want you to be
         happy here.
     </p>
-    <p>
     <ul>
         <li><b>Harrassment:</b> Battlecode is dedicated to providing a harassment-free experience for everyone, regardless
             of gender, gender identity and expression, sexual orientation, disability, physical appearance, body
@@ -37,7 +36,6 @@ class CodeOfConduct extends Component {
             no team ends up using the shared code in their final submission). Open-sourcing tools, such as visualizers or map makers,
             is, however, explicitly allowed.</li>
     </ul>
-    </p>
                                 </div>
                             </div>
 
