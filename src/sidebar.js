@@ -21,9 +21,6 @@ class SideBar extends Component {
     componentDidMount() {
         Api.loginCheck((logged_in) => {
             this.setState({ logged_in });
-            /* Api.getUserProfile(function (u) {
-                this.setState({ user: u });
-            }.bind(this)) */
         });
 
         Api.getUserTeam(function(e) {
@@ -31,10 +28,6 @@ class SideBar extends Component {
             $(document).ready(function() {
                 window.init_right_menu();
             });
-        }.bind(this));
-
-        Api.getLeague(function (l) {
-            this.setState({ league: l});
         }.bind(this));
     }
 
@@ -45,7 +38,7 @@ class SideBar extends Component {
         if (this.state.league.game_released === true) {
           return true;
         }
-        return false;
+        return true;
     }
 
     // for icon options below, see https://themes-pixeden.com/font-demos/7-stroke/
@@ -55,7 +48,7 @@ class SideBar extends Component {
             <div className="sidebar" data-color="dust"> {/* data-color is defined in light-bootstrap-dashboard.css */}
                 <div className="sidebar-wrapper">
                     <div className="logo">
-                        <a href="/home"><img alt="logo" src="../assets/img/logo.png" /></a>
+                        <a href="/"><img alt="logo" src="../assets/img/logo.png" /></a>
                         <p>Battlecode 2021</p>
                     </div>
                     <ul className="nav nav-pills nav-stacked">
@@ -64,17 +57,11 @@ class SideBar extends Component {
                         <NLink to={`${process.env.PUBLIC_URL}/getting-started`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-sun pe-fw" />Getting Started</p></NLink>
                         <NLink to={`${process.env.PUBLIC_URL}/resources`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-note2 pe-fw" />Resources</p></NLink>
                         {/* <NLink to={`${process.env.PUBLIC_URL}/updates`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-bell pe-fw" />Updates</p></NLink> */}
-                        
-                        <br />
-                        
                         <NLink to={`${process.env.PUBLIC_URL}/tournaments`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-medal pe-fw" />Tournaments</p></NLink>
-                        <NLink to={`${process.env.PUBLIC_URL}/rankings`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-graph1 pe-fw" />Rankings</p></NLink>
                         {/*<NLink to={`${process.env.PUBLIC_URL}/search`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-search pe-fw" />Search</p></NLink>*/}
-                        
-                        <br />
-                        
                         { this.state.logged_in && <NLink to={`${process.env.PUBLIC_URL}/team`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-users pe-fw" />Team</p></NLink>}
-                        { this.state.on_team && <NLink to={`${process.env.PUBLIC_URL}/submissions`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-up-arrow pe-fw" />Submissions</p></NLink> }
+                        <NLink to={`${process.env.PUBLIC_URL}/rankings`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-graph1 pe-fw" />Rankings</p></NLink>
+						{ this.state.on_team && <NLink to={`${process.env.PUBLIC_URL}/submissions`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-up-arrow pe-fw" />Submissions</p></NLink> }
                         {/*{ this.state.on_team && <NLink to={`${process.env.PUBLIC_URL}/ide`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-pen pe-fw" />IDE</p></NLink> }*/}
                         { (this.state.on_team && this.isSubmissionEnabled()) && <NLink to={`${process.env.PUBLIC_URL}/scrimmaging`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-joy pe-fw" />Scrimmaging</p></NLink> }
                         {/*<NLink to={`${process.env.PUBLIC_URL}/replay`}><p style={{fontWeight: "inherit", textTransform: "none", fontSize: "inherit"}}><i className="pe-7s-monitor pe-fw" />Replay</p></NLink>*/}

@@ -1,66 +1,7 @@
 import React, { Component } from 'react';
 import Api from '../api';
 import Floater from 'react-floater';
-
-import ScrimmageRequestor from '../components/scrimmageRequestor';
 import PaginationControl from "../components/paginationControl";
-
-class ScrimmageRequest extends Component {
-
-    state = {
-        open: true,
-    }
-
-    accept = () => {
-        Api.acceptScrimmage(this.props.id, function() {
-            this.setState({'open':false});
-            this.props.refresh();
-        }.bind(this));
-    }
-
-    reject = () => {
-        Api.rejectScrimmage(this.props.id, function() {
-            this.setState({'open':false});
-            this.props.refresh();
-        }.bind(this));
-    }
-
-    render() {
-        if (this.state.open) return (
-            <div className="alert alert-info" style={{ height:"3em" }}>
-                <span style={{float:"left"}}>Scrimmage request from { this.props.team }.</span>
-                <span style={{float:"right"}} className="pull-right"><button onClick={ this.accept } className="btn btn-success btn-xs">Accept</button> <button onClick={ this.reject } className="btn btn-danger btn-xs">Reject</button></span>
-            </div>
-        );
-        else return (<div></div>);
-    }
-}
-
-class ScrimmageRequests extends Component {
-
-    state = {
-        requests: [],
-    };
-
-
-    refresh = () => {
-        Api.getScrimmageRequests(function(r) {
-            this.setState({requests:r});
-        }.bind(this));
-    }
-
-    componentDidMount() {
-        this.refresh();
-    }
-
-    render() {
-        return (
-            <div className="col-md-12">
-                { this.state.requests.map(r => <ScrimmageRequest refresh={this.props.refresh} key={r.id} id={r.id} team={r.team} />) }
-            </div>
-        );
-    }
-}
 
 class ScrimmageHistory extends Component {
 
@@ -93,12 +34,18 @@ class ScrimmageHistory extends Component {
         }
     }
 
+	onSubFileRequest = (time, r1, r2, map) => {
+        Api.downloadScrimmage(time, r1, r2, map)
+    }
+
     render() {
         return (
             <div className="col-md-12">
                 <div className="card">
                     <div className="header">
                         <h4 className="title">Scrimmage History <button onClick={this.props.refresh} style={{marginLeft:"10px"}} type="button" className="btn btn-primary btn-sm">Refresh</button></h4>
+						<br/>
+                        <div>If you're using <b>Chrome</b> with <b>MacOS</b>, after downloading the replay, you should use terminal to <code>unzip nameofthezip.zip</code>. Simply double clicking to unzip might cause file extesion lost. (This is a problem with mac.) Or you can just use <b>safari</b>.</div>
                     </div>
                     <div className="content table-responsive table-full-width">
                         <table className="table table-hover table-striped">
@@ -107,19 +54,17 @@ class ScrimmageHistory extends Component {
                                     <th>Date</th>
                                     <th>Time</th>
                                     <th>Status</th>
-                                    <th>Score</th>
                                     <th>Team</th>
-                                    <th>Ranked</th>
                                     <th>Replay</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 { this.state.scrimmages.map(s => {
-                                    let stat_row = <td>{ s.status }</td>
-                                    if (s.status.toLowerCase() === "error") {
+                                    let stat_row = <td>{ s.STATUS }</td>
+                                    if (s.STATUS.toLowerCase() === "error") {
                                         stat_row = (
                                         <td>
-                                            { s.status } 
+                                            { s.STATUS } 
                                             <Floater content={
                                                 <div>
                                                     <p>Our server has run into an error running this scrimmage. Don't worry, we're working on resolving it!</p>
@@ -131,13 +76,11 @@ class ScrimmageHistory extends Component {
                                     }
                                     return (
                                         <tr key={s.id}>
-                                            <td>{ s.date }</td>
-                                            <td>{ s.time }</td>
+                                            <td>{ s.DATE }</td>
+                                            <td>{ s.TIME }</td>
                                             { stat_row }
-                                            <td>{ s.score }</td>
-                                            <td>{ s.team }</td>
-                                            <td>{ s.ranked ? "Ranked" : "Unranked"}</td>
-                                            { s.replay?<td><a href={`/visualizer.html?${process.env.REACT_APP_REPLAY_URL}/replays/${s.replay}.bc21`} target="_blank" rel="noopener noreferrer">Watch</a></td>:<td>N/A</td> }
+                                            <td>{ s.ENEMY }</td>
+                                            { s.REPLAY==='ready'?<td> <button className="btn btn-xs" onClick={() => this.onSubFileRequest(s.DATESTORE, s.ROBOTA, s.ROBOTB, s.MAP)}>Download</button> </td> :<td>pending...</td> }
                                         </tr>
                                     )
                                 }) }
@@ -168,8 +111,6 @@ class Scrimmaging extends Component {
                 <div className="content">
                     <div className="container-fluid">
                         <div className="row">
-                            <ScrimmageRequests ref={requests => {this.requests = requests}} refresh={this.refresh} />
-                            <ScrimmageRequestor refresh={this.refresh} />
                             <ScrimmageHistory ref={history => {this.history = history}} refresh={this.refresh} />
                         </div>
                     </div>

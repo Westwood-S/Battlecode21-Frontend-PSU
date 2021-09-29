@@ -35,33 +35,21 @@ import Api from './api';
 class App extends Component {
   constructor() {
     super();
-    this.state = { logged_in: null ,
+    this.state = { logged_in: false ,
       user: {},
-      league: {}};
+    };
     
   }
 
   componentDidMount() {
     Api.loginCheck((logged_in) => {
       this.setState({ logged_in });
-      
-     /*  Api.getUserProfile(function (u) {
-        this.setState({ user: u });
-      }.bind(this));
-      
-      Api.getLeague(function (l) {
-        console.log(l);
-        this.setState({ league: l});
-      }.bind(this)); */
     });
   }
 
   isSubmissionEnabled()
   {
       if (this.state.user.is_staff === true) {
-          return true;
-      }
-      if (this.state.league.game_released === true) {
           return true;
       }
       return false;
@@ -147,7 +135,7 @@ class App extends Component {
 class BeforeLoginApp extends Component {
   constructor() {
     super();
-    this.state = { logged_in: null };
+    this.state = { logged_in: false };
   }
 
   componentDidMount() {

@@ -66,7 +66,7 @@ class ScrimmageRequestor extends Component {
 
         return (
             <div>
-                <div className="col-md-12">
+                {/* <div className="col-md-12">
                     <div className="card">
                         <div className="content">
                             <form className="input-group" onSubmit = {this.onSearch} >
@@ -85,7 +85,7 @@ class ScrimmageRequestor extends Component {
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className="col-md-12">
                     <RankingTeamList 
                         teams={state.teams}

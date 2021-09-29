@@ -151,8 +151,8 @@ class Submissions extends Component {
     }
 
     // Downloads the file for given submission id
-    onSubFileRequest = (subId, fileNameAddendum) => {
-        Api.downloadSubmission(subId, fileNameAddendum, null)
+    onSubFileRequest = (name, numDate) => {
+        Api.downloadSubmission(name, numDate, this.renderLoading)
     }
 
     //----PERMISSIONS----

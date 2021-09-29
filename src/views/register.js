@@ -34,11 +34,6 @@ class Register extends Component {
     this.submitRegister();
   }
 
-  submitLogin = () => {
-    const { email, password } = this.state;
-    Api.login(email, password, this.callback);
-  }
-
   submitRegister = () => {
     const { email, first, last, password } = this.state;
       // ensure that all fields are correct

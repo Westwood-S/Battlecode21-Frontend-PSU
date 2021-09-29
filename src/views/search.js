@@ -22,7 +22,6 @@ class Search extends Component {
     }
 
     handleChange = (e) => {
-      //const { input } = this.state;
       this.setState({ input: e.target.value });
     }
 

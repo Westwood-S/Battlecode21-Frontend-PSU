@@ -72,7 +72,7 @@ class TeamCard extends Component {
 			<div className="card card-user">
 			    <div className="image">
 			    </div>
-			    <div className="content" style={{minHeight: "190px"}}>
+			    <div className="content" style={{minHeight: "236px"}}>
 			        <div className="author">
 			            <Avatar data={team}/>
 			            <h4 className="title">{ team.name }<br />

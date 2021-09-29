@@ -158,7 +158,6 @@ class Home extends Component {
 
     componentDidMount() {
         Api.getUserTeam(function(e) {
-			//TODO： check user team && calculation elo
             this.setState({on_team:(e !== null)});
         }.bind(this));
     }
