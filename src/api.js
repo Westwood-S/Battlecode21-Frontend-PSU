@@ -198,11 +198,25 @@ class Api {
   }
 
   static getTeamWinStats(callback) {
-    return Api.getOtherTeamWinStats(Cookies.get('team_id'), callback)
+    if (!Cookies.get('teamKey')){
+		callback([0,0])
+	  }
+	else {
+		return Api.getOtherTeamWinStats(Cookies.get('teamKey'), callback)
+	}
   }
 
-  static getOtherTeamWinStats(team, callback) {
-    this.getTeamMuHistory(team, (data) => {
+  static async getOtherTeamWinStats(team, callback) {
+	const teamRef = doc(db, "teams", team);
+	const teamSnap = await getDoc(teamRef);
+
+	if (teamSnap.exists()) {
+		callback([teamSnap.data().won, teamSnap.data().los])
+	} else {
+		callback([0,0])
+	}
+
+    /* this.getTeamMuHistory(team, (data) => {
       let wins = 0
       let losses = 0
       data.forEach(entry => {
@@ -214,7 +228,7 @@ class Api {
       })
 
       callback([wins, losses])
-    })
+    }) */
   }
 
 
@@ -664,7 +678,6 @@ class Api {
 			else {
 				callback(false);
 			}
-			console.log("Document data:", doc.data());
 		} else {
 			// doc.data() will be undefined in this case
 			console.log("No team document.");
@@ -958,32 +971,12 @@ class Api {
   //----TOURNAMENTS----
 
   static getNextTournament(callback) {
-    // TODO: actually use real API for this
+	  //TODO: find the exact time
     callback({
-      "est_date_str": '12 PM PT on May 21, 2021',
-      "seconds_until": (Date.parse(new Date('May 21, 2021 12:00:00')) - Date.parse(new Date())) / 1000,
+      "est_date_str": '12 PM PT on Oct 20, 2021',
+      "seconds_until": (Date.parse(new Date('Oct 20, 2021 12:00:00')) - Date.parse(new Date())) / 1000,
       "tournament_name": "Sprint One"
     });
-    // callback({
-    //   "est_date_str": '8 PM EDT on April 22, 2020',
-    //   "seconds_until": (Date.parse(new Date('April 22, 2020 20:00:00-4:00')) - Date.parse(new Date())) / 1000,
-    //   "tournament_name": "Battlehack 2020 Tournament"
-    // });
-    // callback({
-    //   "est_date_str": '7 PM EST on January 23, 2020',
-    //   "seconds_until": (Date.parse(new Date('January 23, 2020 19:00:00')) - Date.parse(new Date())) / 1000,
-    //   "tournament_name": "International Qualifying Tournament"
-    // });
-    // callback({
-    //   "est_date_str": '7 PM EST on January 20, 2020',
-    //   "seconds_until": (Date.parse(new Date('January 20, 2020 19:00:00')) - Date.parse(new Date())) / 1000,
-    //   "tournament_name": "Seeding Tournament"
-    // });
-    // callback({
-    //   "est_date_str": '7 PM EST on January 6, 2020',
-    //   "seconds_until": (Date.parse(new Date('January 6, 2020 19:00:00')) - Date.parse(new Date())) / 1000,
-    //   "tournament_name": "START"
-    // });
   }
 
   static getTournaments(callback) {
@@ -1008,6 +1001,8 @@ class Api {
   static logout() {
 	signOut(auth).then(() => {
 		Cookies.set('userEmail', '');
+		Cookies.set('teamKey', '');
+		Cookies.set('teamName', '');
 	  }).catch((error) => {
 		  alert(error);
 	  });

@@ -1,90 +1,78 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
 import Api from '../api';
 import Countdown from './countdown';
 import UpdateCard from '../components/updateCard';
-import PerfCard from '../components/perfCard';
+import ChartistGraph from 'react-chartist';
 
-class StatCard extends UpdateCard {
+class StatCard extends React.Component {
+	constructor() {
+        super();
+        this.state = {
+      			series: [0,0]
+		};
+    }
+
     componentDidMount() {
-        $().ready(function() {
             Api.getTeamWinStats(function(stats) {
-                window.Chartist.Pie('#stat_chart', {
-                    labels: stats,
-                    series: stats
-                }); 
-            });
-        });
+				this.setState({series:stats});
+            }.bind(this));
     }
 
     render() {
+		var data = {
+			series: [this.state.series[0],this.state.series[1]]
+		};
+		var options = {
+			donut: false
+		  };
+		var type = 'Pie';
+
         return (
             <div className="card">
-                <div className="header">
+				<div className="header">
                     <h4 className="title">Match Statistics</h4>
-                    <p className="category">Wins and losses.</p>
+                    <p className="category">Wins and losses pie chart.</p>
                 </div>
-                <div className="content">
-                    <div id="stat_chart" className="ct-chart ct-perfect-fourth" />
-                    <div className="footer">
+				
+                <div className="content" style={{minHeight: '340px'}}>
+					<ChartistGraph data={data} options={options} type={type} />
+					<div className="footer">
                         <div className="legend">
                             <i className="fa fa-circle text-info" /> Win
                             <span style={{marginLeft: "10px"}}> </span>
                             <i className="fa fa-circle text-danger" /> Loss
                         </div>
-                        <hr />
-                        { this.getFooter() }
                     </div>
-                </div>
+                </div> 
             </div>
         );
     }
 }
 
 class DateCard extends UpdateCard {
-    constructor() {
-        super();
-        this.state.dates = [];
-    }
-
-    componentDidMount() {
-        /* Api.getUpdates(function(dates) {
-            this.setState({ dates: (dates.length > 5)?dates.slice(0,5):dates  });
-            if (dates[0]) {
-                console.log(dates[0].dateObj)
-                this.setState({update_date: dates[0].dateObj})
-            }
-        }.bind(this)); */
-    }
 
     render() {
         return (
-            <div className="card ">
+            <div className="card" style={{minHeight: "355px"}}>
                 <div className="header">
                     <h4 className="title">Recent Updates</h4>
-                    {/* <p className="category">A full listing can be found in the sidebar.</p> */}
                 </div>
                 <div className="content">
                     <div className="table-full-width">
                         <table className="table">
                             <tbody>
-                                {/* { this.state.dates.map(date => <tr key={ date.id }>
-                                <td>{ date.time }</td>
-                                <td>{ date.message }</td>
-                                </tr> )} */}
-                                <tr>
-                                    
+                                <tr> 
 									<td>Sep 29</td>
 									<td><b>PDX_SE_BATTLECODE</b> ver 1.0 released!<br/> 
-									Bugs 🐞 will eventually happen. I'm more than glad them. 🛠️ <br/>
-									You can either email <a href = "mailto:cecishi@pdx.edu">cecishi@pdx.edu</a> about the bugs, or more interestingly, go to the <a target="_blank" rel="noopener noreferrer" href = "https://github.com/Westwood-S/Battlecode21-Frontend-PSU">code repo</a> to investigate how to fix it youself.
+									Bugs 🐞 will eventually happen. I'm more than glad to fix them. 🛠️ <br/>
+									You can email <a href = "mailto:cecishi@pdx.edu">cecishi@pdx.edu</a> to tell me your thoughts.
 									</td>
 									</tr>
                             </tbody>
                         </table>
                     </div>
-                    { this.getFooter() }
                 </div>
+                
             </div>
         );
     }
@@ -111,19 +99,6 @@ class InstrCard extends UpdateCard {
 						Let's Talk Politics! <span role="img" aria-label='emoji'>👨‍💼🐘🐴</span> Check out the <a href="/getting-started">Getting Started</a> page for instructions.
                     </p>
                 </div>
-            </div>
-        );
-    }
-}
-
-
-class LinksCard extends Component {
-
-    //componentDidMount() {}
-    
-    render() {
-        return (
-            <div className="card ">
                 <div className="header">
                     <h4 className="title">Useful Links</h4>
                 </div>
@@ -171,26 +146,14 @@ class Home extends Component {
                             <div className="container-fluid">
                                 <div className="row">
                                         <InstrCard />
-                                </div>
-                                <div className="row">
-                                        <Countdown />
-                                </div>
-                                <div className="row">
-                                        {this.state.on_team && <StatCard />}
+										<DateCard />
                                 </div>
                             </div>
                         </div>
                         <div className="col-md-6">
                             <div className="container-fluid">
-                                <div className="row">
-                                        <DateCard />
-                                </div>
-                                <div className="row">
-                                        <LinksCard />
-                                </div>
-                                <div className="row">
-                                        {this.state.on_team && <PerfCard team={null} />}
-                                </div>
+								<Countdown />
+								{this.state.on_team && <StatCard />}
                             </div>
                         </div>
                     </div>

@@ -12,14 +12,14 @@ class ScrimmageHistory extends Component {
     };
 
 
-    refresh = (page) => {
+    refresh = () => {
         Api.getScrimmageHistory(function(s) {
-            this.setState({...s, scrimPage: page});
-        }.bind(this), page);
+            this.setState({ scrimmages: s });
+        }.bind(this));
     }
 
     componentDidMount() {
-        this.refresh(this.state.scrimPage);
+        this.refresh();
     }
 
     playReplay(e) {
@@ -101,8 +101,7 @@ class ScrimmageHistory extends Component {
 class Scrimmaging extends Component {
 
     refresh = () => {
-        this.requests.refresh();
-        this.history.refresh(1);
+        window.location.reload();
     }
 
     render() {

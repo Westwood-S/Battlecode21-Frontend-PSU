@@ -9,6 +9,8 @@
   "dependencies": {
     "ace-builds": "^1.4.12",
     "aws-sdk": "^2.996.0",
+    "bower": "^1.8.12",
+    "chartist": "^0.11.4",
     "dotenv": "^10.0.0",
     "firebase": "^9.0.2",
     "firebase-admin": "^9.11.1",
@@ -19,6 +21,7 @@
     "pixi.js": "^4.8.9",
     "rc-slider": "^8.7.1",
     "react": "^16.14.0",
+    "react-chartist": "^0.14.4",
     "react-dom": "^16.14.0",
     "react-dropzone": "^8.2.0",
     "react-floater": "^0.7.3",

@@ -265,21 +265,8 @@ class GettingStarted extends Component {
                                     </p>
                                     <ul style={{marginLeft: '-15px'}}>
                                         <li>Making fewer logs and/or disabling log processsing in the client (toggled with "L").</li>
-                                        <li>Making .bc21 files with the engine directly and uploading them to the client's match queue, rather than using the client's runner. With this method, you can just use the web version at <a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" href='http://2021.battlecode.org/visualizer.html'>2021.battlecode.org/visualizer.html</a> rather than the desktop application. </li>
+                                        <li>Making .bc21 files with the engine directly and uploading them to the client's match queue, rather than using the client's runner. With this method, you can just use the web version at <a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" href='http://2021.battlecode.org/visualizer.html'>visualizer</a> rather than the desktop application. </li>
                                         </ul>
-                                </div>
-                            </div>
-                            <div className="card">
-                                <div className="header">
-                                    <h4 className="title">Join the Community!</h4>
-                                </div>
-                                <div className="content">
-                                    <p>
-                                        Battlecode has a Discord server! 
-                                        Everyone is encouraged to join. 
-                                        Announcements, strategy discussions, bug fixes and ~memes~ all 
-                                        happen on Discord. Follow this invite link to join: <a target="_blank" rel="noopener noreferrer" href='https://discord.gg/N86mxkH' style={{fontWeight:700}}>https://discord.gg/N86mxkH</a>.
-                                    </p>
                                 </div>
                             </div>
                         </div>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import Api from './api';
-import $ from 'jquery';
+import * as Cookies from 'js-cookie';
 
 
 class NLink extends Component {
@@ -15,7 +15,7 @@ class NLink extends Component {
 class SideBar extends Component {
     constructor() {
         super();
-        this.state = {on_team:null, logged_in: null,  user: {}, league: {}};
+        this.state = {on_team:false, logged_in: false,  user: {}, league: {}};
     }
 
     componentDidMount() {
@@ -25,10 +25,11 @@ class SideBar extends Component {
 
         Api.getUserTeam(function(e) {
             this.setState({on_team:(e !== null)});
-            $(document).ready(function() {
-                window.init_right_menu();
-            });
         }.bind(this));
+
+		if (Cookies.get('teamName')==='' && (Cookies.get('teamKey')==='')) {
+			this.setState({on_team:false});
+		}
     }
 
     isSubmissionEnabled() {
@@ -48,7 +49,7 @@ class SideBar extends Component {
             <div className="sidebar" data-color="dust"> {/* data-color is defined in light-bootstrap-dashboard.css */}
                 <div className="sidebar-wrapper">
                     <div className="logo">
-                        <a href="/"><img alt="logo" src="../assets/img/logo.png" /></a>
+                        <a href="/home"><img alt="logo" src="../assets/img/logo.png" /></a>
                         <p>Battlecode 2021</p>
                     </div>
                     <ul className="nav nav-pills nav-stacked">

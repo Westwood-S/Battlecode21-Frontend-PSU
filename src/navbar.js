@@ -46,6 +46,7 @@ class NavBarAccount extends Component {
 			this.setState({ logged_in:false });
             window.location.reload();
         });
+		window.location.reload();
     }
     render() {
         if (this.state.logged_in === true) {
