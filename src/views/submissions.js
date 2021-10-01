@@ -22,7 +22,6 @@ class Submissions extends Component {
     }
 
     componentDidMount() {
-        Api.getCompilationStatus(this.gotStatus);
 		Api.getTeamSubmissions(this.gotSubmissions);
     }
 
@@ -71,20 +70,6 @@ class Submissions extends Component {
     // this function then makes calles to get the specific data for each submission
     gotSubmissions = (data) => {
         this.setState({lastSubmissions: data});
-    }
-
-    // makes api call for submission with each key in data, returns the number of submissions 
-    // that actually exist in the data
-    submissionHelper(keys, data) {
-        let null_count = 0
-        for (var i = 0; i < keys.length; i++) {
-            if (data[keys[i]] !== null && data[keys[i]] !== undefined) {
-                Api.getSubmission(data[keys[i]], this.setSubmissionData, keys[i])
-                null_count++
-            }
-        }
-
-        return null_count
     }
 
     // sets submission data for the given key, if all submissions have been found force updates state

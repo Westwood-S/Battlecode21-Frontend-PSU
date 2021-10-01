@@ -4,7 +4,7 @@ import firebaseAuth from './firebaseConfig';
 import { sha256 } from 'js-sha256';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from 'firebase/auth';
 import { getFirestore, doc, collection, getDoc, getDocs, updateDoc, setDoc  } from "firebase/firestore"
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import AWS from 'aws-sdk';
 
 const URL = process.env.REACT_APP_BACKEND_URL;
@@ -30,93 +30,116 @@ const s3 = new AWS.S3({
 });
 
 class Api {
+
   //----SUBMISSIONS----
 
-  //uploads a new submission to the google cloud bucket
-  static async newSubmission(submissionfile, callback){
-	var teamname = Cookies.get('teamName');
-    var teamkey = Cookies.get('teamKey');
-    var continueUploading=true;
+  static async newSubmission(submissionFile, callback){
+	var teamName = Cookies.get('teamName');
+    var teamKey = Cookies.get('teamKey');
+    var continueToUpload=true;
     var uploadFailed=false;
-    var dateNowInNum=Date.now();
+    var dateNumVersion=Date.now();
 
-    const robotRef = doc(db, "submissions", "robots");
-	const robotSnap = await getDoc(robotRef);
-	//check if robot name is taken
-	if (robotSnap.exists()) {
-		var allSubmission=robotSnap.data().submissions;
-        allSubmission.find((o,i)=>{
-          if (o.robot===submissionfile.name.slice(0,submissionfile.name.length-4) && o.teamname !== teamname){
-            callback('robot name taken');
-            continueUploading=false;
-            return
-          }
-        })
-	} 
-	
-	if (continueUploading)  {
-		callback('uploading');
-		
-		const s3Params = ({
-			Bucket: 'se-battlecode',
-			Key: teamkey+'-date:'+dateNowInNum+'-'+submissionfile.name,
-			Expires: 60
-		  })
-		const uploadURL = await s3.getSignedUrlPromise('putObject', s3Params)
+	if (teamName && teamKey) {
+		const robotRef = doc(db, "submissions", "robots");
+		const robotSnap = await getDoc(robotRef);
+		//check if robot name is taken
+		if (robotSnap.exists()) {
+			var allSubmission=robotSnap.data().submissions;
+			allSubmission.find((o,i)=>{
+				if (o.robot===submissionFile.name.slice(0,submissionFile.name.length-4) && o.teamname !== teamName){
+					callback('Robot name taken.');
+					continueToUpload=false;
+					return
+				}
+			})
+		} 
+		//if robot name is not taken then continue to upload
+		if (continueToUpload)  {
+			callback('Uploading...');
+			const s3PutParams = ({
+				Bucket: 'se-battlecode',
+				Key: teamKey+'-date:'+dateNumVersion+'-'+submissionFile.name,
+				Expires: 60
+			})
+			const uploadURL = await s3.getSignedUrlPromise('putObject', s3PutParams)
 
-		await fetch(uploadURL, {
-			method: "PUT",
-			headers: {
-			  "Content-Type": "multipart/form-data"
-			},
-			body: submissionfile
-		}) 
+			await fetch(uploadURL, {
+				method: "PUT",
+				headers: {
+				"Content-Type": "multipart/form-data"
+				},
+				body: submissionFile
+			}) 
+
+			const s3GetParams = ({
+				Bucket: 'se-battlecode',
+				Key: teamKey+'-date:'+dateNumVersion+'-'+submissionFile.name
+			})
+
+			s3.getObject(s3GetParams, function(err, data) {
+				if (err) {
+					callback('Upload failed. Plz try again later.');
+					uploadFailed=true;
+					return
+				}
+				console.log(data)
+			});
+
+			if (!uploadFailed) {
+				callback('Successfully Uploaded!');
+
+				const teamRef = doc(db, "teams", teamKey);
+				const teamSnap = await getDoc(teamRef);
+				if (teamSnap.exists()) {
+					var dateReadable=Date(Date.now()).toString();
+		  
+					const storageRef = ref(storage, teamName+'/'+dateNumVersion+submissionFile.name);
+					uploadBytes(storageRef, submissionFile).then((snapshot) => {
+						console.log('Uploaded a blob or file!');
+
+						//store info to teams collection up to three submissions
+						if(teamSnap.data().submissions){
+							var allSubmissions = teamSnap.data().submissions;
+							if(allSubmissions.length>=3){
+								allSubmissions.splice(2, allSubmissions.length-2);
+							}
+
+							allSubmissions.unshift({
+								name: submissionFile.name,
+								numDate: dateNumVersion,
+								readableDate: dateReadable,
+								status: 'queuing'
+							});
+
+							updateDoc(teamRef, {
+								submissions: allSubmissions
+							}).then(function(){
+								callback('Uploaded another submission.')
+							});
+						}
+						else {
+							var firstSubmission=[
+								{
+									name: submissionFile.name,
+									numDate: dateNumVersion,
+									readableDate: dateReadable,
+									status: 'queuing'
+								}
+							]
+
+							updateDoc(teamRef, {
+								submissions: firstSubmission
+							}).then(function(){
+								callback('Uploaded the first submission.')
+							});
+						}
+					});
+				} 
+			}
+
+		}
 	}
-    
-    // First check if the user is part of a team
-    /* if (Cookies.get('team_id') === null) {
-        console.log("File cannot be submitted without a team.");
-        Cookies.set('upload_status_cookie', 12);
-        return;
-    }
-
-    // URLs which files are uploaded to are generated by the backend;
-    // call the backend api to get this link
-    $.post(`${URL}/api/${LEAGUE}/submission/`)
-    .done((data, status) => {
-      // Upload to the bucket
-      console.log("got URL")
-      Cookies.set('submission_id', data['submission_id']);
-      $.ajax({
-        url: data['upload_url'], 
-        method: "PUT",
-        data: submissionfile,
-        processData: false,
-        contentType: false
-      })
-      .done((data, status) => {
-        // After upload is done, need to queue for compilation. 
-        // See corresponding method of backend/api/views.py for more explanation.
-        console.log(data, status)
-        $.post(`${URL}/api/${LEAGUE}/submission/` +Cookies.get('submission_id') + `/compilation_pubsub_call/`)
-        .done((data, status) => {
-          Cookies.set('upload_status_cookie', 11)
-        })
-        .fail((xhr, status, error) => {
-          console.log("Error in compilation update callback: ", xhr, status, error)
-          Cookies.set('upload_status_cookie', 13)
-        })
-      })
-      .fail((xhr, status, error) => {
-        console.log("Error in put request of file to bucket: ", xhr, status, error)
-        Cookies.set('upload_status_cookie', 13)
-      })
-    })
-    .fail((xhr, status, error) => {
-      console.log("Error in post request for upload: ", xhr, status, error)      
-      Cookies.set('upload_status_cookie', 13)   
-    }); */
-
   }
 
   static downloadSubmission(submissionName, numDate, callback) {
@@ -154,19 +177,6 @@ class Api {
 	  }
 	  else {callback(null);}
     /* $.get(`${URL}/api/${LEAGUE}/teamsubmission/${Cookies.get("team_id")}/`).done((data, status) => {
-        callback(data);
-    }); */
-  }
-
-    static getSubmission(id, callback, callback_data) {
-    $.get(`${URL}/api/${LEAGUE}/submission/${id}/`).done((data, status) => {
-        callback(callback_data, data);
-    });
-  }
-
-
-  static getCompilationStatus(callback) {
-    /* $.get(`${URL}/api/${LEAGUE}/teamsubmission/${Cookies.get("team_id")}/team_compilation_status/`).done((data, status) => {
         callback(data);
     }); */
   }

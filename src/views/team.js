@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Api from '../api'; 
 import TeamCard from '../components/teamCard';
-import Floater from 'react-floater';
 
 class YesTeam extends Component {
 

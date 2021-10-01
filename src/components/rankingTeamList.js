@@ -34,12 +34,6 @@ class RankingTeamList extends TeamList {
         }
         else {
             const teamRows = props.teams.map(team => {
-                let buttonContent = "Request";
-                if (state.pendingRequests[team.id]) {
-                    buttonContent = <i className="fa fa-circle-o-notch fa-spin"></i>;
-                } else if (state.successfulRequests[team.id]) {
-                    buttonContent = <i className="fa fa-check"></i>;
-                }
                 return (
                     <tr key={ team.id } >
                             <td>{ team.score === -1000000 ? "N/A" : Math.round(team.score) }</td>
