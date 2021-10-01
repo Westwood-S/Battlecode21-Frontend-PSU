@@ -45,12 +45,6 @@ class RankingTeamList extends TeamList {
                             <td>{ team.score === -1000000 ? "N/A" : Math.round(team.score) }</td>
                             <td>{ team.name }</td>
                             <td>{ team.users.join(", ") }</td>
-                            {/* <td>{ team.bio }</td>
-                            <td>{ team.student ? "✅" : "🛑"}{(team.student && team.international) ? "🌍" : "🇺🇸"}{(team.student && team.mit) ? "🐥" : ""}{(team.student && team.high_school) ? "HS" : ""}</td>
-                            <td>{ team.auto_accept_unranked ? "Yes" : "No"}</td>
-                            {props.canRequest && (
-                                <td><button className="btn btn-xs" onClick={() => this.onTeamRequest(team.id)}>{buttonContent}</button>  </td>
-                            )} */}
                     </tr>
                 )
             })

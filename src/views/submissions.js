@@ -15,22 +15,15 @@ class Submissions extends Component {
             numTourSubmissions: 0,
             numTourLoaded: 0,
             user: {},
-            league: {},
 			isLoading: false,
             isSubmitting: ''
         };
-        /* Api.getUserProfile(function (u) {
-            this.setState({ user: u });
-        }.bind(this)); */
 
     }
 
     componentDidMount() {
         Api.getCompilationStatus(this.gotStatus);
 		Api.getTeamSubmissions(this.gotSubmissions);
-        Api.getLeague(function (l) {
-            this.setState({ league: l});
-        }.bind(this));
     }
 
     componentWillUnmount() {
@@ -59,7 +52,6 @@ class Submissions extends Component {
             selectedFile: event.target.files[0],
             loaded: 0,
         })
-        this.renderHelperSubmissionForm()
     }
 
 
@@ -151,17 +143,14 @@ class Submissions extends Component {
     }
 
     // Downloads the file for given submission id
-    onSubFileRequest = (name, numDate) => {
-        Api.downloadSubmission(name, numDate, this.renderLoading)
+    onSubFileRequest = (submissionName, numDate) => {
+        Api.downloadSubmission(submissionName, numDate, this.renderLoading)
     }
 
     //----PERMISSIONS----
     // enable iff game active or user is staff
     isSubmissionEnabled() {
         if (this.state.user.is_staff === true) {
-            return true;
-        }
-        if (this.state.league.submissions_enabled === true && this.state.league.game_released === true) {
             return true;
         }
         return true;
@@ -280,7 +269,7 @@ class Submissions extends Component {
         if (this.state.lastSubmissions === null) {
             return (
                 <p className="text-center category">
-                Loading submissions...<br/><br/>
+                Submit more. Fail fast.<br/><br/>
                 </p>
             )
         } else if (this.state.lastSubmissions.length === 0) {

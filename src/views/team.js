@@ -214,18 +214,19 @@ class NoTeam extends Component {
                         </div>
                         <div className="content">
                             <div className="row">
+							<div className="col-md-4">
+                                    <div className="form-group">
+                                        <label>Team Name</label>
+                                        <input type="text" className="form-control" id="team_join_name" onChange={this.changeHandler} />
+                                    </div>
+                                </div>
                                 <div className="col-md-8">
                                     <div className="form-group">
                                         <label>Team Secret Key</label>
                                         <input type="text" className="form-control" id="secret_key" onChange={this.changeHandler} />
                                     </div>
                                 </div>
-                                <div className="col-md-4">
-                                    <div className="form-group">
-                                        <label>Team Name</label>
-                                        <input type="text" className="form-control" id="team_join_name" onChange={this.changeHandler} />
-                                    </div>
-                                </div>
+                                
                             </div>
                             { this.renderError("joinTeamError", this.state.joinTeamError) }
                             <button type="button" className="btn btn-info btn-fill pull-right" onClick={ this.joinTeam }>Join</button>

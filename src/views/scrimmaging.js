@@ -34,8 +34,8 @@ class ScrimmageHistory extends Component {
         }
     }
 
-	onSubFileRequest = (time, r1, r2, map) => {
-        Api.downloadScrimmage(time, r1, r2, map)
+	onSubFileRequest = (date, robot1, robot2, map) => {
+        Api.downloadScrimmage(date, robot1, robot2, map)
     }
 
     render() {

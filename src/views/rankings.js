@@ -4,15 +4,12 @@ import RankingTeamList from '../components/rankingTeamList';
 
 class Rankings extends Component {
     state = {
-      teams: null,
-      /* teamLimit: 0,
-      teamPage: 1,
-      input: '', */
+      teams: null
     };
 
     componentDidMount() {
       const { input } = this.state;
-      Api.getAllTeam(input, 1, this.onDataLoad);
+      Api.getAllTeam(this.onDataLoad);
 	  Api.calculateElo();
     }
 
@@ -22,21 +19,20 @@ class Rankings extends Component {
     }
 
     onDataLoad = (data) => {
-      //this.setState({teams: [{id: "hi", mu: 5, name: "Example Team", users: ["User #1", "User #2", "User #3"], bio: "dfghjkiuytregfdawsqA DKFODLKLASDKA sdadasdas"}]})
       this.setState(data);
     }
 
     getTeamPage = (page) => {
       const { state } = this;
       if (page !== state.teamPage && page >= 0 && page <= state.teamLimit) {
-        Api.getAllTeam(state.input, page, this.onDataLoad);
+        Api.getAllTeam(this.onDataLoad);
       }
     }
 
     search = (e) => {
       const { input } = this.state;
       e.preventDefault();
-      Api.getAllTeam(input, 1, this.onDataLoad);
+      Api.getAllTeam(this.onDataLoad);
     }
 
     render() {
@@ -44,25 +40,9 @@ class Rankings extends Component {
       return (
         <div className="content">
           <div className="container-fluid row">
-            {/* <div className="col-md-12">
-              <div className="card">
-                <div className="content">
-                  <form className="input-group" onSubmit={this.search}>
-                    <input type="text" className="form-control" onChange={this.handleChange} placeholder="Search for a Team or User..." />
-                    <span className="input-group-btn">
-                      <button className="btn btn-default" type="submit" value="Submit">Go!</button>
-                    </span>
-                  </form>
-                </div>
-              </div>
-            </div> */}
 			<div className="col-md-12">
               <RankingTeamList
                 teams={state.teams}
-                /* page={state.teamPage}
-                pageLimit={state.teamLimit}
-                onPageClick={this.getTeamPage}
-                history={this.props.history} */
               />
             </div>
           </div>

@@ -4,6 +4,7 @@ import firebaseAuth from './firebaseConfig';
 import { sha256 } from 'js-sha256';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from 'firebase/auth';
 import { getFirestore, doc, collection, getDoc, getDocs, updateDoc, setDoc  } from "firebase/firestore"
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import AWS from 'aws-sdk';
 
 const URL = process.env.REACT_APP_BACKEND_URL;
@@ -12,6 +13,7 @@ const PAGE_LIMIT = 10;
 //firebase
 const auth = getAuth();
 const db = getFirestore();
+const storage = getStorage();
 //aws
 const region = 'us-west-2';
 const accessKeyId = process.env.AWSAccessKeyId
@@ -117,28 +119,40 @@ class Api {
 
   }
 
-  static downloadSubmission(submissionId, fileNameAddendum, callback) {
-    $.get(`${URL}/api/${LEAGUE}/submission/${submissionId}/retrieve_file/`).done((data, status) => {
-      // have to use fetch instead of ajax here since we want to download file
-      fetch(data['download_url']).then(resp => resp.blob())
-      .then(blob => {
-        //code to download the file given by the url
-        const objUrl = window.URL.createObjectURL(blob);
-        const aHelper = document.createElement('a');
-        aHelper.style.display = 'none';
-        aHelper.href = objUrl;
-        aHelper.download = `${fileNameAddendum}_battlecode_source.zip`;
-        document.body.appendChild(aHelper);
-        aHelper.click();
-        window.URL.revokeObjectURL(objUrl);
-      })
-    }).fail((xhr, status, error) => {
-      console.log(error)
-      callback('there was an error', false);
-    });
+  static downloadSubmission(submissionName, numDate, callback) {
+    if(Cookies.get('teamName')){
+		getDownloadURL(ref(storage,Cookies.get('teamName')+'/'+numDate+submissionName))
+		.then((url) => {
+			console.log(url);
+			callback(true);
+			const aHelper = document.createElement('a');
+			aHelper.style.display = 'none';
+			aHelper.href = url;
+			aHelper.download = `${submissionName}.zip`;
+			document.body.appendChild(aHelper);
+			aHelper.click();
+			window.URL.revokeObjectURL(url);
+			callback(false); 
+		})
+		.catch((error) => {
+			console.log(error)
+		});
+	  }
+	  else {callback(false);}
   }
 
-  static getTeamSubmissions(callback) {
+  static async getTeamSubmissions(callback) {
+	if(Cookies.get('teamKey')){
+		const teamRef = doc(db, "teams", Cookies.get('teamKey'));
+		const teamSnap = await getDoc(teamRef);
+
+		if (teamSnap.exists() && teamSnap.data().submissions) {
+			callback(teamSnap.data().submissions);
+		} else {
+			callback(null)
+		}
+	  }
+	  else {callback(null);}
     /* $.get(`${URL}/api/${LEAGUE}/teamsubmission/${Cookies.get("team_id")}/`).done((data, status) => {
         callback(data);
     }); */
@@ -402,7 +416,7 @@ class Api {
       });
     });
   }
-  static async getAllTeam(query, page, callback) {
+  static async getAllTeam(callback) {
     var teams=[];
     
 	const teamSnapshot = await getDocs(collection(db, "teams"));
@@ -836,55 +850,17 @@ class Api {
     });
   }
 
-  static rejectScrimmage(scrimmage_id, callback) {
-    $.ajax({
-      url: `${URL}/api/${LEAGUE}/scrimmage/${scrimmage_id}/reject/`,
-      method: 'PATCH',
-    }).done((data, status) => {
-      callback(true);
-    }).fail((xhr, status, error) => {
-      callback(false);
-    });
-  }
+  static async getAllTeamScrimmages(callback) {
+	const resultRef = doc(db, "submissions", "gameResults");
+	const resultSnap = await getDoc(resultRef);
+	if (resultSnap.exists()) {
+		callback(resultSnap.data().scrimmages);
+	} 
+	else {callback(null)}
 
-  static getScrimmageRequests(callback) {
-    this.getAllTeamScrimmages((scrimmages) => {
-      const requests = scrimmages.filter((scrimmage) => {
-        if (scrimmage.status !== 'pending') {
-          return false;
-        }
-        if (scrimmage.blue_team === scrimmage.red_team) {
-          return true;
-        }
-        return scrimmage.requested_by !== parseInt(Cookies.get('team_id'), 10);
-      }).map((scrimmage) => {
-        const { blue_team, red_team } = scrimmage;
-        return {
-          id: scrimmage.id,
-          team_id: scrimmage.requested_by,
-          team: (Cookies.get('teamName') === red_team) ? blue_team : red_team,
-        };
-      });
-      callback(requests);
-    });
-  }
-
-  static requestScrimmage(teamId, callback) {
-    $.post(`${URL}/api/${LEAGUE}/scrimmage/`, {
-      red_team: Cookies.get('team_id'),
-      blue_team: teamId,
-      ranked: false,
-    }).done((data, status) => {
-      callback(teamId, true);
-    }).fail(() => {
-      callback(teamId, false);
-    });
-  }
-
-  static getAllTeamScrimmages(callback) {
-    $.get(`${URL}/api/${LEAGUE}/scrimmage/`, (data, succcess) => {
+    /* $.get(`${URL}/api/${LEAGUE}/scrimmage/`, (data, succcess) => {
       callback(data);
-    });
+    }); */
   }
 
   /* for some reason the data format from getAllTeamScrimmages and getTeamScrimmages
@@ -896,45 +872,44 @@ class Api {
     });
   }
 
-  static getScrimmageHistory(callback, page) {
-    const my_id = parseInt(Cookies.get('team_id'), 10);
-    this.getTeamScrimmages((s, count) => {
-      const requests = [];
-      for (let i = 0; i < s.length; i++) {
-        const on_red = s[i].red_team === Cookies.get('teamName');
-        if (s[i].status === 'pending' && s[i].requested_by !== my_id) continue;
-
-        if (s[i].status === 'redwon') s[i].status = on_red ? 'won' : 'lost';
-        else if (s[i].status === 'bluewon') s[i].status = on_red ? 'lost' : 'won';
-
-        if (s[i].status !== 'lost' && s[i].status !== 'won') {
-          s[i].replay = undefined;
-        }
-
-        if (s[i].status === 'won') {
-          s[i].score = `${s[i].winscore} - ${s[i].losescore}`;
-        } else if (s[i].status === 'lost') {
-          s[i].score = `${s[i].losescore} - ${s[i].winscore}`;
-        } else {
-          s[i].score = ' - ';
-        }
-
-        s[i].status = s[i].status.charAt(0).toUpperCase() + s[i].status.slice(1);
-
-        s[i].date = new Date(s[i].updated_at).toLocaleDateString();
-        s[i].time = new Date(s[i].updated_at).toLocaleTimeString();
-
-        s[i].team = on_red ? s[i].blue_team : s[i].red_team;
-        s[i].color = on_red ? 'Red' : 'Blue';
-
-        requests.push(s[i]);
-      }
-      // scrimLimit for pagination
-      const scrimLimit = parseInt(count / PAGE_LIMIT, 10) + !!(count % PAGE_LIMIT);
-      callback({scrimmages: requests, scrimLimit});
-    }, page);
+  static getScrimmageHistory(callback) {
+	  if (Cookies.get('teamName')){
+		var myTeam = Cookies.get('teamName');
+		this.getAllTeamScrimmages((s) => {
+		  const scrimmageHistory = [];
+		  for (let i = 0; i < s.length; i++) {
+			if (s[i].TEAMA!==myTeam && s[i].TEAMB!==myTeam) continue;
+			const on_red = s[i].TEAMA === myTeam;
+			if (s[i].STATUS === 'Awon') s[i].STATUS = on_red ? 'won' : 'lost';
+			else if (s[i].STATUS === 'Bwon') s[i].STATUS = on_red ? 'lost' : 'won';
+			s[i].ENEMY = on_red ? s[i].TEAMB : s[i].TEAMA;
+			scrimmageHistory.push(s[i]);
+		  } 
+		  callback(scrimmageHistory);
+		});
+	  }
+	  else {
+		  callback(null);
+	  }
   }
 
+  static downloadScrimmage(date, robotOne, robotTwo, map) {
+	getDownloadURL(ref(storage, date+robotOne+'-vs-'+robotTwo+'-on-'+map+'.zip'))
+	  .then((url) => {
+		  console.log(url);
+			const aHelper = document.createElement('a');
+			aHelper.style.display = 'none';
+			aHelper.href = url;
+			//aHelper.target = "_blank";
+			aHelper.download = `${robotOne}-vs-${robotTwo}-on-${map}.bc20.zip`;
+			document.body.appendChild(aHelper);
+			aHelper.click();
+			window.URL.revokeObjectURL(url); 
+	  })
+	  .catch((error) => {
+		console.log(error)
+	  });
+  }
 
   //----REPLAYS?-----
 
