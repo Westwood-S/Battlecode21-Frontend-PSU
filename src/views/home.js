@@ -62,7 +62,7 @@ class DateCard extends UpdateCard {
                         <table className="table">
                             <tbody>
                                 <tr> 
-									<td>Sep 29</td>
+									<td>Oct 3rd</td>
 									<td><b>PDX_SE_BATTLECODE</b> ver 1.0 released!<br/> 
 									Bugs 🐞 will eventually happen. I'm more than glad to fix them. 🛠️ <br/>
 									You can email <a href = "mailto:cecishi@pdx.edu">cecishi@pdx.edu</a> to tell me your thoughts.

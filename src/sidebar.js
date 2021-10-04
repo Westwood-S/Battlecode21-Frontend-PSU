@@ -49,7 +49,7 @@ class SideBar extends Component {
             <div className="sidebar" data-color="dust"> {/* data-color is defined in light-bootstrap-dashboard.css */}
                 <div className="sidebar-wrapper">
                     <div className="logo">
-                        <a href="/home"><img alt="logo" src="../assets/img/logo.png" /></a>
+                        <a href="/"><img alt="logo" src="../assets/img/logo.png" /></a>
                         <p>Battlecode 2021</p>
                     </div>
                     <ul className="nav nav-pills nav-stacked">

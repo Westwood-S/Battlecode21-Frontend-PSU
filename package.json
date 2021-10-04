@@ -1,51 +1,52 @@
 {
-  "name": "battlecode-app",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": "https://2021.battlecode.org",
-  "devDependencies": {
-    "react-scripts": "^3.4.4"
-  },
-  "dependencies": {
-    "ace-builds": "^1.4.12",
-    "aws-sdk": "^2.996.0",
-    "bower": "^1.8.12",
-    "chartist": "^0.11.4",
-    "dotenv": "^10.0.0",
-    "firebase": "^9.0.2",
-    "firebase-admin": "^9.11.1",
-    "jquery": "^3.6.0",
-    "js-cookie": "^2.2.1",
-    "js-sha256": "^0.9.0",
-    "moment": "^2.29.1",
-    "pixi.js": "^4.8.9",
-    "rc-slider": "^8.7.1",
-    "react": "^16.14.0",
-    "react-chartist": "^0.14.4",
-    "react-dom": "^16.14.0",
-    "react-dropzone": "^8.2.0",
-    "react-floater": "^0.7.3",
-    "react-pixi-fiber": "^0.7.0",
-    "react-popout": "^1.0.3",
-    "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1",
-    "styled-components": "^4.4.1",
-    "superagent": "^4.1.0",
-    "uuid": "^8.3.2",
-    "vm2": "^3.9.3"
-  },
-  "scripts": {
-    "startx": "BROWSER=none react-scripts start",
-    "start": "react-scripts start",
-    "build": "rm -rf build && react-scripts build",
-    "buildnogame": "rm -rf build && rm -rf public/out && rm -rf public/javadoc && rm -rf public/specs.html && react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+	"name": "se-battlecode-app",
+	"version": "1.0.0",
+	"private": true,
+	"homepage": "https://sebattlecode.com/",
+	"devDependencies": {
+		"react-scripts": "^3.4.4"
+	},
+	"dependencies": {
+		"ace-builds": "^1.4.12",
+		"aws-sdk": "^2.996.0",
+		"bower": "^1.8.12",
+		"chartist": "^0.11.4",
+		"dotenv": "^10.0.0",
+		"firebase": "^9.0.2",
+		"firebase-admin": "^9.11.1",
+		"jquery": "^3.6.0",
+		"js-cookie": "^2.2.1",
+		"js-sha256": "^0.9.0",
+		"moment": "^2.29.1",
+		"pixi.js": "^4.8.9",
+		"rc-slider": "^8.7.1",
+		"react": "^16.14.0",
+		"react-chartist": "^0.14.4",
+		"react-dom": "^16.14.0",
+		"react-dropzone": "^8.2.0",
+		"react-floater": "^0.7.3",
+		"react-pixi-fiber": "^0.7.0",
+		"react-popout": "^1.0.3",
+		"react-router": "^4.3.1",
+		"react-router-dom": "^4.3.1",
+		"serve": "^12.0.1",
+		"styled-components": "^4.4.1",
+		"superagent": "^4.1.0",
+		"uuid": "^8.3.2",
+		"vm2": "^3.9.3"
+	},
+	"scripts": {
+		"startx": "BROWSER=none react-scripts start",
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"buildnogame": "rm -rf build && rm -rf public/out && rm -rf public/javadoc && rm -rf public/specs.html && react-scripts build",
+		"test": "react-scripts test --env=jsdom",
+		"eject": "react-scripts eject"
+	},
+	"browserslist": [
+		">0.2%",
+		"not dead",
+		"not ie <= 11",
+		"not op_mini all"
+	]
 }
