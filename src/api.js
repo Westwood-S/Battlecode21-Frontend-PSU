@@ -44,7 +44,7 @@ class Api {
 		const robotRef = doc(db, "submissions", "robots");
 		const robotSnap = await getDoc(robotRef);
 		//check if robot name is taken
-		if (robotSnap.exists()) {
+		if (robotSnap.exists() && robotSnap.data().submissions) {
 			var allSubmission=robotSnap.data().submissions;
 			allSubmission.find((o,i)=>{
 				if (o.robot===submissionFile.name.slice(0,submissionFile.name.length-4) && o.teamname !== teamName){
@@ -59,7 +59,7 @@ class Api {
 			callback('Uploading...');
 			const s3PutParams = ({
 				Bucket: 'se-battlecode',
-				Key: teamKey+'-date:'+dateNumVersion+'-'+submissionFile.name,
+				Key: teamKey+'date'+dateNumVersion+'-'+submissionFile.name,
 				Expires: 60
 			})
 			const uploadURL = await s3.getSignedUrlPromise('putObject', s3PutParams)
@@ -74,7 +74,7 @@ class Api {
 
 			const s3GetParams = ({
 				Bucket: 'se-battlecode',
-				Key: teamKey+'-date:'+dateNumVersion+'-'+submissionFile.name
+				Key: teamKey+'date'+dateNumVersion+'-'+submissionFile.name
 			})
 
 			s3.getObject(s3GetParams, function(err, data) {

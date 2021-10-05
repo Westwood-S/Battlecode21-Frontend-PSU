@@ -240,7 +240,7 @@ class GettingStarted extends Component {
                                     </p>
 									<h6 class="installation-steps">Upload Your Bot and Scrimmage</h6>
                                     <p>
-                                        Create a zip file containing only your robot code (only one robot each time), and uploaded it to the <NavLink to='submissions' style={{fontWeight:700}}>submissions</NavLink> page. (You can only access that page after you created or joined a team.)
+                                        Create a zip file containing only your robot code (only one robot each time), and uploaded it to the submissions page. (You can only access that page after you created or joined a team.)
 										{/* TODO: cant access the page before in a team */}
                                 </p>
                                 <p>

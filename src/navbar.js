@@ -14,12 +14,12 @@ class NavBar extends Component {
             <nav className="navbar navbar-default navbar-fixed">
                 <div className="container-fluid">
                     <div className="navbar-header">
-                        <button type="button" onClick={this.toggleNavigation} className="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                        {/* <button type="button" onClick={this.toggleNavigation} className="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
                             <span className="sr-only">Toggle navigation</span>
                             <span className="icon-bar" />
                             <span className="icon-bar" />
                             <span className="icon-bar" />
-                        </button>
+                        </button> */}
                         <NavLink className="navbar-brand" to={`${process.env.PUBLIC_URL}/home`}>Battlecode 2021</NavLink>
                     </div>
                     <div className="collapse navbar-collapse">
