@@ -958,9 +958,9 @@ class Api {
   static getNextTournament(callback) {
 	  //TODO: find the exact time
     callback({
-      "est_date_str": '12 PM PT on Oct 20, 2021',
-      "seconds_until": (Date.parse(new Date('Oct 20, 2021 12:00:00')) - Date.parse(new Date())) / 1000,
-      "tournament_name": "Sprint One"
+      "est_date_str": '10 AM PT on Nov 4, 2021',
+      "seconds_until": (Date.parse(new Date('Nov 4, 2021 10:00:00')) - Date.parse(new Date())) / 1000,
+      "tournament_name": "Sprint Two"
     });
   }
 

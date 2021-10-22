@@ -67,7 +67,20 @@ class DateCard extends UpdateCard {
 									Bugs 🐞 will eventually happen. I'm more than glad to fix them. 🛠️ <br/>
 									You can email <a href = "mailto:cecishi@pdx.edu">cecishi@pdx.edu</a> to tell me your thoughts.
 									</td>
-									</tr>
+									</tr><tr>
+									<td>Oct 20th</td>
+									<td>
+									<b>Server Updates:</b>
+									<ul>
+										<li>Upgraded virtual machine instances with more CPU cores, memory and disk storage.</li>
+										<li>Increased scrimmage's running frequency.</li>
+										<li>Changed compile server's user story from "accept all robots as long as they can run" to "reject all robots unless after it runs the stderr is empty". <br/> 
+										(debatable, we'll see if I should change it)</li>
+										<li>Updated instructions on the submissions page.</li>
+										<li>Changed server timezone to America/Los_Angeles.</li>
+									</ul>
+									</td>
+								</tr>
                             </tbody>
                         </table>
                     </div>

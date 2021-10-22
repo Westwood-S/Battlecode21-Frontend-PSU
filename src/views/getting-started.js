@@ -37,11 +37,9 @@ class GettingStarted extends Component {
                     <ul style={{marginLeft: '-15px'}}>
                         <li>Install IntelliJ IDEA Community Edition <a style={{fontWeight:700}} target="_blank" rel="noopener noreferrer" href='https://www.jetbrains.com/idea/download/'>from here</a>.</li>
 
-                        <li>In the <code>Welcome to IntelliJ IDEA</code> window that pops up when you start IntelliJ, select <code>Import Project</code></li>
+                        <li>In the <code>Welcome to IntelliJ IDEA</code> window that pops up when you start IntelliJ, select <code>Open</code>. Then select the <code>build.gradle</code> file in the scaffold folder.</li>
                         
-                        <li>In the <code>Select File or Dictionary to Import</code> window, select the <code>build.gradle</code> file in the scaffold folder.</li>
-                        
-                        <li>Hit OK.</li>
+                        <li>Hit <code>Open as Project</code>.</li>
                         
                         <li>
                             We need to set the jdk properly; open the settings with <code>File &gt; Settings</code> (<code>IntelliJ IDEA &gt; Preferences</code> on Mac)
@@ -224,20 +222,21 @@ class GettingStarted extends Component {
 										</p><p>We have provided <code>examplefuncsplayer</code>, and you can create your own player by either modifying it or copying and renaming it.
                                     </p>
 
-                                    <h6 class="installation-steps">Running Battlecode from the Client</h6>
+                                    <h6 class="installation-steps">Running Battlecode from the terminal or IDE</h6>
+                                    <p>
+                                        Make sure your <code>JAVA_HOME</code> is set correctly, use <a target="_blank" rel="noopener noreferrer" href='https://www.baeldung.com/find-java-home' style={{fontWeight:700}}>this guide</a>. You can run games directly from the terminal with the gradle task <code>./gradlew run -Pmaps=[map] -PteamA=[Team A] -PteamB=[Team B]</code>. If you
+                                        don't include the map or team flags, Battlecode will default to whatever is listed in <code>gradle.properties</code>.
+                                        Running the same gradle task from you IDE will also work. </p><p>This produces a replay file in the <code>matches</code> directory of the scaffold, which you can upload to the client to view. If you meet with any problems, visit <NavLink to='common-issues' style={{fontWeight:700}}>Common Issues</NavLink>.
+                                    </p>
+
+									<h6 class="installation-steps">Running Battlecode from the Client</h6>
                                     <p>
                                         Open the client as described in Step 3. Navigate to the runner tab,
                                         select which bots and maps to run, and hit Run Game!
-                                        Finally, click the play/pause button to view the replay.
+                                        Finally, click the play/pause button to view the replay.</p>
+									<p> If the runner tab won't work, you can go to the Queue tab, and upload the replay file created in the previous step.
                                     </p>
 
-
-                                    <h6 class="installation-steps">Running Battlecode from the terminal or IDE</h6>
-                                    <p>
-                                        You can run games directly from the terminal with the gradle task <code>./gradlew run -Pmaps=[map] -PteamA=[Team A] -PteamB=[Team B]</code>. If you
-                                        don't include the map or team flags, Battlecode will default to whatever is listed in <code>gradle.properties</code>.
-                                        Running the same gradle task from you IDE will also work. </p><p>This produces a replay file in the <code>matches</code> directory of the scaffold, which you can upload to the client to view.
-                                    </p>
 									<h6 class="installation-steps">Upload Your Bot and Scrimmage</h6>
                                     <p>
                                         Create a zip file containing only your robot code (only one robot each time), and uploaded it to the submissions page. (You can only access that page after you created or joined a team.)
