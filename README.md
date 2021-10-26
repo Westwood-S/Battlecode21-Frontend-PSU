@@ -1,26 +1,52 @@
-# Battlecode Frontend
+# CS 510 Code Reading & Review Course project
 
-Fully static frontend in React, based on `battlecode19/app`, using modified template from http://creative-tim.com. 
+Members of this project are: 
 
-![](screenshot.png)
+- Li Shi: cecishi@pdx.edu
+- Yiming Lin: yl6@pdx.edu
+- Huan Wu: wuhuan@pdx.edu
+
+## Project Description
+
+This code repository is the front-end part of the CS 454/554 hackathon project. Our goal is to make this repository more readable and understandable using various technics we learned in the class.
+
+### Removing un-used code
+
+Because the CS 454/554 hackathon project only utilized part of the original MIT hackathon, so we should remove all un-used code before we move forward.
+
+### Renaming classes, methods, fields and parameters
+
+- Files names must be all lowercase and may include underscores ( _ ) or dashes ( - ), but no additional punctuation.
+- Classes are designed to represent objects, we should choose class names that are nouns and are written in `UpperCamelCase`. If part of the name has an acronym, the acronym can be written in all capital letters (e.g., HTMLParser)
+- Methods names are typically chosen so that the first word is a verb and are written in `lowerCamelCase`.
+- In fields and constants, Enum names are written in `UpperCamelCase` and constant names use `CONSTANT_CASE`: all uppercase letters, with words separated by underscores.
+- Parameters and local variable names are written in `lowerCamelCase`. But parameters might appear in the documentation of the method so make sure to choose names that make the purpose of the parameters as clear as possible.
+
+Pay particular attention to the names that have been chosen:
+- Do the names of the types reflect the purpose of those types?
+- Does each method do exactly what its name suggests? Ideally, no more, and no less?
+- Are the names descriptive enough? Could a more specific name be used instead?
+- Do the names mix metaphors? (so that newer-comer has no idea what those names are about)
+
+### Adding documentation comments
+
+A doc comment is an ordinary multiline comment that begins with /** and ends with */. A doc comment appears immediately before a type or member definition and contains documentation for that type or member.
+
+The body of a doc comment should begin with a one-sentence summary of the type or member being documented. After that, a doc comment can contain any number of other paragraphs, each of which begins with a special doc-comment tag, such as @author, @param, @returns, @exception and @throws etc.
 
 ## Local Development
 
-It's easiest to run the frontend through Node. To do so, follow the instructions in the rest of this section.
-
-(Alternatively, you could run the frontend through Docker: run `docker-compose up --build frontend` from the repo's root directory.)
+It's easiest to run the frontend through Node.
 
 ### First-Time Setup
 
-First, make sure you have [Node](https://nodejs.org/en/download/) installed. (Also, on Windows, [Cygwin](https://www.cygwin.com/) is recommended to use as your terminal environment.) Then, in this directory, run:
+In this directory, run:
 
 ```
 npm install
 ```
 
 ### Running
-
-Make sure that the backend in `../backend` is running at `localhost:8000`.
 
 In this directory, run:
 
@@ -32,7 +58,7 @@ This automatically reloads the page on changes. To run the same thing without au
 
 ### Notes
 
-When installing a new Node package, always `npm install --save <package>` or `npm install --save-dev <package>`, and commit `package.json` and `package-lock.json`. This should work even if we run it from Docker. If you don't have `npm` installed on your computer, you can `docker exec -it battlecode21_frontend_1 sh` and then run the commands above.
+When installing a new Node package, always `npm install --save <package>` or `npm install --save-dev <package>`, and commit `package.json` and `package-lock.json`. This should work even if we run it from Docker.
 
 Our local processes (including our dockerfile) use `npm start` and/or `npm run start`. These commands automatically use `.env.development`, and not `.env.production`. See here for more information: https://create-react-app.dev/docs/adding-custom-environment-variables/#what-other-env-files-can-be-used
 
@@ -42,7 +68,7 @@ For production, build with `npm run build` for the full thing, and `npm run buil
 
 ### access.txt
 
-During deployment, you'll need an up-to-date version of `frontend/public/access.txt`. This file is needed by game runners to run matches, and by competitors because it grants them access to downloading the GitHub package containing the engine. It's is really difficult to deploy; our solution is to have it deployed with the rest of the frontend code and onto our website, but have it never pushed to GitHub. Make sure you have an up-to-date copy! If you don't have one, check with the infra devs.
+During deployment, you'll need an up-to-date version of `frontend/public/access.txt`. This file is needed by game runners to run matches, and by competitors because it grants them access to downloading the GitHub package containing the engine. It's really difficult to deploy; our solution is to have it deployed with the rest of the frontend code and onto our website, but have it never pushed to GitHub.
 
 ### Assorted notes
 
