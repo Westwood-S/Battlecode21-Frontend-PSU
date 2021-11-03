@@ -5,6 +5,7 @@ Members of this project are:
 - Li Shi: cecishi@pdx.edu
 - Yiming Lin: yl6@pdx.edu
 - Huan Wu: wuhuan@pdx.edu
+- Santiago Tobon: stobon@pdx.edu
 
 ## Project Description
 
