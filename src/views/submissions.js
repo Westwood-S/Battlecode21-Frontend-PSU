@@ -220,7 +220,7 @@ class Submissions extends Component {
                             <li>
                                 Make sure you only import from your own bot, and from java. packages. In particular, do not use javax, javafx, and watch out for importing from other versions of your bot (which may work locally, but will not work on our servers as you can only submit one folder).
                             </li>
-							<li>If it's <b>queuing</b>, refresh the page every 3 minutes. If it's <b>queuing</b> forever, the server probably has an outage. Contact Li.</li>
+							<li>If it's <b>queuing</b>, refresh the page every 3 minutes, because there might be submissions ahead of you. If it's <b>queuing</b> for hours, contact Li.</li>
 							<li>If it says <b>compile failed</b>, most of time your code genuinely can't compile. As of Sprint Two the submission threshold will increase further.</li>
 							<li>
 								Send the zip to <a href = "mailto:cecishi@pdx.edu">cecishi@pdx.edu</a> before deadline. (Please grant me a 10-minute's grace.)
