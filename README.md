@@ -11,11 +11,11 @@ Members of this project are:
 
 This code repository is the front-end part of the CS 454/554 hackathon project. Our goal is to make this repository more readable and understandable using various technics we learned in the class.
 
-### Removing un-used code
+### Remove un-used code
 
 Because the CS 454/554 hackathon project only utilized part of the original MIT hackathon, so we should remove all un-used code before we move forward.
 
-### Renaming classes, methods, fields and parameters
+### Rethink the naming
 
 - Files names must be all lowercase and may include underscores ( _ ) or dashes ( - ), but no additional punctuation.
 - Classes are designed to represent objects, we should choose class names that are nouns and are written in `UpperCamelCase`. If part of the name has an acronym, the acronym can be written in all capital letters (e.g., HTMLParser)
@@ -29,11 +29,27 @@ Pay particular attention to the names that have been chosen:
 - Are the names descriptive enough? Could a more specific name be used instead?
 - Do the names mix metaphors? (so that newer-comer has no idea what those names are about)
 
-### Adding documentation comments
+### Refactor functions
+
+Refactor all functions so that they only do one thing, and have less than three arguements. 
+
+### Add/Remove comments
 
 A doc comment is an ordinary multiline comment that begins with /** and ends with */. A doc comment appears immediately before a type or member definition and contains documentation for that type or member.
 
 The body of a doc comment should begin with a one-sentence summary of the type or member being documented. After that, a doc comment can contain any number of other paragraphs, each of which begins with a special doc-comment tag, such as @author, @param, @returns, @exception and @throws etc.
+
+Remove unneccessary comments.
+
+### Format the code base
+
+Use the Prettier extension in vscode for formatting. It can reduce spaces inside bracket, reduce whitespaces, automatically add semicolon at the end of every line, indent with tabs instead of spaces etc,. Also the tab width should be set to 2 and line width to 120.
+
+Close extra line break, as it means the code block before and after the line break have different functionalities.
+
+Put the declaration of the variables closer to where it is used. Except for global variables.
+
+If one function calls another function, they should be put close to each other. Functions that are of the similar concept should be close to each other as well.
 
 ## Local Development
 
