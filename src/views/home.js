@@ -67,7 +67,8 @@ class DateCard extends UpdateCard {
 									Bugs 🐞 will eventually happen. I'm more than glad to fix them. 🛠️ <br/>
 									You can email <a href = "mailto:cecishi@pdx.edu">cecishi@pdx.edu</a> to tell me your thoughts.
 									</td>
-									</tr><tr>
+								</tr>
+								<tr>
 									<td>Oct 20th</td>
 									<td>
 									<b>Server Updates:</b>
@@ -78,6 +79,17 @@ class DateCard extends UpdateCard {
 										(debatable, we'll see if I should change it)</li>
 										<li>Updated instructions on the submissions page.</li>
 										<li>Changed server timezone to America/Los_Angeles.</li>
+									</ul>
+									</td>
+								</tr>
+								<tr>
+									<td>Nov 4th</td>
+									<td>
+									<b>Server Updates:</b>
+									<ul>
+										<li>Battlecode doesn't support two engines (scrimmage and submission) to run at the same time. If it happenes during submission, the callback message will say: "scrimmage engine running, try again later". It would be great if you can try again 5 minutes later.</li>
+										<li>Q: What does "queuing" mean? A: The server supports multiple submissions at the same time. If there's any submission is ahead of you, your submission will be waiting in a queue until it's your turn.</li>
+										<li>Downgrade virtual machine instances because of billing.</li>
 									</ul>
 									</td>
 								</tr>
@@ -159,14 +171,14 @@ class Home extends Component {
                             <div className="container-fluid">
                                 <div className="row">
                                         <InstrCard />
-										<DateCard />
+										{this.state.on_team && <StatCard />}
                                 </div>
                             </div>
                         </div>
                         <div className="col-md-6">
                             <div className="container-fluid">
 								<Countdown />
-								{this.state.on_team && <StatCard />}
+								<DateCard />
                             </div>
                         </div>
                     </div>

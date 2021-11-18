@@ -305,15 +305,23 @@ class Api {
 
     var allTeam = [];
     var allScrimmages = [];
+	var scrimmagesData = [];
 
 	const resultRef = doc(db, "submissions", "gameResults");
 	const docSnap = await getDoc(resultRef);
 
 	if (docSnap.exists() && docSnap.data().scrimmages) {
-		var scrimmagesData=docSnap.data().scrimmages;
+		var scrimmagesDataFull=docSnap.data().scrimmages;
         //scrimmagesData is for loop gameResults to calculate elo
 		//allScrimmages will be updated with the new elo result 
-        allScrimmages=scrimmagesData;
+		if (scrimmagesDataFull.length>=501){
+			allScrimmages = scrimmagesDataFull.slice(0,501);
+			scrimmagesData = scrimmagesDataFull.slice(0,101);
+		}
+        else {
+			allScrimmages = scrimmagesDataFull;
+			scrimmagesData = scrimmagesDataFull;
+		}
 		
 		const querySnapshot = await getDocs(collection(db, "teams"));
 		querySnapshot.forEach((doc) => {
@@ -956,11 +964,10 @@ class Api {
   //----TOURNAMENTS----
 
   static getNextTournament(callback) {
-	  //TODO: find the exact time
     callback({
-      "est_date_str": '10 AM PT on Nov 4, 2021',
-      "seconds_until": (Date.parse(new Date('Nov 4, 2021 10:00:00')) - Date.parse(new Date())) / 1000,
-      "tournament_name": "Sprint Two"
+      "est_date_str": '10 AM PT on Nov 18, 2021',
+      "seconds_until": (Date.parse(new Date('Nov 18, 2021 10:00:00')) - Date.parse(new Date())) / 1000,
+      "tournament_name": "Sprint Three"
     });
   }
 
