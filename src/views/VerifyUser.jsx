@@ -30,5 +30,4 @@ class VerifyUser extends Component {
   }
 }
 
-
 export default VerifyUser;

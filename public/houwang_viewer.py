@@ -5,13 +5,9 @@ print("Enter file path")
 handle = open(input(),"r")
 
 arr = []
-
 boardSize = 16
-
 dataCollectionStart = False
-
 gameRawData = []
-
 for line in handle:
     if dataCollectionStart:
         if line != "\n":
@@ -39,11 +35,8 @@ for turn in gameRawData:
 n = len(processedData[0])
 
 #Gui
-
 root = Tk()
-
 labelArr = []
-
 for r in range(n):
     labelArr.append([])
     for c in range(n):
@@ -51,13 +44,7 @@ for r in range(n):
         label.grid(row=r,column=c)
         labelArr[-1].append(label)
 
-#print(labelArr)
-
-#print(len(processedData[0]))
-#print(len(processedData[0][0]))
-
 counter = -1
-
 
 def refresh(event):
     global counter,processedData, labelArr, n
@@ -78,7 +65,6 @@ def refresh(event):
                 target = "  2  "
                 labelArr[r][c].configure(background="RED")
             labelArr[r][c].configure(text=target)
-    
     print("Refresh done")
     return
 
@@ -106,7 +92,6 @@ def refreshBack(event):
 
 root.bind('<Right>', refresh)
 root.bind('<Left>', refreshBack)
-
 root.mainloop()
 
 

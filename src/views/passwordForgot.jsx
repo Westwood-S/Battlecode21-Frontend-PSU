@@ -16,7 +16,7 @@ class PasswordForgot extends Component {
     }
   }
 
-  callback = (data, success) => {
+  callback = (success) => {
     if (success) {
       this.setState({ success: 'Email sent! Please wait a few minutes to receive. Don\'t forget to check your spam folder.'});
     } else {
@@ -57,7 +57,6 @@ class PasswordForgot extends Component {
             {error}
           </div>
         )}
-
         {success && (
           <div
             className="card"
@@ -74,7 +73,6 @@ class PasswordForgot extends Component {
             {success}
           </div>
         )}
-
         <div
           className="card"
           style={{

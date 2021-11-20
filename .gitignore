@@ -6,28 +6,20 @@ node_modules/
 *.code-workspace
 venv/
 docker-compose.prod.yml
-
 engine/dist/*
-
 .idea
-
 access.txt
-
 build
-
 ### Gradle ###
 .gradle/
 /build/
-
 ### Matches should be ignored
 /matches/
-
 ### Java
 *.classpath
 *.project
 *.settings
 bin/
-
 ### Vim
 # Swap
 [._]*.s[a-v][a-z]
@@ -46,19 +38,13 @@ Sessionx.vim
 tags
 # Persistent undo
 [._]*.un~
-
 ### Distribution
 temp-dist
-
 ### Javadoc
 battlecode-javadoc-*
-
 ### test bots
 battlecode21-internal-test-bots
-
 test.sh
-
 infrastructure/worker/app/gcloud-key.json
-
 .env.development
 .env.production

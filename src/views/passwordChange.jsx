@@ -12,19 +12,15 @@ class PasswordChange extends Component {
     changePassword = (e) => {
         const { state } = this;
         e.preventDefault();
-
         if (!state.password) {
             this.setState({ error: "Please enter a password"});
         }
-
         if (state.password !== state.passwordVerify) {
             this.setState({ error: "Passwords do not match. "});
             return;
         }
-
         let token = this.props.location.search && this.props.location.search.split("=");
         token = token.length > 1 && token[1];
-
         console.log(token);
 
         Api.doResetPassword(state.password, token, this.onApiReturn);
@@ -36,7 +32,7 @@ class PasswordChange extends Component {
         this.setState({[id]: val});
     }
 
-    onApiReturn = (data, success) => {
+    onApiReturn = (success) => {
         if (success) {
             this.setState({success: true});
             const redirect = () => {

@@ -1,6 +1,6 @@
 # CS 510 Code Reading & Review Course project
 
-Members of this project are: 
+Members of this project are:
 
 - Li Shi: cecishi@pdx.edu
 - Yiming Lin: yl6@pdx.edu
@@ -24,6 +24,7 @@ Because the CS 454/554 hackathon project only utilized part of the original MIT 
 - Parameters and local variable names are written in `lowerCamelCase`. But parameters might appear in the documentation of the method so make sure to choose names that make the purpose of the parameters as clear as possible.
 
 Pay particular attention to the names that have been chosen:
+
 - Do the names of the types reflect the purpose of those types?
 - Does each method do exactly what its name suggests? Ideally, no more, and no less?
 - Are the names descriptive enough? Could a more specific name be used instead?
@@ -31,7 +32,7 @@ Pay particular attention to the names that have been chosen:
 
 ### Refactor functions
 
-Refactor all functions so that they only do one thing, and have less than three arguements. 
+Refactor all functions so that they only do one thing, and have less than three arguements.
 
 ### Add/Remove comments
 
@@ -39,11 +40,13 @@ A doc comment is an ordinary multiline comment that begins with /** and ends wit
 
 The body of a doc comment should begin with a one-sentence summary of the type or member being documented. After that, a doc comment can contain any number of other paragraphs, each of which begins with a special doc-comment tag, such as @author, @param, @returns, @exception and @throws etc.
 
+Add doc comment to api.js
+
 Remove unneccessary comments.
 
 ### Format the code base
 
-Use the Prettier extension in vscode for formatting. It can reduce spaces inside bracket, reduce whitespaces, automatically add semicolon at the end of every line, indent with tabs instead of spaces etc,. Also the tab width should be set to 2 and line width to 120.
+Use the Prettier extension in vscode for formatting. It can reduce spaces inside bracket, remove extra whitespaces, automatically add semicolon at the end of every line, indent with tabs instead of spaces etc,. Also the tab width is set to 2 and line width is 120.
 
 Close extra line break, as it means the code block before and after the line break have different functionalities.
 

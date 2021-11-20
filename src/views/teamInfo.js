@@ -1,32 +1,29 @@
-import React, { Component } from 'react';
-import Api from '../api';
-import TeamCard from '../components/teamCard';
-import PerfCard from '../components/perfCard';
+import React, { Component } from "react";
+import Api from "../api";
+import TeamCard from "../components/teamCard";
+import PerfCard from "../components/perfCard";
 
 class RankCard extends Component {
 	constructor() {
-        super()
-        this.state = {
-        	ranking: null
-        }
-    }
+		super();
+		this.state = {
+			ranking: null,
+		};
+	}
 
 	componentDidMount() {
-		Api.getTeamRanking(this.props.teamId, this.setRanking)
+		Api.getTeamRanking(this.props.teamId, this.setRanking);
 	}
 
 	setRanking = (ranking_data) => {
-		this.setState({ranking: ranking_data.ranking})
-	}
-
-	hi = (data) => {
-		console.log(data)
-	}
+		this.setState({ ranking: ranking_data.ranking });
+	};
 
 	render() {
-		const {ranking} = this.state
-		const rankStr = ranking || "-"
-		const rankStyle = (ranking) ? {} : {visibility: "hidden"}
+		const { ranking } = this.state;
+		const rankStr = ranking || "-";
+		const rankStyle = ranking ? {} : { visibility: "hidden" };
+
 		return (
 			<div className="card">
 				<div className="content">
@@ -35,24 +32,23 @@ class RankCard extends Component {
 						<h1 style={rankStyle}>{rankStr}</h1>
 					</div>
 					<br></br>
-					<p style={{textAlign: 'center'}}>
+					<p style={{ textAlign: "center" }}>
 						Score: {this.props.team.score === -1000000 ? "N/A" : Math.round(this.props.team.score)}
 					</p>
 				</div>
 			</div>
-		)
+		);
 	}
 }
 
 class WinsCard extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {}
+		this.state = {};
 	}
 
 	render() {
-		//const {wins, draws, losses} = this.state
-		return(
+		return (
 			<div className="card">
 				<div className="content">
 					<div className="col-2-row">
@@ -67,7 +63,7 @@ class WinsCard extends Component {
 					</div>
 				</div>
 			</div>
-		)
+		);
 	}
 }
 
@@ -80,55 +76,53 @@ class TeamInfo extends Component {
 
 	componentDidMount() {
 		const teamId = this.props.match.params.team_id;
-		//get team info by id
-		Api.getTeamById(teamId, this.setTeam)
-
+		Api.getTeamById(teamId, this.setTeam);
 		Api.getOtherTeamWinStats(teamId, (data) => {
-	      	this.setState({wins: data[0], losses: data[1]})
-    	})
+			this.setState({ wins: data[0], losses: data[1] });
+		});
 	}
 
 	setTeam = (team_data) => {
-		this.setState({team: team_data})
-	}
+		this.setState({ team: team_data });
+	};
 
 	render() {
 		const team = this.state.team;
 		if (team !== null) {
-			return(
+			return (
 				<div className="content">
 					<div className="container-fluid">
 						<div className="row">
-							<TeamCard team={team}/>
+							<TeamCard team={team} />
 						</div>
 						<div className="row">
 							<div className="col-md-3">
 								<div className="container-fluid">
 									<div className="row">
-										<RankCard teamId={team.id} team={team}/>
+										<RankCard teamId={team.id} team={team} />
 									</div>
 								</div>
 							</div>
 							<div className="col-md-3">
 								<div className="container-fluid">
 									<div className="row">
-										<WinsCard wins={this.state.wins} losses={this.state.losses}/>
+										<WinsCard wins={this.state.wins} losses={this.state.losses} />
 									</div>
 								</div>
 							</div>
 							<div className="col-md-6">
 								<div className="container-fluid">
 									<div className="row">
-										<PerfCard team={team.id}/>
+										<PerfCard team={team.id} />
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			)
+			);
 		} else {
-			return null
+			return null;
 		}
 	}
 }
