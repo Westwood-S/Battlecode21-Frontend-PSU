@@ -1,160 +1,144 @@
 import React, { Component } from "react";
 import Api from "../api";
 
+const LoginStatus = ({ title, message }) => {
+  const statusContainerStyle = {
+    padding: "20px",
+    width: "350px",
+    margin: "40px auto",
+    marginBottom: "0px",
+    fontSize: "1.1em",
+  };
+
+  return (
+    <div className="card" style={statusContainerStyle}>
+      <b>{title}</b>
+      {message}
+    </div>
+  );
+};
+
+const LoginButton = () => {
+  return (
+    <button type="submit" value="submit" className="btn btn-primary btn-block btn-fill">
+      Log in
+    </button>
+  );
+};
+
+const FormInputField = ({ label, type, id }) => {
+  return (
+    <div className="col-md-12">
+      <div className="form-group">
+        <label>{label}</label>
+        <input type={type} id={id} className="form-control" />
+      </div>
+    </div>
+  );
+};
+
+const LoginForm = ({ onSubmit, hasError }) => {
+  const loginFormStyle = {
+    width: "350px",
+    margin: hasError ? "20px auto" : "40px auto",
+  };
+
+  return (
+    <form onSubmit={onSubmit}>
+      <div className="card" style={loginFormStyle}>
+        <div className="content">
+          <div className="row">
+            <FormInputField label="Email" type="text" id="email" />
+            <FormInputField label="Password" type="password" id="password" />
+          </div>
+          <LoginButton />
+          <div className="clearfix" />
+        </div>
+      </div>
+    </form>
+  );
+};
+
+const LoginTitle = () => {
+  const backgroundStyle = {
+    height: "100vh",
+    width: "100vw",
+    position: "fixed",
+    top: "0px",
+    left: "0px",
+    zIndex: "-1",
+  };
+  const textStyle = {
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "white",
+  };
+
+  return (
+    <div>
+      <div className="dustBackground" style={backgroundStyle}></div>
+      <h1 style={textStyle}>Battlecode 2021</h1>
+      <p style={textStyle}>Log in below to participate in Battlecode 2021!</p>
+    </div>
+  );
+};
+
 class LoginRegister extends Component {
-	state = {
-		email: "",
-		password: "",
-		error: "",
-		success: "",
-	};
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      error: "",
+      success: "",
+    };
 
-	forgotPassword = () => {
-		window.location.replace("/forgotPassword");
-	};
+    this.handleForgotPassword = this.handleForgotPassword.bind(this);
+    this.handleLoginButtonClicked = this.handleLoginButtonClicked.bind(this);
+  }
 
-	callback = (message, success) => {
-		if (success) {
-			window.location.assign("/");
-		} else {
-			this.setState({
-				error: message,
-			});
-		}
-	};
+  handleForgotPassword() {
+    window.location.replace("/forgotPassword");
+  }
 
-	formSubmit = (e) => {
-		e.preventDefault();
-		this.submitLogin();
-	};
+  handleLoginButtonClicked(e) {
+    e.preventDefault();
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+    Api.login(email, password, this.handleLoginApi);
+  }
 
-	submitLogin = () => {
-		const { email, password } = this.state;
-		Api.login(email, password, this.callback);
-	};
+  handleLoginApi(message, success) {
+    if (success) window.location.assign("/");
+    else this.setState({ error: message });
+  }
 
-	changeHandler = (e) => {
-		const { id } = e.target;
-		const val = e.target.value;
-		this.setState({ [id]: val });
-	};
+  render() {
+    const { error, success } = this.state;
+    let loginStatus = null;
+    if (error) {
+      loginStatus = <LoginStatus title="Error: " message={error} />;
+    } else if (success) {
+      loginStatus = <LoginStatus title="Success." message={success} />;
+    }
 
-	render() {
-		const { error, success } = this.state;
-		let errorDiv = null;
-		if (error) {
-			errorDiv = (
-				<div
-					className="card"
-					style={{
-						padding: "20px",
-						width: "350px",
-						margin: "40px auto",
-						marginBottom: "0px",
-						fontSize: "1.1em",
-					}}
-				>
-					<b>Error: </b>
-					{error}
-				</div>
-			);
-		}
-		let successDiv = null;
-		if (success) {
-			successDiv = (
-				<div
-					className="card"
-					style={{
-						padding: "20px",
-						width: "350px",
-						margin: "40px auto",
-						marginBottom: "0px",
-						fontSize: "1.1em",
-					}}
-				>
-					<b>Success.</b> {success}
-				</div>
-			);
-		}
-		let buttons = (
-			<button type="submit" value="submit" className="btn btn-primary btn-block btn-fill">
-				Log in
-			</button>
-		);
-
-		return (
-			<div
-				className="content"
-				style={{
-					height: "100vh",
-					width: "100vw",
-					position: "absolute",
-					top: "0px",
-					left: "0px",
-				}}
-			>
-				<div
-					className="dustBackground"
-					style={{
-						height: "100vh",
-						width: "100vw",
-						position: "fixed",
-						top: "0px",
-						left: "0px",
-						zIndex: "-1",
-					}}
-				></div>
-				<h1
-					style={{
-						textAlign: "center",
-						fontWeight: "bold",
-						color: "white",
-					}}
-				>
-					Battlecode 2021
-				</h1>
-				<p
-					style={{
-						textAlign: "center",
-						fontWeight: "bold",
-						color: "white",
-					}}
-				>
-					Log in below to participate in Battlecode 2021!
-				</p>
-				{errorDiv}
-				{successDiv}
-				<form onSubmit={this.formSubmit}>
-					<div
-						className="card"
-						style={{
-							width: "350px",
-							margin: error ? "20px auto" : "40px auto",
-						}}
-					>
-						<div className="content">
-							<div className="row">
-								<div className="col-md-12">
-									<div className="form-group">
-										<label>Email</label>
-										<input type="text" id="email" className="form-control" onChange={this.changeHandler} />
-									</div>
-								</div>
-								<div className="col-md-12">
-									<div className="form-group">
-										<label>Password</label>
-										<input type="password" id="password" className="form-control" onChange={this.changeHandler} />
-									</div>
-								</div>
-							</div>
-							{buttons}
-							<div className="clearfix" />
-						</div>
-					</div>
-				</form>
-			</div>
-		);
-	}
+    return (
+      <div
+        className="content"
+        style={{
+          height: "100vh",
+          width: "100vw",
+          position: "absolute",
+          top: "0px",
+          left: "0px",
+        }}
+      >
+        <LoginTitle />
+        {loginStatus}
+        <LoginForm onSubmit={this.handleLoginButtonClicked} hasError={error} />
+      </div>
+    );
+  }
 }
 
 export default LoginRegister;
