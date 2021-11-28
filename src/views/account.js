@@ -73,18 +73,6 @@ const ResumeUploadSection = ({ hasUploaded, hasSelectedFile, fileLabel, onUpload
   );
 };
 
-const ResumeUploadedIndicator = ({ hasUploaded }) => {
-  if (hasUploaded) {
-    return (
-      <label style={{ float: "right", color: "green" }}>
-        <i className="pe-7s-check pe-fw" style={{ fontWeight: "bold" }} />
-        Uploaded!
-      </label>
-    );
-  }
-  return <label style={{ float: "right" }}> You have not uploaded a resume.</label>;
-};
-
 const ResumeUploadFloator = () => {
   const explaination = (
     <div>
@@ -100,6 +88,18 @@ const ResumeUploadFloator = () => {
       <i className="pe-7s-info pe-fw" />
     </Floater>
   );
+};
+
+const ResumeUploadedIndicator = ({ hasUploaded }) => {
+  if (hasUploaded) {
+    return (
+      <label style={{ float: "right", color: "green" }}>
+        <i className="pe-7s-check pe-fw" style={{ fontWeight: "bold" }} />
+        Uploaded!
+      </label>
+    );
+  }
+  return <label style={{ float: "right" }}> You have not uploaded a resume.</label>;
 };
 
 const ResumeUploader = ({ hasSelectedFile, fileLabel, onUploadButtonClicked, onFileChange }) => {
@@ -145,7 +145,7 @@ class Account extends Component {
       selectedFile: null,
     };
     this.handleUploadedFileOnChange = this.handleUploadedFileOnChange.bind(this);
-    this.changeHandler1 = this.handleTextFieldOnChange.bind(this);
+    this.handleTextFieldOnChange = this.handleTextFieldOnChange.bind(this);
     this.updateUser = this.updateUser.bind(this);
     this.uploadProfile = this.uploadProfile.bind(this);
   }
@@ -160,7 +160,7 @@ class Account extends Component {
     });
   }
 
-  handleUploadedFileOnChange = (event) => {
+  handleUploadedFileOnChange(event) {
     console.log(event.target.files[0]);
     this.setState({
       selectedFile: event.target.files[0],
