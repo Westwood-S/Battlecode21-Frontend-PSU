@@ -123,6 +123,21 @@ const ResumeUploader = ({ hasSelectedFile, fileLabel, onUploadButtonClicked, onF
   );
 };
 
+const AccountLayout = ({ editForm, userCard }) => {
+  return (
+    <div className="content">
+      <div className="content">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-8">{editForm}</div>
+            <div className="col-md-4">{userCard}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 class Account extends Component {
   constructor() {
     super();
@@ -148,6 +163,7 @@ class Account extends Component {
     this.handleTextFieldOnChange = this.handleTextFieldOnChange.bind(this);
     this.updateUser = this.updateUser.bind(this);
     this.uploadProfile = this.uploadProfile.bind(this);
+    this.uploadResume = this.uploadResume.bind(this);
   }
 
   handleTextFieldOnChange(e) {
@@ -166,7 +182,7 @@ class Account extends Component {
       selectedFile: event.target.files[0],
       loaded: 0,
     });
-  };
+  }
 
   updateUser() {
     this.setState({ up: '<i class="fa fa-circle-o-notch fa-spin"></i>' });
@@ -195,9 +211,9 @@ class Account extends Component {
     reader.readAsDataURL(e.target.files[0]);
   }
 
-  uploadResume = () => {
+  uploadResume() {
     Api.resumeUpload(this.state.selectedFile, null);
-  };
+  }
 
   render() {
     let file_label = "No file chosen.";
@@ -205,106 +221,96 @@ class Account extends Component {
       file_label = this.state.selectedFile["name"];
     }
 
-    return (
-      <div className="content">
+    const editForm = (
+      <div className="card">
+        <div className="header">
+          <h4 className="title">Edit Profile</h4>
+        </div>
         <div className="content">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-md-8">
-                <div className="card">
-                  <div className="header">
-                    <h4 className="title">Edit Profile</h4>
-                  </div>
-                  <div className="content">
-                    <h5>Make sure to press the "Update Info" button, and wait for confirmation!</h5>
-                    <EvenlyDividedRow>
-                      <TextInputField
-                        label="Username"
-                        id="username"
-                        onChange={this.handleTextFieldOnChange}
-                        value={this.state.user.username}
-                        readOnly
-                      />
-                      <TextInputField
-                        label="Email"
-                        id="email"
-                        type="email"
-                        onChange={this.handleTextFieldOnChange}
-                        value={this.state.user.email}
-                      />
-                    </EvenlyDividedRow>
-                    <EvenlyDividedRow>
-                      <TextInputField
-                        label="First Name"
-                        id="first_name"
-                        onChange={this.handleTextFieldOnChange}
-                        value={this.state.user.first_name}
-                      />
-                      <TextInputField
-                        label="Last Name"
-                        id="last_name"
-                        onChange={this.handleTextFieldOnChange}
-                        value={this.state.user.last_name}
-                      />
-                    </EvenlyDividedRow>
-                    <EvenlyDividedRow>
-                      <TextInputField
-                        label="Date of Birth (YYYY-MM-DD)"
-                        id="date_of_birth"
-                        onChange={this.handleTextFieldOnChange}
-                        value={this.state.user.date_of_birth}
-                      />
-                      <OptionSelectionField
-                        label="Country"
-                        id="country"
-                        options={contries}
-                        value={this.state.user.country}
-                        onChange={this.handleTextFieldOnChange}
-                      />
-                    </EvenlyDividedRow>
-                    <EvenlyDividedRow>
-                      <TextInputField
-                        label="User Avatar URL"
-                        id="avatar"
-                        onChange={this.handleTextFieldOnChange}
-                        value={this.state.user.avatar}
-                      />
-                    </EvenlyDividedRow>
-                    <EvenlyDividedRow>
-                      <TextAreaField
-                        label="User Bio"
-                        placeholder="Put your bio here."
-                        id="bio"
-                        onChange={this.handleTextFieldOnChange}
-                        value={this.state.user.bio}
-                      />
-                    </EvenlyDividedRow>
-                    <EvenlyDividedRow>
-                      <ResumeUploadSection
-                        hasSelectedFile={this.state.selectedFile}
-                        fileLabel={file_label}
-                        onUploadButtonClicked={this.uploadResume}
-                        onFileChange={this.handleUploadedFileOnChange}
-                      />
-                    </EvenlyDividedRow>
-                    <button
-                      type="button"
-                      onClick={this.updateUser}
-                      className="btn btn-info btn-fill pull-right"
-                      dangerouslySetInnerHTML={{ __html: this.state.up }}
-                    ></button>
-                    <div className="clearfix" />
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <UserCard user={this.state.user} />
-              </div>
-            </div>
-          </div>
+          <h5>Make sure to press the "Update Info" button, and wait for confirmation!</h5>
+          <EvenlyDividedRow>
+            <TextInputField
+              label="Username"
+              id="username"
+              onChange={this.handleTextFieldOnChange}
+              value={this.state.user.username}
+              readOnly
+            />
+            <TextInputField
+              label="Email"
+              id="email"
+              type="email"
+              onChange={this.handleTextFieldOnChange}
+              value={this.state.user.email}
+            />
+          </EvenlyDividedRow>
+          <EvenlyDividedRow>
+            <TextInputField
+              label="First Name"
+              id="first_name"
+              onChange={this.handleTextFieldOnChange}
+              value={this.state.user.first_name}
+            />
+            <TextInputField
+              label="Last Name"
+              id="last_name"
+              onChange={this.handleTextFieldOnChange}
+              value={this.state.user.last_name}
+            />
+          </EvenlyDividedRow>
+          <EvenlyDividedRow>
+            <TextInputField
+              label="Date of Birth (YYYY-MM-DD)"
+              id="date_of_birth"
+              onChange={this.handleTextFieldOnChange}
+              value={this.state.user.date_of_birth}
+            />
+            <OptionSelectionField
+              label="Country"
+              id="country"
+              options={contries}
+              value={this.state.user.country}
+              onChange={this.handleTextFieldOnChange}
+            />
+          </EvenlyDividedRow>
+          <EvenlyDividedRow>
+            <TextInputField
+              label="User Avatar URL"
+              id="avatar"
+              onChange={this.handleTextFieldOnChange}
+              value={this.state.user.avatar}
+            />
+          </EvenlyDividedRow>
+          <EvenlyDividedRow>
+            <TextAreaField
+              label="User Bio"
+              placeholder="Put your bio here."
+              id="bio"
+              onChange={this.handleTextFieldOnChange}
+              value={this.state.user.bio}
+            />
+          </EvenlyDividedRow>
+          <EvenlyDividedRow>
+            <ResumeUploadSection
+              hasSelectedFile={this.state.selectedFile}
+              fileLabel={file_label}
+              onUploadButtonClicked={this.uploadResume}
+              onFileChange={this.handleUploadedFileOnChange}
+            />
+          </EvenlyDividedRow>
+          <button
+            type="button"
+            onClick={this.updateUser}
+            className="btn btn-info btn-fill pull-right"
+            dangerouslySetInnerHTML={{ __html: this.state.up }}
+          ></button>
+          <div className="clearfix" />
         </div>
       </div>
     );
+    const userCard = <UserCard user={this.state.user} />;
+
+    return <AccountLayout editForm={editForm} userCard={userCard} />;
   }
 }
 
