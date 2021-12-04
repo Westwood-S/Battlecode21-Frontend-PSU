@@ -1,6 +1,5 @@
 import $ from "jquery";
 import * as Cookies from "js-cookie";
-//firebaseAuth is needed
 import firebaseAuth from "./firebaseConfig";
 import { sha256 } from "js-sha256";
 import {
@@ -26,11 +25,9 @@ import AWS from "aws-sdk";
 const URL = process.env.REACT_APP_BACKEND_URL;
 const LEAGUE = 0;
 const PAGE_LIMIT = 10;
-//firebase
 const auth = getAuth();
 const db = getFirestore();
 const storage = getStorage();
-//aws
 const region = "us-west-2";
 const accessKeyId = process.env.AWSAccessKeyId;
 const secretAccessKey = process.env.AWSSecretKey;
@@ -46,8 +43,6 @@ const s3 = new AWS.S3({
 });
 
 class Api {
-  //----SUBMISSIONS----
-
   static async newSubmission(submissionFile, callback) {
     var teamName = Cookies.get("teamName");
     var teamKey = Cookies.get("teamKey");
@@ -58,7 +53,6 @@ class Api {
     if (teamName && teamKey) {
       const robotRef = doc(db, "submissions", "robots");
       const robotSnap = await getDoc(robotRef);
-      //check if robot name is taken
       if (robotSnap.exists() && robotSnap.data().submissions) {
         var allSubmission = robotSnap.data().submissions;
         allSubmission.find((o, i) => {
@@ -73,8 +67,6 @@ class Api {
           }
         });
       }
-
-      //if robot name is not taken then continue to upload
       if (continueToUpload) {
         callback("Uploading...");
 
@@ -121,7 +113,6 @@ class Api {
             );
             uploadBytes(storageRef, submissionFile).then((snapshot) => {
               console.log("Uploaded a blob or file!");
-              //store info to teams collection up to three submissions
               if (teamSnap.data().submissions) {
                 var allSubmissions = teamSnap.data().submissions;
                 if (allSubmissions.length >= 3) {
@@ -199,12 +190,10 @@ class Api {
     }
   }
 
-  //----TEAM INFO---
-
   static getTeamById(team_id, callback) {
     if ($.ajaxSettings && $.ajaxSettings.headers) {
       delete $.ajaxSettings.headers.Authorization;
-    } // we should not require valid login for this.
+    }
 
     $.get(`${URL}/api/${LEAGUE}/team/${team_id}/`).done((data, status) => {
       callback(data);
@@ -238,7 +227,7 @@ class Api {
   static getTeamRanking(team_id, callback) {
     if ($.ajaxSettings && $.ajaxSettings.headers) {
       delete $.ajaxSettings.headers.Authorization;
-    } // we should not require valid login for this.
+    }
 
     const requestUrl = `${URL}/api/${LEAGUE}/team/${team_id}/ranking/`;
     $.get(requestUrl).done((data, status) => {
@@ -266,7 +255,6 @@ class Api {
     }
   }
 
-  //----GENERAL INFO----
 
   static async calculateElo() {
     var allTeam = [];
@@ -303,14 +291,12 @@ class Api {
           allTeam.find((o, index) => {
             if (o.name === won) {
               wonIndex = index;
-              // stop searching
               return true;
             }
           });
           allTeam.find((o, index) => {
             if (o.name === los) {
               losIndex = index;
-              // stop searching
               return true;
             }
           });
@@ -374,7 +360,7 @@ class Api {
   static getUpdates(callback) {
     if ($.ajaxSettings && $.ajaxSettings.headers) {
       delete $.ajaxSettings.headers.Authorization;
-    } // we should not require valid login for this.
+    }
 
     $.get(`${URL}/api/league/${LEAGUE}/`, (data, success) => {
       for (let i = 0; i < data.updates.length; i++) {
@@ -391,8 +377,6 @@ class Api {
       headers: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
   }
-
-  //----SEARCHING----
 
   static search(query, callback) {
     const encodedQuery = encodeURIComponent(query);
@@ -461,8 +445,6 @@ class Api {
       });
     });
   }
-
-  //----USER FUNCTIONS----
 
   static async createTeam(teamName, callback) {
     if (!teamName) {
@@ -560,7 +542,6 @@ class Api {
           callback(false);
         }
       } else {
-        // doc.data() will be undefined in this case
         console.log("No team document.");
         callback(false);
       }
@@ -641,7 +622,6 @@ class Api {
               Cookies.set("teamName", userTeamSnap.data().name);
               callback(userTeamSnap.data());
             } else {
-              // doc.data() will be undefined in this case
               console.log("Not in team sorry");
               callback(null);
             }
@@ -700,8 +680,6 @@ class Api {
     });
   }
 
-  //----SCRIMMAGING----
-
   static async getAllTeamScrimmages(callback) {
     const resultRef = doc(db, "submissions", "gameResults");
     const resultSnap = await getDoc(resultRef);
@@ -742,8 +720,6 @@ class Api {
         const aHelper = document.createElement("a");
         aHelper.style.display = "none";
         aHelper.href = url;
-        //aHelper.target = "_blank";
-        //some hates a new window pops open when click download
         aHelper.download = `${robotOne}-vs-${robotTwo}-on-${map}.bc20.zip`;
         document.body.appendChild(aHelper);
         aHelper.click();
@@ -753,8 +729,6 @@ class Api {
         console.log(error);
       });
   }
-
-  //----TOURNAMENTS----
 
   static getNextTournament(callback) {
     callback({
@@ -770,14 +744,12 @@ class Api {
   static getTournaments(callback) {
     if ($.ajaxSettings && $.ajaxSettings.headers) {
       delete $.ajaxSettings.headers.Authorization;
-    } // we should not require valid login for this.
+    }
     $.get(`${URL}/api/${LEAGUE}/tournament/`).done((data, status) => {
       console.log(data);
       callback(data.results);
     });
   }
-
-  //----AUTHENTICATION----
 
   static register(email, password, first, last, callback) {
     try {
