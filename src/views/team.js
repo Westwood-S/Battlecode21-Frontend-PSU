@@ -10,7 +10,7 @@ class YesTeam extends Component {
 			team: {
 				name: "",
 				id: 0,
-				team_key: "",
+				teamKey: "",
 				bio: "",
 				users: [],
 				score: 0,
@@ -78,8 +78,8 @@ class YesTeam extends Component {
 
 	componentDidMount() {
 		Api.getUserTeam(
-			function (new_state) {
-				this.setState({ team: new_state });
+			function (newState) {
+				this.setState({ team: newState });
 			}.bind(this)
 		);
 	}
@@ -105,7 +105,7 @@ class YesTeam extends Component {
 								<div className="col-md-8">
 									<div className="form-group">
 										<label>Secret Key (static)</label>
-										<input type="text" className="form-control" readOnly value={this.state.team.team_key} />
+										<input type="text" className="form-control" readOnly value={this.state.team.teamKey} />
 									</div>
 								</div>
 							</div>
@@ -153,7 +153,7 @@ class YesTeam extends Component {
 class NoTeam extends Component {
 	constructor() {
 		super();
-		this.state = { team_name: "", secret_key: "", team_join_name: "", joinTeamError: false, createTeamError: false };
+		this.state = { team_name: "", secretKey: "", teamJoinName: "", joinTeamError: false, createTeamError: false };
 		this.joinTeam = this.joinTeam.bind(this);
 		this.createTeam = this.createTeam.bind(this);
 		this.changeHandler = this.changeHandler.bind(this);
@@ -169,7 +169,7 @@ class NoTeam extends Component {
 	}
 
 	joinTeam() {
-		Api.joinTeam(this.state.secret_key, this.state.team_join_name, this.joinCallback);
+		Api.joinTeam(this.state.secretKey, this.state.teamJoinName, this.joinCallback);
 	}
 
 	joinCallback = (success) => {
@@ -235,13 +235,13 @@ class NoTeam extends Component {
 							<div className="col-md-4">
 								<div className="form-group">
 									<label>Team Name</label>
-									<input type="text" className="form-control" id="team_join_name" onChange={this.changeHandler} />
+									<input type="text" className="form-control" id="teamJoinName" onChange={this.changeHandler} />
 								</div>
 							</div>
 							<div className="col-md-8">
 								<div className="form-group">
 									<label>Team Secret Key</label>
-									<input type="text" className="form-control" id="secret_key" onChange={this.changeHandler} />
+									<input type="text" className="form-control" id="secretKey" onChange={this.changeHandler} />
 								</div>
 							</div>
 						</div>
@@ -269,8 +269,8 @@ class Team extends Component {
 
 	componentDidMount() {
 		Api.getUserTeam(
-			function (new_state) {
-				this.setState({ team: new_state });
+			function (newState) {
+				this.setState({ team: newState });
 			}.bind(this)
 		);
 	}

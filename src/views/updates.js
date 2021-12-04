@@ -9,8 +9,8 @@ class Updates extends Component {
 
 	componentDidMount() {
 		Api.getUpdates(
-			function (new_state) {
-				this.setState({ updates: new_state });
+			function (newState) {
+				this.setState({ updates: newState });
 			}.bind(this)
 		);
 	}

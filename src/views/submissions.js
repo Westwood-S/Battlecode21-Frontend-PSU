@@ -65,7 +65,7 @@ class Submissions extends Component {
 	};
 
 	isSubmissionEnabled() {
-		if (this.state.user.is_staff === true) {
+		if (this.state.user.isStaff === true) {
 			return true;
 		}
 		return true;

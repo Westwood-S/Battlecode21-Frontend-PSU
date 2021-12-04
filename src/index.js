@@ -29,12 +29,12 @@ import Api from "./api";
 class App extends Component {
   constructor() {
     super();
-    this.state = { logged_in: false };
+    this.state = { loggedIn: false };
   }
 
   componentDidMount() {
-    Api.loginCheck((logged_in) => {
-      this.setState({ logged_in });
+    Api.loginCheck((loggedIn) => {
+      this.setState({ loggedIn });
     });
   }
 
@@ -48,7 +48,7 @@ class App extends Component {
 
     // should only be visible to logged in users
     let loggedInElems = [];
-    if (this.state.logged_in) {
+    if (this.state.loggedIn) {
       loggedInElems = [
         <Route path={`${process.env.PUBLIC_URL}/team`} component={Team} />,
         <Route
@@ -132,22 +132,23 @@ class App extends Component {
 }
 
 class BeforeLoginApp extends Component {
+
   constructor() {
     super();
-    this.state = { logged_in: false };
+    this.state = { loggedIn: false };
   }
 
   componentDidMount() {
-    Api.loginCheck((logged_in) => {
-      this.setState({ logged_in });
+    Api.loginCheck((loggedIn) => {
+      this.setState({ loggedIn });
     });
   }
 
   render() {
-    if (this.state.logged_in) {
+    if (this.state.loggedIn) {
       return <App />;
     }
-    if (this.state.logged_in === false) {
+    if (this.state.loggedIn === false) {
       return (
         <Switch>
           <Route
