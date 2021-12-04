@@ -43,7 +43,7 @@ const s3 = new AWS.S3({
 });
 
 class Api {
-  static async newSubmission(submissionFile, callback) {
+  static async createSubmission(submissionFile, callback) {
     var teamName = Cookies.get("teamName");
     var teamKey = Cookies.get("teamKey");
     var continueToUpload = true;
@@ -833,7 +833,7 @@ class Api {
     );
   }
 
-  static doResetPassword(password, token, callback) {
+  static resetPassword(password, token, callback) {
     if ($.ajaxSettings && $.ajaxSettings.headers) {
       delete $.ajaxSettings.headers.Authorization;
     }

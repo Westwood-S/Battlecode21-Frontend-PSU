@@ -29,7 +29,7 @@ class Submissions extends Component {
 
 	// makes an api call to upload the selected file
 	uploadData = () => {
-		Api.newSubmission(this.state.selectedFile, this.submitCallback);
+		Api.createSubmission(this.state.selectedFile, this.submitCallback);
 	};
 
 	submitCallback = (success) => {

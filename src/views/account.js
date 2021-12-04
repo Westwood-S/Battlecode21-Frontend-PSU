@@ -4,7 +4,7 @@ import UserCard from "../components/userCard";
 import Floater from "react-floater";
 import { Children } from "react";
 
-const TextInputField = ({ label, type, id, ...otherInputAttributes }) => {
+const textInputField = ({ label, type, id, ...otherInputAttributes }) => {
   return (
     <div className="form-group">
       <label>{label}</label>
@@ -13,11 +13,11 @@ const TextInputField = ({ label, type, id, ...otherInputAttributes }) => {
   );
 };
 
-TextInputField.defaultProps = {
+textInputField.defaultProps = {
   type: "text",
 };
 
-const TextAreaField = ({ label, id, placeholder, ...otherTextareaAttributes }) => {
+const textAreaField = ({ label, id, placeholder, ...otherTextareaAttributes }) => {
   return (
     <div className="form-group">
       <label>{label}</label>
@@ -26,7 +26,7 @@ const TextAreaField = ({ label, id, placeholder, ...otherTextareaAttributes }) =
   );
 };
 
-const OptionSelectionField = ({ label, id, options, ...otherSelectAttributes }) => {
+const optionSelectionField = ({ label, id, options, ...otherSelectAttributes }) => {
   return (
     <div className="form-group">
       <label>{label}</label>
@@ -42,7 +42,7 @@ const OptionSelectionField = ({ label, id, options, ...otherSelectAttributes }) 
   );
 };
 
-const EvenlyDividedRow = ({ children }) => {
+const evenlyDividedRow = ({ children }) => {
   const sizeOfColumn = Children.count(children);
   const classOfCol = `col-md-${12 / sizeOfColumn}`;
   return (
@@ -56,14 +56,14 @@ const EvenlyDividedRow = ({ children }) => {
   );
 };
 
-const ResumeUploadSection = ({ hasUploaded, hasSelectedFile, fileLabel, onUploadButtonClicked, onFileChange }) => {
+const resumeUploadSection = ({ hasUploaded, hasSelectedFile, fileLabel, onUploadButtonClicked, onFileChange }) => {
   return (
     <div className="form-group">
       <label>Resume</label>
-      <ResumeUploadFloator />
-      <ResumeUploadedIndicator hasUploaded={hasUploaded} />
+      <resumeUploadFloator />
+      <resumeUploadedIndicator hasUploaded={hasUploaded} />
       <br />
-      <ResumeUploader
+      <resumeUploader
         hasSelectedFile={hasSelectedFile}
         fileLabel={fileLabel}
         onUploadButtonClicked={onUploadButtonClicked}
@@ -73,7 +73,7 @@ const ResumeUploadSection = ({ hasUploaded, hasSelectedFile, fileLabel, onUpload
   );
 };
 
-const ResumeUploadFloator = () => {
+const resumeUploadFloator = () => {
   const explaination = (
     <div>
       <p>
@@ -90,7 +90,7 @@ const ResumeUploadFloator = () => {
   );
 };
 
-const ResumeUploadedIndicator = ({ hasUploaded }) => {
+const resumeUploadedIndicator = ({ hasUploaded }) => {
   if (hasUploaded) {
     return (
       <label style={{ float: "right", color: "green" }}>
@@ -102,7 +102,7 @@ const ResumeUploadedIndicator = ({ hasUploaded }) => {
   return <label style={{ float: "right" }}> You have not uploaded a resume.</label>;
 };
 
-const ResumeUploader = ({ hasSelectedFile, fileLabel, onUploadButtonClicked, onFileChange }) => {
+const resumeUploader = ({ hasSelectedFile, fileLabel, onUploadButtonClicked, onFileChange }) => {
   let btnClass = "btn btn";
   if (hasSelectedFile) {
     btnClass += " btn-info btn-fill";
@@ -123,7 +123,7 @@ const ResumeUploader = ({ hasSelectedFile, fileLabel, onUploadButtonClicked, onF
   );
 };
 
-const AccountLayout = ({ editForm, userCard }) => {
+const accountLayout = ({ editForm, userCard }) => {
   return (
     <div className="content">
       <div className="content">
@@ -228,76 +228,76 @@ class Account extends Component {
         </div>
         <div className="content">
           <h5>Make sure to press the "Update Info" button, and wait for confirmation!</h5>
-          <EvenlyDividedRow>
-            <TextInputField
+          <evenlyDividedRow>
+            <textInputField
               label="Username"
               id="username"
               onChange={this.handleTextFieldOnChange}
               value={this.state.user.username}
               readOnly
             />
-            <TextInputField
+            <textInputField
               label="Email"
               id="email"
               type="email"
               onChange={this.handleTextFieldOnChange}
               value={this.state.user.email}
             />
-          </EvenlyDividedRow>
-          <EvenlyDividedRow>
-            <TextInputField
+          </evenlyDividedRow>
+          <evenlyDividedRow>
+            <textInputField
               label="First Name"
               id="firstName"
               onChange={this.handleTextFieldOnChange}
               value={this.state.user.firstName}
             />
-            <TextInputField
+            <textInputField
               label="Last Name"
               id="lasName"
               onChange={this.handleTextFieldOnChange}
               value={this.state.user.lastName}
             />
-          </EvenlyDividedRow>
-          <EvenlyDividedRow>
-            <TextInputField
+          </evenlyDividedRow>
+          <evenlyDividedRow>
+            <textInputField
               label="Date of Birth (YYYY-MM-DD)"
               id="dateOfBirth"
               onChange={this.handleTextFieldOnChange}
               value={this.state.user.dateOfBirth}
             />
-            <OptionSelectionField
+            <optionSelectionField
               label="Country"
               id="country"
-              options={contries}
+              options={countries}
               value={this.state.user.country}
               onChange={this.handleTextFieldOnChange}
             />
-          </EvenlyDividedRow>
-          <EvenlyDividedRow>
-            <TextInputField
+          </evenlyDividedRow>
+          <evenlyDividedRow>
+            <textInputField
               label="User Avatar URL"
               id="avatar"
               onChange={this.handleTextFieldOnChange}
               value={this.state.user.avatar}
             />
-          </EvenlyDividedRow>
-          <EvenlyDividedRow>
-            <TextAreaField
+          </evenlyDividedRow>
+          <evenlyDividedRow>
+            <textAreaField
               label="User Bio"
               placeholder="Put your bio here."
               id="bio"
               onChange={this.handleTextFieldOnChange}
               value={this.state.user.bio}
             />
-          </EvenlyDividedRow>
-          <EvenlyDividedRow>
-            <ResumeUploadSection
+          </evenlyDividedRow>
+          <evenlyDividedRow>
+            <resumeUploadSection
               hasSelectedFile={this.state.selectedFile}
               fileLabel={fileLabelValue}
               onUploadButtonClicked={this.uploadResume}
               onFileChange={this.handleUploadedFileOnChange}
             />
-          </EvenlyDividedRow>
+          </evenlyDividedRow>
           <button
             type="button"
             onClick={this.updateUser}
@@ -310,11 +310,11 @@ class Account extends Component {
     );
     const userCard = <UserCard user={this.state.user} />;
 
-    return <AccountLayout editForm={editForm} userCard={userCard} />;
+    return <accountLayout editForm={editForm} userCard={userCard} />;
   }
 }
 
-const contries = [
+const countries = [
   "Afghanistan",
   "Albania",
   "Algeria",

@@ -23,7 +23,7 @@ class PasswordChange extends Component {
         token = token.length > 1 && token[1];
         console.log(token);
 
-        Api.doResetPassword(state.password, token, this.onApiReturn);
+        Api.resetPassword(state.password, token, this.onApiReturn);
     }
 
     changeHandler = (e) => {

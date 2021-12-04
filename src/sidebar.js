@@ -36,7 +36,7 @@ class SideBar extends Component {
     }
   }
 
-  isSubmissionEnabled() {
+  checkSubmissionEnabled() {
     if (this.state.user.isStaff === true) {
       return true;
     }
@@ -149,7 +149,7 @@ class SideBar extends Component {
                 </p>
               </NLink>
             )}
-            {this.state.onTeam && this.isSubmissionEnabled() && (
+            {this.state.onTeam && this.checkSubmissionEnabled() && (
               <NLink to={`${process.env.PUBLIC_URL}/scrimmaging`}>
                 <p
                   style={{
