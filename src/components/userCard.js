@@ -3,7 +3,7 @@ import React, { Component } from "react";
 class UserCard extends Component {
 	render() {
 		const user = this.props.user;
-		const staff_msg = user.is_staff ? (
+		const staffMsg = user.isStaff ? (
 			<small>
 				{" "}
 				| <label>Staff</label>
@@ -15,9 +15,9 @@ class UserCard extends Component {
 				<div className="content">
 					<div className="author">
 						<h4 className="title">
-							{user.first_name + " " + user.last_name}
+							{user.firstName + " " + user.lastName}
 							<br />
-							<small>{user.username}</small> {staff_msg}{" "}
+							<small>{user.username}</small> {staffMsg}{" "}
 						</h4>
 					</div>
 					<br />

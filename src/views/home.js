@@ -182,13 +182,13 @@ class InstrCard extends UpdateCard {
 class Home extends Component {
 	constructor() {
 		super();
-		this.state = { on_team: null };
+		this.state = { onTeam: null };
 	}
 
 	componentDidMount() {
 		Api.getUserTeam(
 			function (e) {
-				this.setState({ on_team: e !== null });
+				this.setState({ onTeam: e !== null });
 			}.bind(this)
 		);
 	}
@@ -202,7 +202,7 @@ class Home extends Component {
 							<div className="container-fluid">
 								<div className="row">
 									<InstrCard />
-									{this.state.on_team && <StatCard />}
+									{this.state.onTeam && <StatCard />}
 								</div>
 							</div>
 						</div>

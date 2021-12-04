@@ -146,13 +146,13 @@ class Account extends Component {
       user: {
         username: "",
         email: "",
-        first_name: "",
-        last_name: "",
-        date_of_birth: "",
+        firstName: "",
+        lastName: "",
+        dateOfBirth: "",
         bio: "",
         avatar: "",
         country: "",
-        is_staff: "",
+        isStaff: "",
         id: "",
         verified: "",
       },
@@ -216,9 +216,9 @@ class Account extends Component {
   }
 
   render() {
-    let file_label = "No file chosen.";
+    let fileLabelValue = "No file chosen.";
     if (this.state.selectedFile !== null) {
-      file_label = this.state.selectedFile["name"];
+      fileLabelValue = this.state.selectedFile["name"];
     }
 
     const editForm = (
@@ -247,23 +247,23 @@ class Account extends Component {
           <EvenlyDividedRow>
             <TextInputField
               label="First Name"
-              id="first_name"
+              id="firstName"
               onChange={this.handleTextFieldOnChange}
-              value={this.state.user.first_name}
+              value={this.state.user.firstName}
             />
             <TextInputField
               label="Last Name"
-              id="last_name"
+              id="lasName"
               onChange={this.handleTextFieldOnChange}
-              value={this.state.user.last_name}
+              value={this.state.user.lastName}
             />
           </EvenlyDividedRow>
           <EvenlyDividedRow>
             <TextInputField
               label="Date of Birth (YYYY-MM-DD)"
-              id="date_of_birth"
+              id="dateOfBirth"
               onChange={this.handleTextFieldOnChange}
-              value={this.state.user.date_of_birth}
+              value={this.state.user.dateOfBirth}
             />
             <OptionSelectionField
               label="Country"
@@ -293,7 +293,7 @@ class Account extends Component {
           <EvenlyDividedRow>
             <ResumeUploadSection
               hasSelectedFile={this.state.selectedFile}
-              fileLabel={file_label}
+              fileLabel={fileLabelValue}
               onUploadButtonClicked={this.uploadResume}
               onFileChange={this.handleUploadedFileOnChange}
             />

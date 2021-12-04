@@ -9,11 +9,11 @@ class UpdateCard extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { update_date: new Date() };
+		this.state = { updateDate: new Date() };
 	}
 
 	timeSince() {
-		var seconds = Math.floor((new Date() - this.state.update_date) / 1000);
+		var seconds = Math.floor((new Date() - this.state.updateDate) / 1000);
 		var interval = Math.floor(seconds / 86400);
 		if (interval > 1) return "Updated " + interval + " days ago.";
 		interval = Math.floor(seconds / 3600);

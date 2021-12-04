@@ -15,8 +15,8 @@ class RankCard extends Component {
 		Api.getTeamRanking(this.props.teamId, this.setRanking);
 	}
 
-	setRanking = (ranking_data) => {
-		this.setState({ ranking: ranking_data.ranking });
+	setRanking = (rankingData) => {
+		this.setState({ ranking: rankingData.ranking });
 	};
 
 	render() {

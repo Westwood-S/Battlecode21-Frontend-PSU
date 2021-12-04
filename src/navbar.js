@@ -28,25 +28,25 @@ class NavBar extends Component {
 class NavBarAccount extends Component {
 	constructor() {
 		super();
-		this.state = { logged_in: false };
+		this.state = { loggedIn: false };
 	}
 
 	componentDidMount() {
-		Api.loginCheck((logged_in) => {
-			this.setState({ logged_in });
+		Api.loginCheck((loggedIn) => {
+			this.setState({ loggedIn });
 		});
 	}
 
 	logout() {
 		Api.logout(() => {
-			this.setState({ logged_in: false });
+			this.setState({ loggedIn: false });
 			window.location.reload();
 		});
 		window.location.reload();
 	}
 
 	render() {
-		if (this.state.logged_in === true) {
+		if (this.state.loggedIn === true) {
 			return (
 				<ul className="nav navbar-nav navbar-right">
 					<li>
@@ -55,7 +55,7 @@ class NavBarAccount extends Component {
 				</ul>
 			);
 		}
-		if (this.state.logged_in === false) {
+		if (this.state.loggedIn === false) {
 			return (
 				<ul className="nav navbar-nav navbar-right">
 					<li>

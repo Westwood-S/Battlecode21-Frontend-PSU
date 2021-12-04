@@ -488,14 +488,14 @@ class Api {
         const usersRef = collection(db, "users");
         await setDoc(doc(usersRef, userEmail), {
           teamname: teamName,
-          team_key: teamCode,
+          teamKey: teamCode,
         });
 
         const teamsRef = collection(db, "teams");
         await setDoc(doc(teamsRef, teamCode), {
           name: teamName,
           users: [userEmail],
-          team_key: teamCode,
+          teamKey: teamCode,
           id: teamCode,
           bio: "",
           score: 1200,
@@ -518,8 +518,8 @@ class Api {
     }
   }
 
-  static async joinTeam(secret_key, team_name, callback) {
-    if (secret_key !== sha256(team_name)) {
+  static async joinTeam(secretKey, team_name, callback) {
+    if (secretKey !== sha256(team_name)) {
       callback(false);
     }
 
@@ -533,7 +533,7 @@ class Api {
     }
 
     if (userEmail) {
-      const teamRef = doc(db, "teams", secret_key);
+      const teamRef = doc(db, "teams", secretKey);
       const teamSnap = await getDoc(teamRef);
       if (teamSnap.exists()) {
         console.log("got here");
@@ -550,10 +550,10 @@ class Api {
           const userRef = doc(db, "users", userEmail);
           await updateDoc(userRef, {
             teamname: team_name,
-            team_key: secret_key,
+            teamKey: secretKey,
           });
 
-          Cookies.set("teamKey", secret_key);
+          Cookies.set("teamKey", secretKey);
           Cookies.set("teamName", team_name);
           callback(true);
         } else {
@@ -583,7 +583,7 @@ class Api {
       var userRef = doc(db, "users", userEmail);
       await updateDoc(userRef, {
         teamname: "",
-        team_key: "",
+        teamKey: "",
       });
 
       var teamKey = Cookies.get("teamKey");
@@ -633,11 +633,11 @@ class Api {
         const userSnap = await getDoc(userRef);
         //try to get team from cookie to save db access
         if (userSnap.exists()) {
-          if (userSnap.data().team_key) {
-            const userTeamRef = doc(db, "teams", userSnap.data().team_key);
+          if (userSnap.data().teamKey) {
+            const userTeamRef = doc(db, "teams", userSnap.data().teamKey);
             const userTeamSnap = await getDoc(userTeamRef);
             if (userTeamSnap.exists()) {
-              Cookies.set("teamKey", userTeamSnap.data().team_key);
+              Cookies.set("teamKey", userTeamSnap.data().teamKey);
               Cookies.set("teamName", userTeamSnap.data().name);
               callback(userTeamSnap.data());
             } else {
@@ -652,7 +652,7 @@ class Api {
           console.log("Not even have this user, sorry");
           await setDoc(userRef, {
             teamname: "",
-            team_key: "",
+            teamKey: "",
           });
           callback(null);
         }
@@ -758,12 +758,12 @@ class Api {
 
   static getNextTournament(callback) {
     callback({
-      est_date_str: "10 AM PT on Nov 18, 2021",
-      seconds_until:
+      estDateStr: "10 AM PT on Nov 18, 2021",
+      secondsUntil:
         (Date.parse(new Date("Nov 18, 2021 10:00:00")) -
           Date.parse(new Date())) /
         1000,
-      tournament_name: "Sprint Three",
+      tournamentName: "Sprint Three",
     });
   }
 

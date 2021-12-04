@@ -11,30 +11,30 @@ class Countdown extends Component {
 			hours: 0,
 			min: 0,
 			sec: 0,
-			end_date: null,
-			tournament_name: "hej",
-			est_date: "somedate",
+			endDate: null,
+			tournamentName: "hej",
+			estDate: "somedate",
 		};
 	}
 
 	componentDidMount() {
-		Api.getNextTournament((tournament_info) => {
-			console.log(Date.parse(new Date()) - -60 * 60 * 1000 + 1000 * tournament_info["seconds_until"]);
+		Api.getNextTournament((tournamentInfo) => {
+			console.log(Date.parse(new Date()) - -60 * 60 * 1000 + 1000 * tournamentInfo["secondsUntil"]);
 			const d = new Date();
-			console.log(tournament_info["seconds_until"]);
+			console.log(tournamentInfo["secondsUntil"]);
 			console.log(
-				"deadline: " + new Date(Date.parse(new Date()) - 0 * 60 * 1000 + 1000 * tournament_info["seconds_until"])
+				"deadline: " + new Date(Date.parse(new Date()) - 0 * 60 * 1000 + 1000 * tournamentInfo["secondsUntil"])
 			);
 			console.log(d.getTimezoneOffset());
 			this.setState({
-				end_date: new Date(Date.parse(new Date()) - 0 * 60 * 1000 + 1000 * tournament_info["seconds_until"]),
-				tournament_name: tournament_info["tournament_name"],
-				est_date: tournament_info["est_date_str"],
+				endDate: new Date(Date.parse(new Date()) - 0 * 60 * 1000 + 1000 * tournamentInfo["secondsUntil"]),
+				tournamentName: tournamentInfo["tournamentName"],
+				estDate: tournamentInfo["estDateStr"],
 			});
-			const date = this.calculateCountdown(this.state.end_date);
+			const date = this.calculateCountdown(this.state.endDate);
 			date ? this.setState(date) : this.stop();
 			this.interval = setInterval(() => {
-				const date = this.calculateCountdown(this.state.end_date);
+				const date = this.calculateCountdown(this.state.endDate);
 				date ? this.setState(date) : this.stop();
 			}, 1000);
 		});
@@ -98,13 +98,13 @@ class Countdown extends Component {
 	render() {
 		const countDown = this.state;
 		let title = "Submission Deadline in";
-		if (this.state.tournament_name === "START") {
+		if (this.state.tournamentName === "START") {
 			title = "Game Specs are now released!";
 		}
 		// TODO choosing which one to display should really be dynamic
 		let explanatoryText = (
 			<div>
-				The submission deadline for <b>{this.state.tournament_name}</b> is at <b>{this.state.est_date}</b>.
+				The submission deadline for <b>{this.state.tournamentName}</b> is at <b>{this.state.estDate}</b>.
 			</div>
 		);
 		let countdown = (
@@ -137,7 +137,7 @@ class Countdown extends Component {
 				</div>
 			</div>
 		);
-		if (this.state.tournament_name === "START") {
+		if (this.state.tournamentName === "START") {
 			explanatoryText = (
 				<div>
 					Specifications are avaliable in the resources tab. Be sure to look at the getting started section for

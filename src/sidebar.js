@@ -16,25 +16,25 @@ class NLink extends Component {
 class SideBar extends Component {
 	constructor() {
 		super();
-		this.state = { on_team: false, logged_in: false, user: {}, league: {} };
+		this.state = { onTeam: false, loggedIn: false, user: {}, league: {} };
 	}
 
 	componentDidMount() {
-		Api.loginCheck((logged_in) => {
-			this.setState({ logged_in });
+		Api.loginCheck((loggedIn) => {
+			this.setState({ loggedIn });
 		});
 		Api.getUserTeam(
 			function (e) {
-				this.setState({ on_team: e !== null });
+				this.setState({ onTeam: e !== null });
 			}.bind(this)
 		);
 		if (Cookies.get("teamName") === "" && Cookies.get("teamKey") === "") {
-			this.setState({ on_team: false });
+			this.setState({ onTeam: false });
 		}
 	}
 
 	isSubmissionEnabled() {
-		if (this.state.user.is_staff === true) {
+		if (this.state.user.isStaff === true) {
 			return true;
 		}
 		if (this.state.league.game_released === true) {
@@ -82,7 +82,7 @@ class SideBar extends Component {
 								Tournaments
 							</p>
 						</NLink>
-						{this.state.logged_in && (
+						{this.state.loggedIn && (
 							<NLink to={`${process.env.PUBLIC_URL}/team`}>
 								<p style={{ fontWeight: "inherit", textTransform: "none", fontSize: "inherit" }}>
 									<i className="pe-7s-users pe-fw" />
@@ -96,7 +96,7 @@ class SideBar extends Component {
 								Rankings
 							</p>
 						</NLink>
-						{this.state.on_team && (
+						{this.state.onTeam && (
 							<NLink to={`${process.env.PUBLIC_URL}/submissions`}>
 								<p style={{ fontWeight: "inherit", textTransform: "none", fontSize: "inherit" }}>
 									<i className="pe-7s-up-arrow pe-fw" />
@@ -104,7 +104,7 @@ class SideBar extends Component {
 								</p>
 							</NLink>
 						)}
-						{this.state.on_team && this.isSubmissionEnabled() && (
+						{this.state.onTeam && this.isSubmissionEnabled() && (
 							<NLink to={`${process.env.PUBLIC_URL}/scrimmaging`}>
 								<p style={{ fontWeight: "inherit", textTransform: "none", fontSize: "inherit" }}>
 									<i className="pe-7s-joy pe-fw" />
@@ -113,7 +113,7 @@ class SideBar extends Component {
 							</NLink>
 						)}
 						<br />
-						{this.state.user.is_staff && (
+						{this.state.user.isStaff && (
 							<NLink to={`${process.env.PUBLIC_URL}/staff`}>
 								<p style={{ fontWeight: "inherit", textTransform: "none", fontSize: "inherit" }}>
 									<i className="pe-7s-tools pe-fw" />
